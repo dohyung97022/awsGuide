@@ -1,12 +1,17 @@
 # Doe's awsGuide
 
-### 이 repository는 :
+### 이 repository 는 :
+
 AWS 전반의 공부를 기록으로 남기고자 만들었습니다.\
 AWS Certified Solutions Architect 시험을 위해 만들었습니다.
+
 ### Studied from :
+
 [AWS Certified Solutions Architect - Associate 2020](https://www.youtube.com/watch?v=Ia-UEYYR44s&t=299s)
-* ## 시험
-  * ### [주소](https://aws.amazon.com/ko/certification/certified-solutions-architect-associate/)
+
+[Linux Academy AWS Essentials](https://www.youtube.com/watch?v=BDBvHOaaKHo&list=PLv2a_5pNAko0Mijc6mnv04xeOut443Wnk)
+
+* ## [시험](https://aws.amazon.com/ko/certification/certified-solutions-architect-associate/)
   * ### [내용 (2021년 기준. Outdated 할 수 있으니 위 주소에서 확인 바랍니다.)](https://d1.awsstatic.com/ko_KR/training-and-certification/docs-sa-assoc/AWS-Certified-Solutions-Architect-Associate_Exam-Guide.pdf)
     * 탄력적 아키텍처 설계 30%
     * 고성능 아키텍처 설계 28%
@@ -60,9 +65,9 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * One Zone IA
       * Still Fast
       * 20% Cheaper than Standard IA
-      * Reduced Avaiability 99.5%
+      * Reduced Availability 99.5%
         * Retrieval fee
-      * Reduced Durabillity (Data could get destroyed)
+      * Reduced Durability (Data could get destroyed)
     * Glacier
       * Long term cold storage
       * Very Cheap
@@ -123,7 +128,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * Minimum wait duration is 30 days
   * ### Transfer Acceleration
     * Uses CloudFront Edge Locations
-    * Users uploads to distinct URL from edge Location
+    * User uploads to distinct URL from edge Location
     * Edge Location data is routed to S3 by AWS backbone network.
   * ### Presigned URLs
     * Generated URL
@@ -147,3 +152,152 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * aws s3 cp ~/Desktop/a.jpg s3://bucketName/folderName/objectName.jpg : upload a.jpg to object
     * presign
       * aws s3 presign s3://bucketName/folderName/objectName.jpg --expires-in 300 : creates a presigned url
+
+* ## Snowball
+  * ### Petabyte date transfer service (Use multiple snowballs)
+  * ### AWS data to physical computer
+    * Import and export
+  * ### Low cost
+    * Costs thousands of dollars to transfer 100 TB in high speed internet
+    * Reduce cost by 1/5th
+  * ### Speed
+    * Takes 100 days to download 100 TB over high speed internet
+    * Reduce time by less than a week
+  * ### Features
+    * E-link display (Shipping information)
+    * Tamper/Weather proof
+    * Data encrypted (256-bit encryption)
+    * Trusted Platform Module(TPM)
+      * Chip that stores RSA encryption keys for hardware authentication
+      * Specific to the host system
+    * Data transfers must be completed in 90 days
+    * Can import and Export S3
+  * ### Size
+      * 50 TB (42 TB usable)
+      * 80 TB (72 TB usable)
+      
+* ## Snowball Edge
+  * ### Similar to snowball
+  * ### More storage
+  * ### Local processing
+  * ### Petabyte data transfer service
+  * ### Features
+    * LCD Display (Shipping information / functionality)
+    * Local processing
+    * Edge-computing workloads
+    * Can use in a cluster of 5 ~ 10 devices
+  * ### Optimization Options
+    * Storage optimized (24 vCPUs)
+    * Compute optimized (54 vCPUs)
+    * GPU optimized (54 vCPUs)
+  * Size
+    * 100 TB (83 of usable)
+    * 100 TB Clustered (45 TB per node)
+  
+  
+* ## Snowmobile
+  * ### 45 foot long shipping container
+  * ### Pulled by semi-trailer truck
+  * ### Exabyte data transfer service
+  * ### 100 PB per Snowmobile
+  * AWS personnel will help connect, and when data transfer is complete, they'll drive it back to AWS and import to S3
+  * ### Security
+    * GPS tracking
+    * Alarm monitoring
+    * 24/7 video surveillance
+    * Escort security vehicle while transit (Optional)
+    
+  
+* ## Virtual Private Cloud (VPC)
+  * ![](images/vpc.PNG?raw=true "")
+  * ### Key Features
+    * Region Specific
+    * Do not span regions
+    * Every region has default VPC
+    * 200 subnets per VPC
+    * Uses IPv4 ClDR Block
+    * Can add IPv6 ClDR Block
+    * DNS hostnames
+      * Domain Name System (DNS)
+      * Uniquely names a computer
+      * DNS server connects hostnames to IP address
+      * Off by default
+      * EC2 DNS
+        * ![](images/DNS_hostname_ec2.PNG)
+    
+  * ### Default VPC
+    * Default VPC in every region
+    * Can immediately deploy ec2
+    * Features
+      * Size /16 IPv4 [CIDR](https://www.youtube.com/watch?v=z07HTSzzp3o) (172.31.0.0/16)
+      * Creates Size /20 default subnet in every AZ
+      * Creates Internet Gateway
+      * Creates default security group
+      * Creates default network access control list (NACL)
+      * Associate to default [DHCP](https://www.youtube.com/watch?v=e6-TaH5bkjo)
+      * VPC creation automatically has route table
+      
+  * ### 0.0.0.0/0
+    * All possible IP addresses
+    * [Internet Gateway](https://www.youtube.com/watch?v=pAOrBxZ7584) (IGW)
+      * Allow All Internet Access
+    * Security Groups Inbound Rules
+      * Allow All traffic from Internet
+    
+  * ### Components
+    
+    * Internet Gateway (IGW)
+      * Allows VPC access to the Internet
+      * Provide a target in VPC route tables
+      * Performs network address translation ([NAT](https://www.youtube.com/watch?v=FTUV0t6JaDA))
+        * Only Addresses with public IPv4
+      * To connect to the Internet
+        * Add route table
+        * Route that table to Internet Gateway
+        * Set destination to 0.0.0.0/0
+      
+    * Virtual Private Gateway (VPN Gateway)
+    * [Route Table](https://www.youtube.com/watch?v=GrfOsWUVCfg)
+      * Determines where network traffic is directed
+      * Each Subnet must have a route table
+      * One(Route Table) to Many(Subnet)
+      * Can have multiple route tables in a VPC
+      
+    * Bastion / Jumpbox
+      * ![](images/bastion.PNG)
+      * EC2 instances for security
+      * Help gain access to EC2 in private Subnet
+      * Via SSH or RCP
+      * NAT Gateways should not be used as Bastions
+      * NAT Gateways intentions is for security updates
+      * Systems Manager's Session Manager can replace Bastion
+    * Network Access Control Lists (NACLs) Stateless
+      
+    * Security Groups (SG) Stateful
+      
+    * Public Subnets
+      
+    * Private Subnets
+      
+    * Nat Gateway
+      
+    * Customer Gateway
+      
+    * VPC Endpoints
+      
+    * VPC Peering
+      * Connecting VPC with VPC
+      * Direct network route
+      * Connection by private IP address
+      * Peered VPC behave like they are on the same network
+      * Can peer different AWS account VPC
+      * Can peer different region VPC
+      * No Transitive Peering
+        * One(VPC) to One(VPC) 
+        * Peering must be direct
+        * Signal Traffic must be direct
+      * Peering uses Star Configuration
+        * ![](images/vpc_star_configuration.PNG)
+        * 1 Central VPC
+        * 4 Other VPC
+      * No Overlapping CIDR Blocks
