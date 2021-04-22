@@ -229,7 +229,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * Default VPC in every region
     * Can immediately deploy ec2
     * Features
-      * Size /16 IPv4 [CIDR](https://www.youtube.com/watch?v=z07HTSzzp3o) (172.31.0.0/16)
+      * Size /16 IPv4 [CIDR](https://www.youtube.com/watch?v=z07HTSzzp3o) (ex: 172.31.0.0/16)
       * Creates Size /20 default subnet in every AZ
       * Creates Internet Gateway
       * Creates default security group
@@ -305,7 +305,6 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * Perferred than NAT Instance
       * Automatically assigned a public IP
       * Route Tables for the NAT Gateway must be updated
-      * 
       
     * #### Customer Gateway
       
@@ -400,4 +399,68 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * Malicious hacker IP block
         * SSH block
       
+
+* ## Identity Access Management (IAM)
+  
+  * ### Manage access of AWS users and resources
+  * ### Universal system (All AZ)
+  * ### Free service
+  * ### IAM Identities
+    * #### IAM Users
+      * End users using aws sdk or cli
+    * #### IAM Groups
+      * Group IAM Users
+      * Shared permissions
+      * Example : Administrators/Developers/Auditors
+    * #### IAM Roles
+      * Associate permissions to a Role
+      * Give Roles to Users or Groups 
+      * Roles can also be attached to AWS Resources
+    
+  * ### IAM Policies
+    * #### JSON
+      * Version (ex: 2012-10-17)
+      * Statement (Container for multiple policy elements)
+      * Sid (Optional, ways to name statements)
+      * Effect (Allow/Deny)
+      * Principal (Account/user/role/fedrated user)
+      * Action (List of actions policy allows or denies)
+      * Resource (Resource where action applies)
+      * Conditional (Optional,circumstances when policy applies)
+      * ![](images/IAM_policies_json.PNG)
+    * Grants permission to Identities
+    * Policies are attached to User/Group/Roles
+    * Types
+      * #### Managed Policies
+        * Policy managed by AWS
+        * Cannot be edited
+        * Labeled with orange box
+      * #### Customer Managed Policies
+        * A policy created by a customer
+        * Can be edited
+        * No symbol
+      * #### Inline Policies
+        * Directly attached to user / resource
+      * #### Password Policy
+        * Rotate passwords to update after X days
+        * Set minimum requirements
+    
+  * ### Access keys
+    * Allow users use CLI/SDK
+    * Cannot access console 
+    * Two Access keys per user
+    * Can make active/inactive
+    * Only shown once, if lost delete, recreate
+  
+  * ### Multi Factor authentication (MFA)
+    * Can be turned on per user
+    * User can turn on themselves
+    * Admin can not enforce MFA
+    * Admin can create policy requiring MFA for resources
+    * Should set MFA for Root 
+    * Type
+      * #### Virtual MFA device
+      * #### U2F security key
+      * #### Other hardware MFA device
+
 
