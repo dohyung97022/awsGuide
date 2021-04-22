@@ -217,7 +217,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * 200 subnets per VPC
     * Uses IPv4 ClDR Block
     * Can add IPv6 ClDR Block
-    * DNS hostnames
+    * DNS hostnames (VPC option)
       * Domain Name System (DNS)
       * Uniquely names a computer
       * DNS server connects hostnames to IP address
@@ -246,7 +246,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     
   * ### Components
     
-    * Internet Gateway (IGW)
+    * #### Internet Gateway (IGW)
       * Allows VPC access to the Internet
       * Provide a target in VPC route tables
       * Performs network address translation ([NAT](https://www.youtube.com/watch?v=FTUV0t6JaDA))
@@ -256,14 +256,15 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * Route that table to Internet Gateway
         * Set destination to 0.0.0.0/0
       
-    * Virtual Private Gateway (VPN Gateway)
-    * [Route Table](https://www.youtube.com/watch?v=GrfOsWUVCfg)
+    * #### Virtual Private Gateway (VPN Gateway)
+      
+    * #### [Route Table](https://www.youtube.com/watch?v=GrfOsWUVCfg)
       * Determines where network traffic is directed
       * Each Subnet must have a route table
       * One(Route Table) to Many(Subnet)
       * Can have multiple route tables in a VPC
       
-    * Bastion / Jumpbox
+    * #### Bastion / Jumpbox
       * ![](images/bastion.PNG)
       * EC2 instances for security
       * Help gain access to EC2 in private Subnet
@@ -271,21 +272,66 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * NAT Gateways should not be used as Bastions
       * NAT Gateways intentions is for security updates
       * Systems Manager's Session Manager can replace Bastion
-    * Network Access Control Lists (NACLs) Stateless
       
-    * Security Groups (SG) Stateful
+    * #### Security Groups (SG) Stateful
+      * Firewall for EC2 instance
+      * Associated with EC2 instances
+      * Protocol / Port security
+      * Allows IP range / Specific IP / Security group
+      * Inbound and Outbound rules
+        * Statefull (Inbound allowed is also Outbound allowed)
+        * All inbound traffic blocked by default
+        * All outbound traffic allowed by default  
+      * No Defy rules, only access rules
+      * Many(Security Group) to Many(EC2(Multiple Subnets possible))
+      * Rules are permissive (Permit overrides deny)
+      * Limits
+        * Upto 10,000 (default 2,500) SG per Region
+        * 60 inbound rules and 60 outbound rules per SG
+        * Upto 16 (default 5) SG per Elastic Network Interface (ENI)
       
-    * Public Subnets
+    * #### Public Subnets
       
-    * Private Subnets
+    * #### Private Subnets
       
-    * Nat Gateway
+    * #### Network Address Translation (NAT) Gateway
+      * Remapping one IP address to another
+      * Help gain outbound internet access for private subnet
+      * Remap private IP
+      * Solve same IP addresses (Conflicting network address)
+      * Redundant inside an AZ (AWS manages it/ no EC2 fails)
+      * 1 NAT Gateway per AZ (Cannot span AZ)
+      * Starts at 5 Gbps and scales up to 45 Gbps
+      * Perferred than NAT Instance
+      * Automatically assigned a public IP
+      * Route Tables for the NAT Gateway must be updated
+      * 
       
-    * Customer Gateway
+    * #### Customer Gateway
       
-    * VPC Endpoints
+    * #### [VPC Endpoints](https://www.youtube.com/watch?v=MPaxxOsjOos)
+      * Private connect VPC to other AWS services
+      * No need for Internet Gateway / NAT / VPN / AWS direct connect
+      * Instance do not require public IP
+      * Traffic does not leave the AWS network
+      * Secure communication
+      * Fast / No bandwidth constraints
+      * Types
+        * Interface Endpoints
+          * In private subnet
+          * Uses Elastic Network Interfaces
+          * Private IP address
+          * Powered by AWS PrivateLink
+          * Supports many AWS services  
+          * Costs Money
+        * Gateway Endpoints
+          * Connect From Route table
+          * Supports only two services
+            * S3
+            * Dynamo DB
+          * Free
       
-    * VPC Peering
+    * #### VPC Peering
       * Connecting VPC with VPC
       * Direct network route
       * Connection by private IP address
@@ -301,3 +347,57 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * 1 Central VPC
         * 4 Other VPC
       * No Overlapping CIDR Blocks
+    
+    * #### VPC Flow Logs
+      * Log in CloudWatch Logs or S3   
+      * Caputre IP traffic information
+      * Within Network Interface in VPC
+      * Cannot be tagged like other AWS resources
+      * Cannot Change configuration after creation 
+      * Cannot enable peered VPC flow logs unless in same account  
+      * Monitor Levels  
+        * VPC
+        * Subnets
+        * Network Interface
+      * Log
+        * version
+        * account-id
+        * interface-id (ID of network interface)
+        * srcaddr (Source IPv4 or IPv6)
+        * dstaddr (Destination IPv4 or IPv6)
+        * srcport (Source port of traffic)
+        * dstport (Destination port of traffic)
+      * Not Logged
+        * Traffic to AWS DNS Servers
+        * Windows license activation traffic for instances
+        * Instance metadata address traffic
+        * DHCP traffic
+        * Any traffic to reserved IP address of default VPC router
+      
+    * #### [Direct Connect](https://www.youtube.com/watch?v=jEcl5H8Ow_8)
+      * Establish a dedicated network from Office to AWS
+      * Very fast network
+      * Private connectivity
+      * Lower Bandwidth 50 M ~ 500 M
+      * Higher Bandwidth 1 GB ~ 10 GB
+      * Help reduce network cost for high traffic
+      * More consistent network than internet
+    
+    * #### [Network Access Control List (NACL)](https://www.youtube.com/watch?v=vJzHn24TNQE)
+      * Firewall subnet traffic
+      * An optional layer of security
+      * VPC is automatically given default NACL
+        * Default NACL will deny all traffic
+      * Subnets must have a NACL  
+      * One(NACL) to Many(Subnets)
+      * Allow or defy traffic (Security groups only allow)
+      * Inbound or outbound rules (Like security groups)
+      * Can block a single IP (Security groups can't) 
+      * Order of evaluation Rule number #
+        * Lower is higher priority
+        * 10 to 100 increments recommended
+      * Example
+        * Malicious hacker IP block
+        * SSH block
+      
+
