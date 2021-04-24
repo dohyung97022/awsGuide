@@ -466,3 +466,164 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
   
 
 
+* ### Amazon Cognito
+  
+  * #### Web Identity Federation
+    * To exchange identity and security information between IdP and application
+    
+  * #### Identity Provider (IdP)  
+    * Trusted provider for authentication (Facebook, Google ...)
+    
+  * #### Types of IdP
+    * Security Assertion Markup Language (SAML) (Single Sign On SSO)
+    * OpenID Connect (OIDC) (OAuth)
+    
+  * #### Types  
+    
+    * ##### Cognito User Pools
+      * User directory with authentication to IpD to grant app access
+      * User Pools
+        * Directories to manage the actions such as
+          * Sign in
+          * Sign up
+          * Account recovery
+          * Account confirmation
+      * Sign by User Pool or IdP
+      * Uses JWT to persist authentication
+      * Settings
+        * Allow sign in with email/phone/username
+        * Choose signup requirements
+        * Choose password requirements
+        * Apply MFA
+        * Trigger custom logs, Lambdas
+    
+    * ##### Cognito Identity Pools
+      * Temporary credentials for users to access AWS Services
+      
+    * ##### Cognito Sync
+      * One line of code
+      * Syncs user data and preferences across devices
+      * Push synchronization to push updates and sync data
+      * Uses Simple Notification services (SNS)
+      * Sends Identity pools to sync data
+  
+  
+* ### AWS Command Line Interface (CLI)
+  * #### Interact with AWS via command line
+  * #### Important CLI flags
+    * --profile : switch between AWS accounts
+    * --output : changes output between json, table and text
+  * #### AWS User must have Programmatic Access
+    * Access Key ID, Secret Access Key (AWS Credentials)
+    * Store credentials in user home (~/.aws/credentials)
+    * Multiple credentials can be managed by profiles   
+      [ProfileName]   
+      aws_access_key_id=   
+      aws_secret_access_key=
+    * ![](images/CLI_credentials_profile.PNG)
+  
+* ### AWS Software Development Kit (SDK)
+  * #### Set of tools and libraries to use AWS in apps for specific language
+  * #### AWS User must have Programmatic Access
+    * Access Key ID, Secret Access Key (AWS Credentials)
+    * Store credentials in user home (~/.aws/credentials)  
+    * Multiple credentials can be managed by profiles
+    
+
+* ### Domain Name System (DNS)
+  * #### Changes Domain name (google.com) -> IP address (142.250.196.132)
+  * #### Internet Protocol (IP)
+    * Uniquely identifies each computer for communication
+    * Internet Protocol Version 4 (IPv4)
+      * Address space is 32 Bits
+      * Currently running out of space
+    * Internet Protocol Version 6 (IPv6)
+      * Address space is 128 Bits
+  * #### Domain Levels
+    * ##### Top Level Domain
+      * Last word within a domain name (.com)
+      * Controlled by Internet Assigned Numbers Authority (IANA)
+    * ##### Second Level Domain
+      * Second word within a domain name (.co.kr : .co)
+  * #### Start of Authority (SOA)
+    * Every Domain must have an SOA record
+    * Information about the domain
+    * Structure
+      * NAME : name of zone
+      * IN : zone class
+      * SOA : start of authority
+      * NNAME : master name server of zone
+      * RNAME : admin email of zone
+      * SERIAL : serial number for zone
+      * REFRESH : ...
+      * RETRY : ...
+      * EXPIRE : ...
+      * TTL : ...
+  * #### Address Records (A Records)
+    * Convert Domain name -> IP
+  * #### Canonical Names (CNAME)
+    * Convert Domain name -> Domain name
+  * #### Name Server Records (NS Records)
+    * Direct traffic to the DNS server containing DNS records
+    * Multiple name servers are provided for redundancy
+  * #### Time To Live (TTL)
+    * Time that a DNS record gets cached
+    * Time it takes to propagate across the internet
+    * Measured in seconds under IPv4
+  
+* ### Route53
+  * #### Domain name provider in AWS
+  * #### Functionality
+    * ##### Register Domain
+    * ##### Create Records sets on a domain
+    * ##### Implement complex traffic flow (Blue/Green, Deploy, Failovers)
+    * ##### Monitor records via heath checks
+    * ##### Resolve VPC outside AWS
+    
+  * #### Traffic flow
+    * Visual editor for routing config
+    * Supports versioning
+    * 50$ per policy record / month
+    
+  * #### Record Set
+    * ##### www. , api. , blog. to A, AAAA, CNAME...
+    * Alias
+      * Route traffic to specific AWS Resources
+        * CloudFront
+        * Elastic Beanstalk
+        * ELB load balancer
+        * S3 website endpoint
+        * Resource record set
+        * VPC endpoint
+        * API Gateway
+  * #### Routing Policy
+    * ##### Simple Routing
+      * Default Policy
+      * One(Record) to Many(IP)
+      * Return all IP back to user in random order
+      * User will be directed to random IP
+    * ##### Weighted Routing
+      * Split traffic based on weights
+      * Good for A/B testing
+      * ex) 85(EC2 Stable) : 15(EC2 Test)
+    * ##### Geolocation Routing
+      * Redirect Via Geolocation of request origion
+      * ex) North America -> ALB US-NORTH-1
+    * ##### Geoproximity Routing
+      * Redirect Via Geolocation but with Bias Value
+      * Bias value expand or shrink size of geolocation
+      * Can only be set by Traffic Flow
+      * ![](images/geoproximity_routing.PNG)
+    * ##### Latency Routing
+      * Direct traffic based on latency
+      * Based on region
+      * Requires latency resource record for EC2 or ELB
+      * ex) 100ms(ALB WEST-1) : 12ms(ALB EAST-1)
+    * ##### Failover Routing
+      * If Primary fails Redirects to Secondary
+      * Can check via Health Checks
+    * ##### Multivalue answer Routing
+      * Just like Simple Routing
+      * Only difference is heath check
+      * Returns IPs only if healthy
+    
