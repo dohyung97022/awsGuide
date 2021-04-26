@@ -588,6 +588,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
   * #### Record Set
     * ##### www. , api. , blog. to A, AAAA, CNAME...
     * Alias
+      * Always should use Alias because resources changes IP
       * Route traffic to specific AWS Resources
         * CloudFront
         * Elastic Beanstalk
@@ -626,4 +627,228 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * Just like Simple Routing
       * Only difference is heath check
       * Returns IPs only if healthy
+  * #### Health Checks
+    * ##### Checks health every 30s by default
+    * ##### Can be reduced to 10s
+    * ##### Can Initial a failover if unhealthy
+    * ##### CloudWatch Alarm can be created
+    * ##### Can monitor other health checks for chain reactions
+  * #### Route 53 Resolver
+    * ##### Regional service that route DNS between VPC and your network
+    * ##### Inbound(To VPC), Outbound(From VPC), Inbound and Outbound
+    * ##### DNS Resolution for Hybrid Environments (On Premise with Cloud)
+  
+* ### Elastic Compute Cloud (EC2)
+  * #### Choose OS, Storage, Memory, Network Throughput
+  * #### Resizable computing capacity
+  * #### Everyting on AWS uses EC2 instance underneath
+  * #### Instance Types
+    * ##### General Purpose
+      * Balance of memory, compute and network
+      * Use-cases : web servers and code repositories
+    * ##### Compute Optimized
+      * High performance processor
+      * Use-cases : Scientific modeling, gaming servers and ad server engines
+    * ##### Memory Optimized
+      * Fast performance for workloads and large data sets in memory
+      * Use-cases : In-memory caches, in-memory databases, real time big data analytics
+    * ##### Accelerated Optimized
+      * Hardware accelerators, co-processors
+      * Use-cases : Machine learning, compute-finance, speech recognition
+    * ##### Storage Optimized
+      * High sequential read and write to large data sets on local storage
+      * Use-cases : NoSQL, in-memory/transactional databases, data warehousing
+  * #### Instance Sizes
+    * ##### EC2 Instance Sizes generally double in price and attributes
+    * ![](images/EC2_instance_sizes.PNG)
+  * #### Instance Profile
+    * Instead of embedding AWS credentials in Code
+    * Let's instance have permission to access AWS services
+    * Attach a IAM Role to an instance via Instance Profile
+    * Always avoid unnecessary AWS credentials if possible
+  * #### [Placement Groups](https://www.youtube.com/watch?v=-i1PfF4Jyuo)
+    * ##### Cluster
+      * Great performance, but has failure risk
+      * Same rack, same AZ
+      * Low latency, 10 Gbs bandwidth
+      * If rack fails, all instance fails
+      * Cannot be multi AZ  
+      * ![](images/EC2_placement_group_cluster.PNG)
+    * ##### Spread 
+      * High availability, limited performance
+      * Multi AZ  
+      * Limited to 7 instance per AZ
+      * EC2 on different physical hardware
+      * Reduce simultaneous failure
+      * For critical applications where each
+      instance must be isolated from failure
+      * ![](images/EC2_placement_group_spread.PNG)  
+    * ##### Partition
+      * Up to 7 partitions per AZ
+      * Up to 100s of instances
+      * Instances in a partition do not share
+      rack with instances in another partition
+      * EC2 metadata includes partition information
+      * For HDFS, Cassandra, Kafka
+      * ![](images/EC2_placement_group_partition.PNG)
+  * #### UserData
+    * Script that automatically run when launching EC2 instance
+    * ![](images/EC2_user_data.PNG)
+  * #### MetaData
+    * Access information about EC2 via special url endpoint in EC2
+    * curl http://169.254.169.254/latest/meta-data
+    * Get information such as IPv4 address, instance type and more
+    * Combind MetaData and UserData to automate AWS
+  * #### Pricing Model
+    * ##### On-Demand
+      * Default pricing
+      * No up-front payment
+      * No long-term payment
+      * For short-term, spiky, unpredictable, experimental, first-time apps
+    * ##### [Spot Instances](https://www.youtube.com/watch?v=DI64Ol3dbAY)
+      * Like hotels or planes, AWS offers vacant EC2
+      * Save up to 90%
+      * Instances can be terminated by AWS at anytime
+      * If you terminate the instance you still will be charged for any hour it ran
+      * Use-cases : Apps that can handle Interruptions, for non-critical background jobs
+    * ##### [Reserved Instances (RI)](https://www.youtube.com/watch?v=01uV-clWkow)
+      * Pricing = Class offering X Terms X Payment options
+      * Class offering
+        * Standard
+          * Save up to 75%
+          * Cannot change Instance Attributes
+        * Convertible
+          * Save up to 54%
+          * Can change Instance Attributes only higher or equal in value
+      * Terms
+        * 1 year to 3 year contract
+        * The longer the cheaper
+      * Payment options
+        * All Upfront
+        * Partial Upfront
+        * No Upfront
+        * The greater upfront the cheaper
+      * Can re-sell Reserved Instances
+    * ##### Dedicated
+      * Most expensive
+      * Single Tenant instances with Isolated server
+        * ![](images/EC2_dedicated_instance_multi_single_tenent.PNG)
+      * Offered in On-demand and Reserved(70% save)
+      * Enterprises and Large Organizations may have security concerns
+  
+  * #### [Amazon Machine Images (AMI)](https://www.youtube.com/watch?v=kkdr8Av2cQQ)
+    * ##### EC2 into images to copy servers
+      * Holds information such as
+        * Root Volume
+        * Operating system
+        * Application Server
+        * Application
+        * Launch Permissions
+        * Block device mapping
+    * ##### AMI is region specific
+      * You can copy to another region via Copy AMI
+    * ##### AMI ID  
+    * ##### Use Systems Manager Automation to patch AMIs with security updates
+    * ##### Use LaunchConfigurations to update multiple instances with AMI
+    * ##### Selection
+      * Region
+      * Operating System
+      * Architecture
+      * Launch Permissions
+      * Root Device Type/Volume
+        * Instance Store
+        * EBS
+    * ##### AMI marketplace
+      * Community AMI
+        * Free to use
+      * Vendor AMI
+        * Cost per hour
+        * Security harden AMI such as CIS is popular
+      * My AMI
+    
+  * #### Auto Scaling Groups (ASG)
+    * ##### Group of EC2 for auto-scaling and management
+    * ##### Launch Configuration
+      * Launch settings for new EC2 from AGS
+      * Cannot be edited
+        * Clone the existing configuration or create a new configuration
+      * Launch Templates
+        * Launch Configuration with versioning
+    * ##### Capacity settings
+        * Min
+        * Max
+        * Desired Capacity
+          * How much EC2 you want ideally
+    * ##### Health check replacements
+      * EC2 Health Check
+        * Based on EC2 Status Checks
+        * If considered unhealthy, restarts EC2
+      * ELB Health Check
+        * Pings an HTTP(S) endpoint and expects a response
+        * If response not expected, restarts EC2
+    * ##### Scaling policies
+      * Scaling Out : Adding more Instances
+      * Scaling In : Removing Instances
+      * Scaling Up : Increse the EC2 Specs  
+      * Types
+        * Target Scaling Policy
+          * ex) CPU exceeds 75%
+        * Simple Scaling Policy
+          * Scales when alarm is breached
+          * Legacy, not recommended
+        * Scaling Policy with steps
+          * Scales when alarm is breached
+          * Escalates based on alarm
+          * ex) All 2 instances if alarm value is 2
+    * ##### Elastic Load Balancers(ELB) with ASG
+      * ASG can be associated with ELB
+      * If associated richer health checks are available
+      * Associated indirectly via Target Groups
+    
+  * #### Elastic Load Balancer (ELB)
+    * Rules of Traffic
+      * ##### Listeners
+        * Evaluate Traffic that matches the listeners port
+        * Can attach SSL Certificate
+      * ##### Rules
+        * Rules will decide what ports goes to what target Groups
+        * Only for Application Load Balancer
+      * ##### Target Groups
+        * EC2 instances are registered as target groups
+        * Not for Classic Load Balancer
+    * Types
+      * ##### Classic Load Balancer
+        * Can balance HTTP, HTTPS, TCP(Not at the same time)
+        * Can use Layer 7 sticky sessions and Layer 4 TCP  
+        * Can perform Cross Zone Load Balancing  
+        * CLB does not allow you to apply rules to listeners
+        * CLB -> Listeners -> Registered Targets
+        * Responds 504(Timeout) error if not responding
+      * ##### Application Load Balancer
+        * Designed to balance HTTP and HTTPS traffic
+        * Operate at Layer 7 [(OSI Model)](https://www.youtube.com/watch?v=Ilk7UXzV_Qc)
+        * Request Routing
+          * Add routing rules to listeners based on HTTP protocol
+        * Web Application Firewall can be attached
+        * Great for Web Applications!
+      * ##### Network Load Balancer
+        * Designed to balance TCP/UDP
+        * Operate at Layer 4 (OSI Model)
+        * Can handle millions of requests per second
+        * Extremely low latency
+        * Cross Zone Load Balancing
+        * Great for Multiplayer Video Games or when network performance is critical
+    * Sticy Sessions
+      * Specific user sessions goes to a specific EC2
+      * All requests from that session are sent to the same EC2
+      * Cookies are used to remember which EC2  
+      * Can be used in 
+        * Classic Load Balancer 
+        * Application Load Balancer
+      * Useful when specific information is stored in single instance
+    * X-Forwarded-For (XFF) Header
+      * When using Load Balancers users IPv4 addresses can be changed to Load Balancers IPv4
+      * Use X-Forwarded-For header to get the IP address
+      * ![](images/X_Forwarded_For_header.PNG)
+  
     
