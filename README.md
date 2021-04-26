@@ -789,7 +789,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * ##### Scaling policies
       * Scaling Out : Adding more Instances
       * Scaling In : Removing Instances
-      * Scaling Up : Increse the EC2 Specs  
+      * Scaling Up : Increase the EC2 Specs  
       * Types
         * Target Scaling Policy
           * ex) CPU exceeds 75%
@@ -806,7 +806,10 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * Associated indirectly via Target Groups
     
   * #### Elastic Load Balancer (ELB)
-    * Rules of Traffic
+    * ##### Must have at least two AZs
+    * ##### Cannot go cross-region
+    * ##### SSL Certificate can be attached to any Types  
+    * ##### Rules of Traffic
       * ##### Listeners
         * Evaluate Traffic that matches the listeners port
         * Can attach SSL Certificate
@@ -816,8 +819,9 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * ##### Target Groups
         * EC2 instances are registered as target groups
         * Not for Classic Load Balancer
-    * Types
+    * ##### Types
       * ##### Classic Load Balancer
+        * Listeners and EC2 is directly registered
         * Can balance HTTP, HTTPS, TCP(Not at the same time)
         * Can use Layer 7 sticky sessions and Layer 4 TCP  
         * Can perform Cross Zone Load Balancing  
@@ -825,20 +829,31 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * CLB -> Listeners -> Registered Targets
         * Responds 504(Timeout) error if not responding
       * ##### Application Load Balancer
+        * Listeners, Rules and Target Groups
         * Designed to balance HTTP and HTTPS traffic
         * Operate at Layer 7 [(OSI Model)](https://www.youtube.com/watch?v=Ilk7UXzV_Qc)
+        * Can use Sticky sessions  
         * Request Routing
           * Add routing rules to listeners based on HTTP protocol
+          * Based on
+            * Host Header
+            * Http header
+            * Source IP
+            * Http header method
+            * Path
+            * Query String
         * Web Application Firewall can be attached
         * Great for Web Applications!
       * ##### Network Load Balancer
+        * Listeners and Target Groups
         * Designed to balance TCP/UDP
         * Operate at Layer 4 (OSI Model)
         * Can handle millions of requests per second
         * Extremely low latency
         * Cross Zone Load Balancing
         * Great for Multiplayer Video Games or when network performance is critical
-    * Sticy Sessions
+      
+    * ##### Sticky Sessions
       * Specific user sessions goes to a specific EC2
       * All requests from that session are sent to the same EC2
       * Cookies are used to remember which EC2  
@@ -846,9 +861,20 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * Classic Load Balancer 
         * Application Load Balancer
       * Useful when specific information is stored in single instance
-    * X-Forwarded-For (XFF) Header
+      
+    * ##### X-Forwarded-For (XFF) Header
       * When using Load Balancers users IPv4 addresses can be changed to Load Balancers IPv4
       * Use X-Forwarded-For header to get the IP address
       * ![](images/X_Forwarded_For_header.PNG)
+      
+    * ##### Health Checks
+      * Checks EC2 with HTTP(S)
+      * Reports back as InService or OutOfService
+      * ELB does not terminate(Kill) unhealthy instances
+      * ELB just redirect traffic to healthy Instances unlike ASG
   
+    * ##### Cross-Zone Load Balancing
+      * Distributes traffic evenly within Zones
+      * Distributes traffic evenly in all Zones
+      * ![](images/cross_zone_load_balancing.PNG)
     
