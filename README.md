@@ -962,13 +962,13 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * For : temporary, cache, logs ...
   
   * #### Snapshots
-    * #### Snapshots are a point in time copy of the disk stored in S3
-    * #### Initial snapshot of an EC2 will take longer than subsequent snapshots  
-    * #### EC2 should be stopped before snapshot
-    * #### But can take Snapshot while EC2 running
-    * #### Can create AMI from Volumes or Snapshots
-    * #### Cannot share a snapshot if encrypted
-    * #### Unencrypted snapshots can be shared with other AWS accounts
+    * Snapshots are a point in time copy of the disk stored in S3
+    * Initial snapshot of an EC2 will take longer than subsequent snapshots  
+    * EC2 should be stopped before snapshot
+    * But can take Snapshot while EC2 running
+    * Can create AMI from Volumes or Snapshots
+    * Cannot share a snapshot if encrypted
+    * Unencrypted snapshots can be shared with other AWS accounts
   
 * ### CloudFront
   * #### Content Delivery Network (CDN)
@@ -1028,4 +1028,180 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * ##### Types  
       * Signed URLs
       * Signed Cookies
+  
+* ### Relational Database Service (RDS)
+  
+  * #### Managed relation database service that supports SQL engines
+  * #### Cannot SSH into RDS VM
+  * ####  
+    
+  * #### Types
+    * Amazon Aurora
+    * Mysql
+    * MariaDB
+    * PostgreSQL
+    * Oracle
+    * Microsoft SQL Server
+    
+  * #### Encryption
+    * Can turn on encryption for all RDS engines
+    * Encrypts automated backups, snapshots, read replicas
+    * Handled by Key Management Service (KMS)
+  
+  * #### Backups
+    * Automated Backups
+      * Retention Period between 1 ~ 35 days
+      * Store Transaction logs throughout the day
+      * Enabled by default
+      * All data in S3
+      * No additional charge
+      * Define backup window (When backup occur)
+      * Storage I/O may be suspended during backup
+    * Manual Snapshots
+      * Backup persist even if you delete RDS
+      * Actions  
+        * Restore Snapshot
+          * Creates a new RDS based on snapshot
+        * Copy Snapshot
+          * Move snapshot to different region
+          * Can enable encryption
+        * Share Snapshot
+          * Share snapshot to other AWS accounts  
+        * Migrate Snapshot
+          * Change to Aurora database
+    
+  * #### Restoring Backups
+    * Steps taken by AWS
+      * 1 AWS takes the most recent daily backup
+      * 2 Apply transaction log data
+      * This allows point-in-time recovery down to a second
+    * Backup in never stored overtop an instance
+    * Backup creates a new instance
+  
+  * #### Multi AZ Deployment
+    * Makes exact copy and automatically syncs
+    * Only a standby  
+    * If one AZ goes down, the standby slave will be promoted to the master
+    * No url endpoint edit needed (Automatic sync)
+  
+  * #### Read Replicas
+    * Run multiple copies of database
+    * Synced to main database
+    * Read only
+    * Intended to spread workloads of primary database
+    * Must have automatic backups enabled to use
+    * Up to 5 read replicas
+    * Can be multi AZ / Cross region
+    * Can have replica of replica
+    * Replica can be promoted to their own database
+      * This breaks synchronization
+  
+  * #### Multi AZ VS Read Replicas
+    * Synchronous replication / Asynchronous replication
+    * Durable / Scalable
+    * Only primary instance active / All read replicas active
+    * Automated backups are taken / No backups by default
+    * Always span two AZ within a Region / Can be multi AZ, Region
+    * Database engine upgrades happen on primary / upgrades is independent from source
+    * Automatic failover / Manually promotion
+  
+
+* ### AWS Aurora
+  * #### Fully managed Postgres/MySQL compatible databace
+  * #### Very Fast
+    * Aurora MySQL 5X faster
+    * Aurora Postgres 3X faster 
+  * #### Cost Effective
+    * 1/10th the cost of other solutions
+  * #### Scaling  
+    * Starts with 10 GB, scales in 10 GB increment
+    * Up to 64 TB
+    * Computing scales up to 32vCPU, 244 GB memory
+  * #### Availability
+    * Minimum of 3 availability zones
+    * Each zone contains 2 copies
+    * Total of 6 copies
+    * Lose up to 2 copies without affecting write
+    * Lose up to 3 copies without affecting read  
+    * ![](images/aurora_availability.PNG)
+  * #### Durability
+    * Backup and Failover is handled automatically
+    * Storage is self-healing
+      * Continuously scanned for errors
+      * Repaired automatically
+  * #### Replicas
+    * Types
+      * Amazon Aurora Replicas
+        * Up to 15
+      * MySQL Read Replicas
+        * Up to 5
+  * #### Aurora Serverless
+    * Automatically
+      * Start up
+      * Shut down
+      * Scale
+    * Pay for Storage / Capacity Unit / I/O
+  
+* ### Amazon Redshift
+  * #### Fully managed Petabyte-size data warehouse
+  * #### Analyze and run SQL queries on massive amounts of data
+  * #### Uses Massively Parallel Processing (MPP) to distribute Queries
+  * #### Automatically distributes data and query to nodes
+  * #### Easily add new nodes  
+  * #### Single AZ  
+  * #### Columnar Storage data warehouse
+    * Reduces overall disk I/O requirements
+    * Optimizing analytic query performance
+    * Stores data together as columns instead of rows
+    * ![](images/redshift_columnar_storage.PNG)
+  * #### Database VS Data Warehouse
+    * Database
+      * Online Transaction Processing (OLTP)
+      * Fast access
+      * Short transactions (Queries)
+      * Emphasis on writes
+    * Data Warehouse
+      * Online Analytical Processing (OLAP)
+      * Large data quantities
+      * Long, complex transactions
+      * Emphasis on reads
+  * #### Configurations
+    * Single Node
+      * Nodes come in 160 GB of size
+    * Multi Node
+      * Node with Leader and Compute Nodes
+      * Leader Node
+        * Manages connections and receive queries
+      * Compute Node
+        * Stores data and performs queries
+        * Up to 128 compute nodes
+    * Node Types
+      * Dense Compute (dc)
+        * high performance / less storage
+      * Dense Storage (ds)
+        * high storage
+  * #### Backups
+    * Enabled by default 1 day
+    * Retention period up to 35 days
+    * Attempts to maintain 3 copies
+      * Original
+      * Replica on compute nodes
+      * S3
+    * Can asynchronously replicate to different region
+  * #### Billing
+    * 1 unit per node / per hour
+    * Not charged for leader node hours, only compute nodes
+    * S3 Backup is billed by S3
+    * Billed for transfers within a VPC, not outside it
+  * #### Security
+    * Data-in-transit : SSL
+    * Data-at-rest : AES-256
+    * Can be applied using
+      * Key Management Service (KMS)
+      * Cloud HSM
+  * #### Use Case
+    * Copy data from EMR/S3/DynamoDB into redshift
+    * Use redshift with java JDBC to query 
+    * Most common use case is Business inteligence  
+    * ![](images/redshift_use_case.PNG)
   
