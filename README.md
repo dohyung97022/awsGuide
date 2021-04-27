@@ -878,3 +878,154 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * Distributes traffic evenly in all Zones
       * ![](images/cross_zone_load_balancing.PNG)
     
+  
+* ### Elastic File System (EFS)
+  * File storage service for EC2
+  * Storage capacity grows up to petabytes
+  * Storage shrinks automatically
+  * Multiple EC2 in same VPC can mount a single EFS
+  * EFS supports Network File System version 4 (NFSv4)  
+  * EC2 needs NFSv4 to use EFS
+  * Provides Read After Write Consistency  
+  * EFS creates multiple mount targets/points in all VPC subnets
+  * Data is stored across multiple AZs within a region  
+  * 0.30 $ per GB / month
+
+* ### Elastic Block Store (EBS)
+  * #### Attach persistent block storage to EC2
+  * #### Volumes are automatically replicated within their AZ  
+ * #### Knowledge
+    * IOPS : Input/Output per second
+    * Throughput : data transfer to and from storage
+    * Bandwidth : Measurement of total possible speed of data movement along network
+    * Bandwidth (Pipe), Throughput (Water)
+  * #### Types
+    * ##### General Purpose (SSD)
+      * Balanced price and performance
+      * Max IOPS of 16000
+    * ##### Provisioned IOPS (SSD)
+      * Fast Input and Output
+      * Low latency and also high throughput
+      * For : Large databases  
+      * Max IOPS of 64000
+    * ##### Throughput Optimized HDD
+      * Low cost
+      * Designed for frequently accessed
+      * For : Data warehouses, Big data, Log processing
+      * Higher basic volume size
+      * Max IOPS of 500
+    * ##### Cold HDD
+      * Lower cost
+      * Less frequently used workloads
+      * For : File storage
+      * Max IOPS of 250
+    * ##### EBS Magnetic
+      * For Archival Storage
+      * Previous generation HDD  
+      * Max IOPS of 40-200
+    
+  * #### Moving Volumes
+    * One AZ to another
+      * 1 Take a Snapshot of the volume
+      * 2 Create a AMI from snapshot
+      * 3 Launch new EC2 instance in another AZ
+    * One Region to another
+      * 1 Take a Snapshot of the volume
+      * 2 Create an AMI from snapshot
+      * 3 Copy the AMI to another region
+      * 4 Launch new EC2 instance in another Region
+    
+  * #### Encrypting Root Volume
+    * You can Encrypt the volume on creation
+    * If you want to Encrypt an existing volume
+      * 1 Take a Snapshot of the unencrypted volume
+      * 2 Create a copy of that Snapshot with Encrypt Option
+      * 3 Create a new AMI from Encrypted snapshot
+      * 4 Launch new EC2 instance with Encrypted AMI
+  
+  * #### EBS VS Instance Store Volumes
+    * EBS
+      * Durable
+      * Block level storage device
+      * Created from EBS Snapshots
+      * Data will persist when reboot
+      * Can have termination protection   
+        (Don't delete volume on termination)
+      * For : Most use cases
+      
+    * Instance Store Volumes
+      * Temporary
+      * Disks physically attached to host machine
+      * Created from template stored in S3
+      * Data will be lost in host fails, or instance termination
+      * Cannot stop instances, can only terminate
+      * For : temporary, cache, logs ...
+  
+  * #### Snapshots
+    * #### Snapshots are a point in time copy of the disk stored in S3
+    * #### Initial snapshot of an EC2 will take longer than subsequent snapshots  
+    * #### EC2 should be stopped before snapshot
+    * #### But can take Snapshot while EC2 running
+    * #### Can create AMI from Volumes or Snapshots
+    * #### Cannot share a snapshot if encrypted
+    * #### Unencrypted snapshots can be shared with other AWS accounts
+  
+* ### CloudFront
+  * #### Content Delivery Network (CDN)
+    * Delivers content to users based on geographical location
+    * Serves cached content
+  * #### Components
+    * ##### Origin
+      * S3 Bucket
+      * EC2 instance
+      * ELB
+      * Route53 
+    * ##### Edge Location
+      * Location where web content will be cached
+      * Different from AZ
+      * Edge locations are not just read-only, you can also write (PUT)
+    * ##### Distribution
+      * Collection of Edge Locations
+      * Defines how cached content should behave
+      * WEB or RTMP
+        
+    * ![](images/cloudfront_components.PNG)
+    
+  * #### Distribution Settings
+    * ##### Price Class
+      * Select Edge Locations to distribute to specific countries
+      * ex ) All Edge Locations, Use Only US Canada...
+    * ##### Types of Distribution
+      * WEB for websites
+      * RTMP for streaming media
+    * ##### Behaviours
+      * Redirect to HTTPS
+      * Restrict specific HTTP Methods
+      * Restrict Viewer Access
+      * Set Time To Live (TTL)
+    * ##### Invalidation
+      * Can manually invalidate cache ignoring TTL
+      * Invalidation forces cashe to expire immediately
+    * ##### Error Pages
+      * Create custom error pages like 404
+    * ##### Restrictions
+      * Blacklist specific countries
+    
+  * #### [Lambda@Edge](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-examples.html#lambda-examples-overriding-response-header)
+    * ##### Use Lambda to override the behaviour of request and response
+    * ##### For : A/B Testing, Overriding response header, Bot blocking
+    * ##### 4 Available functions
+      * Viewer request
+      * Origin request
+      * Origin response
+      * Viewer response
+  
+  * #### [CloudFront Protection](https://www.youtube.com/watch?v=7soFsSeRN2o)
+    * ##### Protection for video endpoints or restricted files
+    * ##### Original Identity Access (OAI)  
+      * Virtual user Identity to giver permission to fetch private objects  
+      * In order to use Signed URL/Cookies you need OAI
+    * ##### Types  
+      * Signed URLs
+      * Signed Cookies
+  
