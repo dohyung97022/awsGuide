@@ -1207,3 +1207,138 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * Most common use case is Business inteligence  
     * ![](images/redshift_use_case.PNG)
   
+
+* ### DynamoDB
+  * #### NoSQL Key-value and Document database
+  * #### NoQSL
+    * Not relational
+    * Do not use SQL query
+  * #### Key-value store
+    * ![](images/dynamoDB_key_value_store.PNG)
+  * #### Document store  
+    * ![](images/dynamoDB_document_store.PNG)
+  * #### Structure
+    * Product
+      * Primary Key
+        * Partition Key
+        * Sort Key
+      * Item
+      * Attribute
+    * ![](images/dynamoDB_structure.PNG)
+  * #### Features
+    * Specify read and write capacity per second
+    * All data is stored on SSD  
+    * Multi-region
+      * Data is spread across 3 regions
+    * Multi-master
+    * Durable database
+    * Built-in security
+    * Backup and restore
+    * In-memory caching
+    * Eventual Consistent reads (Default)
+    * Strongly Consistent reads
+  
+  * #### Read Consistency
+    * Data may be inconsistent
+    * Data must be copied to other regions
+    * Types
+      * ##### Eventual Consistent reads
+        * Reads are fast
+        * May return inconsistent copy  
+        * Becomes consistent within a second
+      * ##### Strongly Consistent reads
+        * Not return result until all copies are consistent
+        * Slower reads
+        * Becomes slow as a second
+  
+* ### AWS CloudFormation
+  * #### Infrastructure as code (IaC)
+    * Automating the creation of resources via code
+    * Automate AWS by code
+  * #### Format
+    * JSON
+    * YAML
+  * #### Template
+    * ##### MetaData
+      * Additional information about template
+    * ##### Description
+      * Description of what this template does
+    * ##### Parameters
+      * Values to pass to the template
+    * ##### Mappings
+      * Lookup table
+      * Map keys to value to change values to something else
+    * ##### Conditions
+      * Like if else statements
+      * Whether resources are created or properties are assigned
+    * ##### Transform
+      * Applies macros (Mod)
+    * ##### Resources
+      * A AWS resource you want to create (IAM,EC2,Lambda,RDS)
+      * At least 1 Resource is mandatory
+    * ##### Outputs
+      * Values returned
+  * #### Errors return ROLLBACK_IN_PROGRESS
+  * #### NestedStacks
+    * Breaks CloudFormation into smaller reusable templates
+  
+* ### AWS Cloudwatch
+  * #### Collection of monitoring services
+  * #### Tools
+    * #### CloudWatch Logs
+      * Log Group
+        * Collection of logs
+        * Log files must belong in a group
+        * Log in a group is called Log Stream
+      * Log Stream
+        * Logs never expire
+      * Most AWS services integrate CloudWatch Logs
+      * Some needs IAM permissions
+    * #### CloudWatch Metrics
+      * Time ordered set of data points
+      * Graph
+      * Predefined metrics
+      * Custom metrics
+        * Create / Send values by SDK/CLI
+        * Can create High Resolution Metrics
+          * Track under 1 minute to 1 second
+          * Costs more if higher resolution
+    * #### CloudWatch Events / Event Bridge
+      * Event based on Event Pattern / Schedule
+        * Schedule is like serverless [Cron](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/services-cloudwatchevents-expressions.html)
+      * Event Source -> Target
+      * ![](images/cloudwatch_events.PNG)
+    * #### CloudWatch Alarms
+      * Triggers a notification based on metric
+      * If threshold is breached
+      * Type
+        * Static / Anomaly detection
+      * Condition
+        * Greater(Equal) / Equal / Lower(Equal)
+      * Threshold
+        * ex) 1000 USD
+    * #### CloudWatch Dashboards
+      * Custom dashboard of Metrics
+  
+    * #### EC2 VS Other services
+      * EC2 : 5 minute interval (Default)
+        * Turn on Detailed Monitoring in EC2 to get higher resolution (1 minute)
+      * Other services : 1 minute interval
+  
+    * #### CloudWatch Agent
+      * Gathers additional information of EC2
+      * Script can be installed via Systems Manager Run command
+      * ##### CloudWatch Default
+        * CPU Usage
+        * Network Usage
+        * Disk Usage
+        * Status Checks
+      * ##### CloudWatch Agent
+        * Memory utilization
+        * Disk swap utilization
+        * Disk space utilization
+        * Page file utilization
+        * Log collection
+      * #### Used to check Memory and Disk space
+      
+      
