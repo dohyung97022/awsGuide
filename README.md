@@ -466,23 +466,19 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * #### U2F security key
       * #### Other hardware MFA device
   
-
-
-* ### Amazon Cognito
-  
-  * #### Web Identity Federation
+* ## Amazon Cognito
+  * ### Web Identity Federation
     * To exchange identity and security information between IdP and application
     
-  * #### Identity Provider (IdP)  
+  * ### Identity Provider (IdP)  
     * Trusted provider for authentication (Facebook, Google ...)
     
-  * #### Types of IdP
+  * ### Types of IdP
     * Security Assertion Markup Language (SAML) (Single Sign On SSO)
     * OpenID Connect (OIDC) (OAuth)
     
-  * #### Types  
-    
-    * ##### Cognito User Pools
+  * ### Types
+    * #### Cognito User Pools
       * User directory with authentication to IpD to grant app access
       * User Pools
         * Directories to manage the actions such as
@@ -499,10 +495,10 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * Apply MFA
         * Trigger custom logs, Lambdas
     
-    * ##### Cognito Identity Pools
+    * #### Cognito Identity Pools
       * Temporary credentials for users to access AWS Services
       
-    * ##### Cognito Sync
+    * #### Cognito Sync
       * One line of code
       * Syncs user data and preferences across devices
       * Push synchronization to push updates and sync data
@@ -510,47 +506,49 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * Sends Identity pools to sync data
   
   
-* ### AWS Command Line Interface (CLI)
-  * #### Interact with AWS via command line
-  * #### Important CLI flags
+* ## AWS Command Line Interface (CLI)
+  * ### Interact with AWS via command line
+  * ### Important CLI flags
     * --profile : switch between AWS accounts
     * --output : changes output between json, table and text
-  * #### AWS User must have Programmatic Access
+  * ### AWS User must have Programmatic Access
     * Access Key ID, Secret Access Key (AWS Credentials)
     * Store credentials in user home (~/.aws/credentials)
-    * Multiple credentials can be managed by profiles   
+    * Multiple credentials can be managed by profiles  
+      ```
       [ProfileName]   
       aws_access_key_id=   
       aws_secret_access_key=
+      ```
     * ![](images/CLI_credentials_profile.PNG)
   
-* ### AWS Software Development Kit (SDK)
-  * #### Set of tools and libraries to use AWS in apps for specific language
-  * #### AWS User must have Programmatic Access
+* ## AWS Software Development Kit (SDK)
+  * ### Set of tools and libraries to use AWS in apps for specific language
+  * ### AWS User must have Programmatic Access
     * Access Key ID, Secret Access Key (AWS Credentials)
     * Store credentials in user home (~/.aws/credentials)  
     * Multiple credentials can be managed by profiles
     
 
-* ### Domain Name System (DNS)
-  * #### Changes Domain name (google.com) -> IP address (142.250.196.132)
-  * #### Internet Protocol (IP)
-    * Uniquely identifies each computer for communication
-    * Internet Protocol Version 4 (IPv4)
+* ## Domain Name System (DNS)
+  * ### Changes Domain name (google.com) -> IP address (142.250.196.132)
+  * ### Internet Protocol (IP)
+    * #### Uniquely identifies each computer for communication
+    * #### Internet Protocol Version 4 (IPv4)
       * Address space is 32 Bits
       * Currently running out of space
-    * Internet Protocol Version 6 (IPv6)
+    * #### Internet Protocol Version 6 (IPv6)
       * Address space is 128 Bits
-  * #### Domain Levels
-    * ##### Top Level Domain
+  * ### Domain Levels
+    * #### Top Level Domain
       * Last word within a domain name (.com)
       * Controlled by Internet Assigned Numbers Authority (IANA)
-    * ##### Second Level Domain
+    * #### Second Level Domain
       * Second word within a domain name (.co.kr : .co)
-  * #### Start of Authority (SOA)
+  * ### Start of Authority (SOA)
     * Every Domain must have an SOA record
     * Information about the domain
-    * Structure
+    * #### Structure
       * NAME : name of zone
       * IN : zone class
       * SOA : start of authority
@@ -561,34 +559,34 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * RETRY : ...
       * EXPIRE : ...
       * TTL : ...
-  * #### Address Records (A Records)
+  * ### Address Records (A Records)
     * Convert Domain name -> IP
-  * #### Canonical Names (CNAME)
+  * ### Canonical Names (CNAME)
     * Convert Domain name -> Domain name
-  * #### Name Server Records (NS Records)
+  * ### Name Server Records (NS Records)
     * Direct traffic to the DNS server containing DNS records
     * Multiple name servers are provided for redundancy
-  * #### Time To Live (TTL)
+  * ### Time To Live (TTL)
     * Time that a DNS record gets cached
     * Time it takes to propagate across the internet
     * Measured in seconds under IPv4
   
-* ### Route53
-  * #### Domain name provider in AWS
-  * #### Functionality
-    * ##### Register Domain
-    * ##### Create Records sets on a domain
-    * ##### Implement complex traffic flow (Blue/Green, Deploy, Failovers)
-    * ##### Monitor records via heath checks
-    * ##### Resolve VPC outside AWS
+* ## Route53
+  * ### Domain name provider in AWS
+  * ### Functionality
+    * #### Register Domain
+    * #### Create Records sets on a domain
+    * #### Implement complex traffic flow (Blue/Green, Deploy, Failovers)
+    * #### Monitor records via heath checks
+    * #### Resolve VPC outside AWS
     
-  * #### Traffic flow
+  * ### Traffic flow
     * Visual editor for routing config
     * Supports versioning
     * 50$ per policy record / month
     
-  * #### Record Set
-    * ##### www. , api. , blog. to A, AAAA, CNAME...
+  * ### Record Set
+    * #### www. , api. , blog. to A, AAAA, CNAME...
     * Alias
       * Always should use Alias because resources changes IP
       * Route traffic to specific AWS Resources
@@ -599,84 +597,84 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * Resource record set
         * VPC endpoint
         * API Gateway
-  * #### Routing Policy
-    * ##### Simple Routing
+  * ### Routing Policy
+    * #### Simple Routing
       * Default Policy
       * One(Record) to Many(IP)
       * Return all IP back to user in random order
       * User will be directed to random IP
-    * ##### Weighted Routing
+    * #### Weighted Routing
       * Split traffic based on weights
       * Good for A/B testing
       * ex) 85(EC2 Stable) : 15(EC2 Test)
-    * ##### Geolocation Routing
+    * #### Geolocation Routing
       * Redirect Via Geolocation of request origion
       * ex) North America -> ALB US-NORTH-1
-    * ##### Geoproximity Routing
+    * #### Geoproximity Routing
       * Redirect Via Geolocation but with Bias Value
       * Bias value expand or shrink size of geolocation
       * Can only be set by Traffic Flow
       * ![](images/geoproximity_routing.PNG)
-    * ##### Latency Routing
+    * #### Latency Routing
       * Direct traffic based on latency
       * Based on region
       * Requires latency resource record for EC2 or ELB
       * ex) 100ms(ALB WEST-1) : 12ms(ALB EAST-1)
-    * ##### Failover Routing
+    * #### Failover Routing
       * If Primary fails Redirects to Secondary
       * Can check via Health Checks
-    * ##### Multivalue answer Routing
+    * #### Multivalue answer Routing
       * Just like Simple Routing
       * Only difference is heath check
       * Returns IPs only if healthy
-  * #### Health Checks
-    * ##### Checks health every 30s by default
-    * ##### Can be reduced to 10s
-    * ##### Can Initial a failover if unhealthy
-    * ##### CloudWatch Alarm can be created
-    * ##### Can monitor other health checks for chain reactions
-  * #### Route 53 Resolver
-    * ##### Regional service that route DNS between VPC and your network
-    * ##### Inbound(To VPC), Outbound(From VPC), Inbound and Outbound
-    * ##### DNS Resolution for Hybrid Environments (On Premise with Cloud)
+  * ### Health Checks
+    * #### Checks health every 30s by default
+    * #### Can be reduced to 10s
+    * #### Can Initial a failover if unhealthy
+    * #### CloudWatch Alarm can be created
+    * #### Can monitor other health checks for chain reactions
+  * ### Route 53 Resolver
+    * #### Regional service that route DNS between VPC and your network
+    * #### Inbound(To VPC), Outbound(From VPC), Inbound and Outbound
+    * #### DNS Resolution for Hybrid Environments (On Premise with Cloud)
   
-* ### Elastic Compute Cloud (EC2)
-  * #### Choose OS, Storage, Memory, Network Throughput
-  * #### Resizable computing capacity
-  * #### Everyting on AWS uses EC2 instance underneath
-  * #### Instance Types
-    * ##### General Purpose
+* ## Elastic Compute Cloud (EC2)
+  * ### Choose OS, Storage, Memory, Network Throughput
+  * ### Resizable computing capacity
+  * ### Everyting on AWS uses EC2 instance underneath
+  * ### Instance Types
+    * #### General Purpose
       * Balance of memory, compute and network
       * Use-cases : web servers and code repositories
-    * ##### Compute Optimized
+    * #### Compute Optimized
       * High performance processor
       * Use-cases : Scientific modeling, gaming servers and ad server engines
-    * ##### Memory Optimized
+    * #### Memory Optimized
       * Fast performance for workloads and large data sets in memory
       * Use-cases : In-memory caches, in-memory databases, real time big data analytics
-    * ##### Accelerated Optimized
+    * #### Accelerated Optimized
       * Hardware accelerators, co-processors
       * Use-cases : Machine learning, compute-finance, speech recognition
-    * ##### Storage Optimized
+    * #### Storage Optimized
       * High sequential read and write to large data sets on local storage
       * Use-cases : NoSQL, in-memory/transactional databases, data warehousing
-  * #### Instance Sizes
-    * ##### EC2 Instance Sizes generally double in price and attributes
+  * ### Instance Sizes
+    * #### EC2 Instance Sizes generally double in price and attributes
     * ![](images/EC2_instance_sizes.PNG)
-  * #### Instance Profile
+  * ### Instance Profile
     * Instead of embedding AWS credentials in Code
     * Let's instance have permission to access AWS services
     * Attach a IAM Role to an instance via Instance Profile
     * Always avoid unnecessary AWS credentials if possible
-  * #### [Placement Groups](https://www.youtube.com/watch?v=-i1PfF4Jyuo)
-    * ##### Cluster
+  * ### [Placement Groups](https://www.youtube.com/watch?v=-i1PfF4Jyuo)
+    * #### Cluster
       * Great performance, but has failure risk
       * Same rack, same AZ
       * Low latency, 10 Gbs bandwidth
       * If rack fails, all instance fails
       * Cannot be multi AZ  
       * ![](images/EC2_placement_group_cluster.PNG)
-    * ##### Spread 
+    * #### Spread 
       * High availability, limited performance
       * Multi AZ  
       * Limited to 7 instance per AZ
@@ -685,7 +683,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * For critical applications where each
       instance must be isolated from failure
       * ![](images/EC2_placement_group_spread.PNG)  
-    * ##### Partition
+    * #### Partition
       * Up to 7 partitions per AZ
       * Up to 100s of instances
       * Instances in a partition do not share
@@ -693,27 +691,27 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * EC2 metadata includes partition information
       * For HDFS, Cassandra, Kafka
       * ![](images/EC2_placement_group_partition.PNG)
-  * #### UserData
+  * ### UserData
     * Script that automatically run when launching EC2 instance
     * ![](images/EC2_user_data.PNG)
-  * #### MetaData
+  * ### MetaData
     * Access information about EC2 via special url endpoint in EC2
     * curl http://169.254.169.254/latest/meta-data
     * Get information such as IPv4 address, instance type and more
     * Combind MetaData and UserData to automate AWS
-  * #### Pricing Model
-    * ##### On-Demand
+  * ### Pricing Model
+    * #### On-Demand
       * Default pricing
       * No up-front payment
       * No long-term payment
       * For short-term, spiky, unpredictable, experimental, first-time apps
-    * ##### [Spot Instances](https://www.youtube.com/watch?v=DI64Ol3dbAY)
+    * #### [Spot Instances](https://www.youtube.com/watch?v=DI64Ol3dbAY)
       * Like hotels or planes, AWS offers vacant EC2
       * Save up to 90%
       * Instances can be terminated by AWS at anytime
       * If you terminate the instance you still will be charged for any hour it ran
       * Use-cases : Apps that can handle Interruptions, for non-critical background jobs
-    * ##### [Reserved Instances (RI)](https://www.youtube.com/watch?v=01uV-clWkow)
+    * #### [Reserved Instances (RI)](https://www.youtube.com/watch?v=01uV-clWkow)
       * Pricing = Class offering X Terms X Payment options
       * Class offering
         * Standard
@@ -731,15 +729,15 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * No Upfront
         * The greater upfront the cheaper
       * Can re-sell Reserved Instances
-    * ##### Dedicated
+    * #### Dedicated
       * Most expensive
       * Single Tenant instances with Isolated server
         * ![](images/EC2_dedicated_instance_multi_single_tenent.PNG)
       * Offered in On-demand and Reserved(70% save)
       * Enterprises and Large Organizations may have security concerns
   
-  * #### [Amazon Machine Images (AMI)](https://www.youtube.com/watch?v=kkdr8Av2cQQ)
-    * ##### EC2 into images to copy servers
+  * ### [Amazon Machine Images (AMI)](https://www.youtube.com/watch?v=kkdr8Av2cQQ)
+    * #### EC2 into images to copy servers
       * Holds information such as
         * Root Volume
         * Operating system
@@ -747,12 +745,12 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * Application
         * Launch Permissions
         * Block device mapping
-    * ##### AMI is region specific
+    * #### AMI is region specific
       * You can copy to another region via Copy AMI
-    * ##### AMI ID  
-    * ##### Use Systems Manager Automation to patch AMIs with security updates
-    * ##### Use LaunchConfigurations to update multiple instances with AMI
-    * ##### Selection
+    * #### AMI ID  
+    * #### Use Systems Manager Automation to patch AMIs with security updates
+    * #### Use LaunchConfigurations to update multiple instances with AMI
+    * #### Selection
       * Region
       * Operating System
       * Architecture
@@ -760,7 +758,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * Root Device Type/Volume
         * Instance Store
         * EBS
-    * ##### AMI marketplace
+    * #### AMI marketplace
       * Community AMI
         * Free to use
       * Vendor AMI
@@ -768,27 +766,27 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * Security harden AMI such as CIS is popular
       * My AMI
     
-  * #### Auto Scaling Groups (ASG)
-    * ##### Group of EC2 for auto-scaling and management
-    * ##### Launch Configuration
+  * ### Auto Scaling Groups (ASG)
+    * #### Group of EC2 for auto-scaling and management
+    * #### Launch Configuration
       * Launch settings for new EC2 from AGS
       * Cannot be edited
         * Clone the existing configuration or create a new configuration
       * Launch Templates
         * Launch Configuration with versioning
-    * ##### Capacity settings
+    * #### Capacity settings
         * Min
         * Max
         * Desired Capacity
           * How much EC2 you want ideally
-    * ##### Health check replacements
+    * #### Health check replacements
       * EC2 Health Check
         * Based on EC2 Status Checks
         * If considered unhealthy, restarts EC2
       * ELB Health Check
         * Pings an HTTP(S) endpoint and expects a response
         * If response not expected, restarts EC2
-    * ##### Scaling policies
+    * #### Scaling policies
       * Scaling Out : Adding more Instances
       * Scaling In : Removing Instances
       * Scaling Up : Increase the EC2 Specs  
@@ -802,16 +800,16 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
           * Scales when alarm is breached
           * Escalates based on alarm
           * ex) All 2 instances if alarm value is 2
-    * ##### Elastic Load Balancers(ELB) with ASG
+    * #### Elastic Load Balancers(ELB) with ASG
       * ASG can be associated with ELB
       * If associated richer health checks are available
       * Associated indirectly via Target Groups
     
-  * #### Elastic Load Balancer (ELB)
-    * ##### Must have at least two AZs
-    * ##### Cannot go cross-region
-    * ##### SSL Certificate can be attached to any Types  
-    * ##### Rules of Traffic
+  * ### Elastic Load Balancer (ELB)
+    * #### Must have at least two AZs
+    * #### Cannot go cross-region
+    * #### SSL Certificate can be attached to any Types  
+    * #### Rules of Traffic
       * ##### Listeners
         * Evaluate Traffic that matches the listeners port
         * Can attach SSL Certificate
@@ -821,7 +819,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * ##### Target Groups
         * EC2 instances are registered as target groups
         * Not for Classic Load Balancer
-    * ##### Types
+    * #### Types
       * ##### Classic Load Balancer
         * Listeners and EC2 is directly registered
         * Can balance HTTP, HTTPS, TCP(Not at the same time)
@@ -855,7 +853,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * Cross Zone Load Balancing
         * Great for Multiplayer Video Games or when network performance is critical
       
-    * ##### Sticky Sessions
+    * #### Sticky Sessions
       * Specific user sessions goes to a specific EC2
       * All requests from that session are sent to the same EC2
       * Cookies are used to remember which EC2  
@@ -864,24 +862,24 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * Application Load Balancer
       * Useful when specific information is stored in single instance
       
-    * ##### X-Forwarded-For (XFF) Header
+    * #### X-Forwarded-For (XFF) Header
       * When using Load Balancers users IPv4 addresses can be changed to Load Balancers IPv4
       * Use X-Forwarded-For header to get the IP address
       * ![](images/X_Forwarded_For_header.PNG)
       
-    * ##### Health Checks
+    * #### Health Checks
       * Checks EC2 with HTTP(S)
       * Reports back as InService or OutOfService
       * ELB does not terminate(Kill) unhealthy instances
       * ELB just redirect traffic to healthy Instances unlike ASG
   
-    * ##### Cross-Zone Load Balancing
+    * #### Cross-Zone Load Balancing
       * Distributes traffic evenly within Zones
       * Distributes traffic evenly in all Zones
       * ![](images/cross_zone_load_balancing.PNG)
     
   
-* ### Elastic File System (EFS)
+* ## Elastic File System (EFS)
   * File storage service for EC2
   * Storage capacity grows up to petabytes
   * Storage shrinks automatically
@@ -893,40 +891,39 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
   * Data is stored across multiple AZs within a region  
   * 0.30 $ per GB / month
 
-* ### Elastic Block Store (EBS)
-  * #### Attach persistent block storage to EC2
-  * #### Volumes are automatically replicated within their AZ  
- * #### Knowledge
+* ## Elastic Block Store (EBS)
+  * ### Attach persistent block storage to EC2
+  * ### Volumes are automatically replicated within their AZ  
+ * ### Knowledge
     * IOPS : Input/Output per second
     * Throughput : data transfer to and from storage
     * Bandwidth : Measurement of total possible speed of data movement along network
     * Bandwidth (Pipe), Throughput (Water)
-  * #### Types
-    * ##### General Purpose (SSD)
+  * ### Types
+    * #### General Purpose (SSD)
       * Balanced price and performance
       * Max IOPS of 16000
-    * ##### Provisioned IOPS (SSD)
+    * #### Provisioned IOPS (SSD)
       * Fast Input and Output
       * Low latency and also high throughput
       * For : Large databases  
       * Max IOPS of 64000
-    * ##### Throughput Optimized HDD
+    * #### Throughput Optimized HDD
       * Low cost
       * Designed for frequently accessed
       * For : Data warehouses, Big data, Log processing
       * Higher basic volume size
       * Max IOPS of 500
-    * ##### Cold HDD
+    * #### Cold HDD
       * Lower cost
       * Less frequently used workloads
       * For : File storage
       * Max IOPS of 250
-    * ##### EBS Magnetic
+    * #### EBS Magnetic
       * For Archival Storage
       * Previous generation HDD  
       * Max IOPS of 40-200
-    
-  * #### Moving Volumes
+  * ### Moving Volumes
     * One AZ to another
       * 1 Take a Snapshot of the volume
       * 2 Create a AMI from snapshot
@@ -937,7 +934,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * 3 Copy the AMI to another region
       * 4 Launch new EC2 instance in another Region
     
-  * #### Encrypting Root Volume
+  * ### Encrypting Root Volume
     * You can Encrypt the volume on creation
     * If you want to Encrypt an existing volume
       * 1 Take a Snapshot of the unencrypted volume
@@ -945,8 +942,8 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * 3 Create a new AMI from Encrypted snapshot
       * 4 Launch new EC2 instance with Encrypted AMI
   
-  * #### EBS VS Instance Store Volumes
-    * EBS
+  * ### EBS VS Instance Store Volumes
+    * #### EBS
       * Durable
       * Block level storage device
       * Created from EBS Snapshots
@@ -955,7 +952,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         (Don't delete volume on termination)
       * For : Most use cases
       
-    * Instance Store Volumes
+    * #### Instance Store Volumes
       * Temporary
       * Disks physically attached to host machine
       * Created from template stored in S3
@@ -963,7 +960,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * Cannot stop instances, can only terminate
       * For : temporary, cache, logs ...
   
-  * #### Snapshots
+  * ### Snapshots
     * Snapshots are a point in time copy of the disk stored in S3
     * Initial snapshot of an EC2 will take longer than subsequent snapshots  
     * EC2 should be stopped before snapshot
@@ -972,72 +969,71 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * Cannot share a snapshot if encrypted
     * Unencrypted snapshots can be shared with other AWS accounts
   
-* ### CloudFront
-  * #### Content Delivery Network (CDN)
+* ## CloudFront
+  * ### Content Delivery Network (CDN)
     * Delivers content to users based on geographical location
     * Serves cached content
-  * #### Components
-    * ##### Origin
+  * ### Components
+    * #### Origin
       * S3 Bucket
       * EC2 instance
       * ELB
       * Route53 
-    * ##### Edge Location
+    * #### Edge Location
       * Location where web content will be cached
       * Different from AZ
       * Edge locations are not just read-only, you can also write (PUT)
-    * ##### Distribution
+    * #### Distribution
       * Collection of Edge Locations
       * Defines how cached content should behave
       * WEB or RTMP
         
     * ![](images/cloudfront_components.PNG)
     
-  * #### Distribution Settings
-    * ##### Price Class
+  * ### Distribution Settings
+    * #### Price Class
       * Select Edge Locations to distribute to specific countries
       * ex ) All Edge Locations, Use Only US Canada...
-    * ##### Types of Distribution
+    * #### Types of Distribution
       * WEB for websites
       * RTMP for streaming media
-    * ##### Behaviours
+    * #### Behaviours
       * Redirect to HTTPS
       * Restrict specific HTTP Methods
       * Restrict Viewer Access
       * Set Time To Live (TTL)
-    * ##### Invalidation
+    * #### Invalidation
       * Can manually invalidate cache ignoring TTL
       * Invalidation forces cashe to expire immediately
-    * ##### Error Pages
+    * #### Error Pages
       * Create custom error pages like 404
-    * ##### Restrictions
+    * #### Restrictions
       * Blacklist specific countries
     
-  * #### [Lambda@Edge](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-examples.html#lambda-examples-overriding-response-header)
-    * ##### Use Lambda to override the behaviour of request and response
-    * ##### For : A/B Testing, Overriding response header, Bot blocking
-    * ##### 4 Available functions
+  * ### [Lambda@Edge](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-examples.html#lambda-examples-overriding-response-header)
+    * #### Use Lambda to override the behaviour of request and response
+    * #### For : A/B Testing, Overriding response header, Bot blocking
+    * #### 4 Available functions
       * Viewer request
       * Origin request
       * Origin response
       * Viewer response
   
-  * #### [CloudFront Protection](https://www.youtube.com/watch?v=7soFsSeRN2o)
-    * ##### Protection for video endpoints or restricted files
-    * ##### Original Identity Access (OAI)  
+  * ### [CloudFront Protection](https://www.youtube.com/watch?v=7soFsSeRN2o)
+    * #### Protection for video endpoints or restricted files
+    * #### Original Identity Access (OAI)  
       * Virtual user Identity to giver permission to fetch private objects  
       * In order to use Signed URL/Cookies you need OAI
-    * ##### Types  
+    * #### Types  
       * Signed URLs
       * Signed Cookies
   
-* ### Relational Database Service (RDS)
+* ## Relational Database Service (RDS)
   
-  * #### Managed relation database service that supports SQL engines
-  * #### Cannot SSH into RDS VM
-  * ####  
+  * ### Managed relation database service that supports SQL engines
+  * ### Cannot SSH into RDS VM
     
-  * #### Types
+  * ### Types
     * Amazon Aurora
     * Mysql
     * MariaDB
@@ -1045,12 +1041,12 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * Oracle
     * Microsoft SQL Server
     
-  * #### Encryption
+  * ### Encryption
     * Can turn on encryption for all RDS engines
     * Encrypts automated backups, snapshots, read replicas
     * Handled by Key Management Service (KMS)
   
-  * #### Backups
+  * ### Backups
     * Automated Backups
       * Retention Period between 1 ~ 35 days
       * Store Transaction logs throughout the day
@@ -1072,7 +1068,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * Migrate Snapshot
           * Change to Aurora database
     
-  * #### Restoring Backups
+  * ### Restoring Backups
     * Steps taken by AWS
       * 1 AWS takes the most recent daily backup
       * 2 Apply transaction log data
@@ -1080,13 +1076,13 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * Backup in never stored overtop an instance
     * Backup creates a new instance
   
-  * #### Multi AZ Deployment
+  * ### Multi AZ Deployment
     * Makes exact copy and automatically syncs
     * Only a standby  
     * If one AZ goes down, the standby slave will be promoted to the master
     * No url endpoint edit needed (Automatic sync)
   
-  * #### Read Replicas
+  * ### Read Replicas
     * Run multiple copies of database
     * Synced to main database
     * Read only
@@ -1097,8 +1093,8 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * Can have replica of replica
     * Replica can be promoted to their own database
       * This breaks synchronization
-  
-  * #### Multi AZ VS Read Replicas
+
+  * ### Multi AZ VS Read Replicas
     * Synchronous replication / Asynchronous replication
     * Durable / Scalable
     * Only primary instance active / All read replicas active
@@ -1106,83 +1102,83 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * Always span two AZ within a Region / Can be multi AZ, Region
     * Database engine upgrades happen on primary / upgrades is independent from source
     * Automatic failover / Manually promotion
-  
 
-* ### AWS Aurora
-  * #### Fully managed Postgres/MySQL compatible databace
-  * #### Very Fast
+
+* ## AWS Aurora
+  * ### Fully managed Postgres/MySQL compatible databace
+  * ### Very Fast
     * Aurora MySQL 5X faster
-    * Aurora Postgres 3X faster 
-  * #### Cost Effective
+    * Aurora Postgres 3X faster
+  * ### Cost Effective
     * 1/10th the cost of other solutions
-  * #### Scaling  
+  * ### Scaling
     * Starts with 10 GB, scales in 10 GB increment
     * Up to 64 TB
     * Computing scales up to 32vCPU, 244 GB memory
-  * #### Availability
+  * ### Availability
     * Minimum of 3 availability zones
     * Each zone contains 2 copies
     * Total of 6 copies
     * Lose up to 2 copies without affecting write
-    * Lose up to 3 copies without affecting read  
+    * Lose up to 3 copies without affecting read
     * ![](images/aurora_availability.PNG)
-  * #### Durability
+  * ### Durability
     * Backup and Failover is handled automatically
     * Storage is self-healing
       * Continuously scanned for errors
       * Repaired automatically
-  * #### Replicas
+  * ### Replicas
     * Types
       * Amazon Aurora Replicas
         * Up to 15
       * MySQL Read Replicas
         * Up to 5
-  * #### Aurora Serverless
+  * ### Aurora Serverless
     * Automatically
       * Start up
       * Shut down
       * Scale
     * Pay for Storage / Capacity Unit / I/O
-  
-* ### Amazon Redshift
-  * #### Fully managed Petabyte-size data warehouse
-  * #### Analyze and run SQL queries on massive amounts of data
-  * #### Uses Massively Parallel Processing (MPP) to distribute Queries
-  * #### Automatically distributes data and query to nodes
-  * #### Easily add new nodes  
-  * #### Single AZ  
-  * #### Columnar Storage data warehouse
+
+* ## Amazon Redshift
+  * ### Fully managed Petabyte-size data warehouse
+  * ### Analyze and run SQL queries on massive amounts of data
+  * ### Uses Massively Parallel Processing (MPP) to distribute Queries
+  * ### Automatically distributes data and query to nodes
+  * ### Easily add new nodes
+  * ### Single AZ
+  * ### Columnar Storage data warehouse
     * Reduces overall disk I/O requirements
     * Optimizing analytic query performance
     * Stores data together as columns instead of rows
     * ![](images/redshift_columnar_storage.PNG)
-  * #### Database VS Data Warehouse
-    * Database
+  * ### Database VS Data Warehouse
+    * #### Database
       * Online Transaction Processing (OLTP)
       * Fast access
       * Short transactions (Queries)
       * Emphasis on writes
-    * Data Warehouse
+    * #### Data Warehouse
       * Online Analytical Processing (OLAP)
       * Large data quantities
       * Long, complex transactions
       * Emphasis on reads
-  * #### Configurations
-    * Single Node
+  * ### Configurations
+    * #### Single Node
       * Nodes come in 160 GB of size
-    * Multi Node
+    * #### Multi Node
       * Node with Leader and Compute Nodes
       * Leader Node
         * Manages connections and receive queries
       * Compute Node
         * Stores data and performs queries
         * Up to 128 compute nodes
-    * Node Types
+    * #### Node Types
       * Dense Compute (dc)
         * high performance / less storage
       * Dense Storage (ds)
         * high storage
-  * #### Backups
+  * ### Backups
     * Enabled by default 1 day
     * Retention period up to 35 days
     * Attempts to maintain 3 copies
@@ -1190,34 +1186,34 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * Replica on compute nodes
       * S3
     * Can asynchronously replicate to different region
-  * #### Billing
+  * ### Billing
     * 1 unit per node / per hour
     * Not charged for leader node hours, only compute nodes
     * S3 Backup is billed by S3
     * Billed for transfers within a VPC, not outside it
-  * #### Security
+  * ### Security
     * Data-in-transit : SSL
     * Data-at-rest : AES-256
     * Can be applied using
       * Key Management Service (KMS)
       * Cloud HSM
-  * #### Use Case
+  * ### Use Case
     * Copy data from EMR/S3/DynamoDB into redshift
-    * Use redshift with java JDBC to query 
-    * Most common use case is Business inteligence  
+    * Use redshift with java JDBC to query
+    * Most common use case is Business inteligence
     * ![](images/redshift_use_case.PNG)
-  
 
-* ### DynamoDB
-  * #### NoSQL Key-value and Document database
-  * #### NoQSL
+
+* ## DynamoDB
+  * ### NoSQL Key-value and Document database
+  * ### NoQSL
     * Not relational
     * Do not use SQL query
-  * #### Key-value store
+  * ### Key-value store
     * ![](images/dynamoDB_key_value_store.PNG)
-  * #### Document store  
+  * ### Document store
     * ![](images/dynamoDB_document_store.PNG)
-  * #### Structure
+  * ### Structure
     * Product
       * Primary Key
         * Partition Key
@@ -1225,9 +1221,9 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * Item
       * Attribute
     * ![](images/dynamoDB_structure.PNG)
-  * #### Features
+  * ### Features
     * Specify read and write capacity per second
-    * All data is stored on SSD  
+    * All data is stored on SSD
     * Multi-region
       * Data is spread across 3 regions
     * Multi-master
@@ -1237,55 +1233,55 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * In-memory caching
     * Eventual Consistent reads (Default)
     * Strongly Consistent reads
-  
-  * #### Read Consistency
+
+  * ### Read Consistency
     * Data may be inconsistent
     * Data must be copied to other regions
     * Types
-      * ##### Eventual Consistent reads
+      * #### Eventual Consistent reads
         * Reads are fast
-        * May return inconsistent copy  
+        * May return inconsistent copy
         * Becomes consistent within a second
-      * ##### Strongly Consistent reads
+      * #### Strongly Consistent reads
         * Not return result until all copies are consistent
         * Slower reads
         * Becomes slow as a second
-  
-* ### AWS CloudFormation
-  * #### Infrastructure as code (IaC)
+
+* ## AWS CloudFormation
+  * ### Infrastructure as code (IaC)
     * Automating the creation of resources via code
     * Automate AWS by code
-  * #### Format
+  * ### Format
     * JSON
     * YAML
-  * #### Template
-    * ##### MetaData
+  * ### Template
+    * #### MetaData
       * Additional information about template
-    * ##### Description
+    * #### Description
       * Description of what this template does
-    * ##### Parameters
+    * #### Parameters
       * Values to pass to the template
-    * ##### Mappings
+    * #### Mappings
       * Lookup table
       * Map keys to value to change values to something else
-    * ##### Conditions
+    * #### Conditions
       * Like if else statements
       * Whether resources are created or properties are assigned
-    * ##### Transform
+    * #### Transform
       * Applies macros (Mod)
-    * ##### Resources
+    * #### Resources
       * A AWS resource you want to create (IAM,EC2,Lambda,RDS)
       * At least 1 Resource is mandatory
-    * ##### Outputs
+    * #### Outputs
       * Values returned
-  * #### Errors return ROLLBACK_IN_PROGRESS
-  * #### NestedStacks
+  * ### Errors return ROLLBACK_IN_PROGRESS
+  * ### NestedStacks
     * Breaks CloudFormation into smaller reusable templates
-  
-* ### AWS Cloudwatch
-  * #### Collection of monitoring services
-  * #### Tools
-    * #### CloudWatch Logs
+
+* ## AWS Cloudwatch
+  * ### Collection of monitoring services
+  * ### Tools
+    * ### CloudWatch Logs
       * Log Group
         * Collection of logs
         * Log files must belong in a group
@@ -1294,7 +1290,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * Logs never expire
       * Most AWS services integrate CloudWatch Logs
       * Some needs IAM permissions
-    * #### CloudWatch Metrics
+    * ### CloudWatch Metrics
       * Time ordered set of data points
       * Graph
       * Predefined metrics
@@ -1303,12 +1299,12 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * Can create High Resolution Metrics
           * Track under 1 minute to 1 second
           * Costs more if higher resolution
-    * #### CloudWatch Events / Event Bridge
+    * ### CloudWatch Events / Event Bridge
       * Event based on Event Pattern / Schedule
         * Schedule is like serverless [Cron](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/services-cloudwatchevents-expressions.html)
       * Event Source -> Target
       * ![](images/cloudwatch_events.PNG)
-    * #### CloudWatch Alarms
+    * ### CloudWatch Alarms
       * Triggers a notification based on metric
       * If threshold is breached
       * Type
@@ -1317,42 +1313,42 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * Greater(Equal) / Equal / Lower(Equal)
       * Threshold
         * ex) 1000 USD
-    * #### CloudWatch Dashboards
+    * ### CloudWatch Dashboards
       * Custom dashboard of Metrics
-  
-    * #### EC2 VS Other services
+
+    * ### EC2 VS Other services
       * EC2 : 5 minute interval (Default)
         * Turn on Detailed Monitoring in EC2 to get higher resolution (1 minute)
       * Other services : 1 minute interval
-  
-    * #### CloudWatch Agent
+
+    * ### CloudWatch Agent
       * Gathers additional information of EC2
       * Script can be installed via Systems Manager Run command
-      * ##### CloudWatch Default
+      * #### CloudWatch Default
         * CPU Usage
         * Network Usage
         * Disk Usage
         * Status Checks
-      * ##### CloudWatch Agent
+      * #### CloudWatch Agent
         * Memory utilization
         * Disk swap utilization
         * Disk space utilization
         * Page file utilization
         * Log collection
-      * #### Used to check Memory and Disk space
-      
-      
-* ### CloudTrail
-  * #### Monitor API calls
-  * #### Track user activity  
-  * #### Who to blame  
-  * #### For
+      * ### Used to check Memory and Disk space
+
+
+* ## CloudTrail
+  * ### Monitor API calls
+  * ### Track user activity
+  * ### Who to blame
+  * ### For
     * Governance
     * Compliance
     * Operational Auditing
     * Risk Auditing
-  * #### Events  
-    * ##### Managed Events
+  * ### Events
+    * #### Managed Events
       * Tracks management
       * Turned on by default
       * Can't be turned off
@@ -1361,35 +1357,35 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * Registering devices
         * Configuring rules for routing data
         * Setting up logging
-    * ##### Data Events
+    * #### Data Events
       * Tracks specific AWS services
       * Turned off by default
       * High volume will result in payment
       * S3 / DynamoDB / Lambda
-  * #### Log Data
+  * ### Log Data
     * Who : User, UserAgent, ...
     * Where : Source IP Address
     * When : EventTime
     * What : Region, Resource, Action
     * ![](images/cloudtrail_log_data.PNG)
-  * #### CloudTrail Logs by Default
-  * #### Logs last 90 days
+  * ### CloudTrail Logs by Default
+  * ### Logs last 90 days
     * If you need more than 90 days, create custom trail
     * Custom trails are output to S3, and do not have GUI, so use Amazon Athena
-  * #### Options
-    * ##### Trail can be set to log all regions
-    * ##### Can be set to across all accounts in organization
-    * ##### Can Encrypt Logs (SSE-KMS)
-    * ##### Can check if Trails are tampered
+  * ### Options
+    * #### Trail can be set to log all regions
+    * #### Can be set to across all accounts in organization
+    * #### Can Encrypt Logs (SSE-KMS)
+    * #### Can check if Trails are tampered
       * Check Log File Validation
-  * #### CloudTrail can deliver to CloudWatch logs
-  
+  * ### CloudTrail can deliver to CloudWatch logs
 
-* ### AWS Lambda
-  * #### Run code without provisioning or managing server
-  * #### No charge when code is not running
-  * #### Cheap / Serverless / Scales automatically
-  * #### Invoked by
+
+* ## AWS Lambda
+  * ### Run code without provisioning or managing server
+  * ### No charge when code is not running
+  * ### Cheap / Serverless / Scales automatically
+  * ### Invoked by
     * AWS SDK
     * Other AWS Services
       * API Gateway
@@ -1403,13 +1399,13 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * And more!
     * Third Party triggers
       * DataDog
-  * #### Pricing
+  * ### Pricing
     * First 1 million request per month is free
     * $0.20 per additional 1 million
     * 400,000 GB per month is free
     * $ 0.0000166667 per GB second
     * Differ with memory allocation
-  * #### Default
+  * ### Default
     * You can have up to 1000 Lambdas running concurrently
       * Ask AWS Support for more
     * /tmp directory can contain up to 500 MB
@@ -1417,58 +1413,58 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * If VPC set, Internet access is lost
     * Max timeout is 15 minutes
     * Memory can be set from 128 ~ 10240 MB
-  * #### Cold Starts
+  * ### Cold Starts
     * AWS needs to turn on servers and copy code over to run lambda
     * Cheap but may cause delays in user experience
     * Pre Warm to keep servers continuously running
     * ![](images/lambda_cold_starts.PNG)
-  
-* ### Simple Queue Service (SQS)
-  * #### Fully managed queuing messaging service
+
+* ## Simple Queue Service (SQS)
+  * ### Fully managed queuing messaging service
     * Messaging System
       * Asynchronous communication and decouple processes via messages / events
       * Sender(Producer) / Receiver(Consumer)
-  * #### Decouple and scale microservices, distributed systems, serverless applications
-  * #### Queueing VS Streaming
-    * ##### Queueing
+  * ### Decouple and scale microservices, distributed systems, serverless applications
+  * ### Queueing VS Streaming
+    * #### Queueing
       * Delete message after consumed
       * Simple Communication
       * Not Real-time
       * Not Reactive (Has to pull requests)
       * AWS SQS
-    * ##### Streaming
+    * #### Streaming
       * Event stays in the stream for long time
-      * Complex communication  
+      * Complex communication
       * Multiple consumers can react to events
       * Real time
       * Reactive
       * AWS Kinesis
-  * #### SQS is for Application Integration
+  * ### SQS is for Application Integration
     * Generates queue messages by application
     * Connect isolated application by passing messages
-  * #### Use the AWS SDK to publish SQS messages and pull
-  * #### SQS is PULL based, not PUSH based (Not reactive)
-  * #### Sender can pull to check if the message is consumed
-  * #### Message size
+  * ### Use the AWS SDK to publish SQS messages and pull
+  * ### SQS is PULL based, not PUSH based (Not reactive)
+  * ### Sender can pull to check if the message is consumed
+  * ### Message size
     * 1 byte ~ 256 KB
     * SQS Extended Client Library for Java
       * Send messages over 256 KB ~ 2 GB
       * Messages stored in S3
-  * #### Message Retention
+  * ### Message Retention
     * How long the message will be hold
     * Default is 4 days
     * 60 Seconds ~ 14 Days
-  * #### Queue types
-    * ##### Standard Queues
+  * ### Queue types
+    * #### Standard Queues
       * Send nearly unlimited transactions per second
       * Guarantees message delivery at least once
       * More than one copy can be out of order
       * Provides best-effort to keep order
-    * ##### FIFO Queues
+    * #### FIFO Queues
       * First in First out
       * Limited to 300 transactions per second
       * Ensures order
-  * #### Visibility Timeout
+  * ### Visibility Timeout
     * Avoid doing the same task
     * After a reader picks up a message,   
       the message becomes invisible for a period of time
@@ -1477,20 +1473,20 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * Can result in double delivery
     * 30 Seconds (Default)
     * 0 seconds ~ 12 hours
-  * #### Short Polling VS Long Polling
-    * ##### Short Polling
+  * ### Short Polling VS Long Polling
+    * #### Short Polling
       * Default
       * Returns message immediately
       * Returns even if empty
-    * ##### Long Polling
+    * #### Long Polling
       * Waits until message arrives in queue
       * Waits until long poll timeout expires
       * Inexpensive cost because reduce empty polls
       * Most use cases
-  
-* ### Simple Notification Service (SNS)
-  * #### Send notifications via text message, email, webhooks, lambda, SQS
-  * #### Pub/Sub
+
+* ## Simple Notification Service (SNS)
+  * ### Send notifications via text message, email, webhooks, lambda, SQS
+  * ### Pub/Sub
     * Publishers send messages to event bus
     * Event bus categorizes messages into groups
     * Subscribers subscribe to these groups
@@ -1498,25 +1494,25 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * Publishers have no knowledge of subscribers
     * Subscribers do not pull messages
     * Messages are automatically pushed to subscribers
-  * #### Application Integration
+  * ### Application Integration
     * Decouple microservices, distributed systems, serverless applications
     * Can create application within AWS
     * Publishers push to SNS Topic
-    * Subscribers subscribe to SNS Topic  
+    * Subscribers subscribe to SNS Topic
     * ![](images/SNS_application_integration.PNG)
-  * #### SNS Topics
+  * ### SNS Topics
     * Allow to group multiple subscriptions
     * Topic deliver to multiple protocols at once
     * Automaticlly format message to subscribers protocol
     * Can encrypt Topics via KMS
-  * #### SNS Subscriptions
+  * ### SNS Subscriptions
     * Subscriptions are created on Topic
     * Subscribe to one protocol and one topic
     * Protocols
       * HTTP(S)
       * Email
         * Plain text
-        * If rich text needed use SES  
+        * If rich text needed use SES
       * Email-JSON
       * SQS
       * Lambda
@@ -1529,28 +1525,28 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
         * MPNS (Microsoft push notification)
         * WNS (Windows push notification)
         * Mobile app messages come as popups, alerts, badges, updates, sound alerts
-  * #### All messages are stored across multiple AZ
-  
-* ### ElastiCache
-  * #### Managed caching service that runs [Redis](https://www.youtube.com/watch?v=V7FPk4J10KI) or [Memcached](https://www.youtube.com/watch?v=UH7wkvcf0ys&t=241s)
-  * #### In memory storage
-  * #### Highly volatility (Data can be lost)
-  * #### Extremely fast access to data
-  * #### Use in same VPC for low latency
-  * #### Frequently identical queries are stored in cache
-  * #### Memcached VS Redis
+  * ### All messages are stored across multiple AZ
+
+* ## ElastiCache
+  * ### Managed caching service that runs [Redis](https://www.youtube.com/watch?v=V7FPk4J10KI) or [Memcached](https://www.youtube.com/watch?v=UH7wkvcf0ys&t=241s)
+  * ### In memory storage
+  * ### Highly volatility (Data can be lost)
+  * ### Extremely fast access to data
+  * ### Use in same VPC for low latency
+  * ### Frequently identical queries are stored in cache
+  * ### Memcached VS Redis
     * Memcached is simple Key/Value cache store for HTML fragments
     * Redis has richer data types and operations
-    * Memcached is arguably faster than Redis 
+    * Memcached is arguably faster than Redis
     * ![](images/elasticache_memcached_redis.PNG)
-  
-    
-* ### [Elastic Beanstalk](https://www.youtube.com/watch?v=g7W5LK1DM8o)
-  * #### Heroku of AWS
-  * #### Upload code and run with little worry
-  * #### Recommended for test/development apps  
-  * #### Not recommended for Production applications
-  * #### Sets templates such as
+
+
+* ## [Elastic Beanstalk](https://www.youtube.com/watch?v=g7W5LK1DM8o)
+  * ### Heroku of AWS
+  * ### Upload code and run with little worry
+  * ### Recommended for test/development apps
+  * ### Not recommended for Production applications
+  * ### Sets templates such as
     * Elastic Load balancer
     * Autoscaling Groups
     * RDS Database
@@ -1558,107 +1554,107 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * Health Monitoring (CloudWatch, SNS)
     * Security
     * Dockerized environments
-  * #### Costs nothing to use Elastic Beanstalk
-  
+  * ### Costs nothing to use Elastic Beanstalk
 
-* ### API Gateway
-  * #### Creating secure API for backend
-  * #### Connect to AWS Infrastructure
-  * #### Accepts up to 10,000 requests per second
+
+* ## API Gateway
+  * ### Creating secure API for backend
+  * ### Connect to AWS Infrastructure
+  * ### Accepts up to 10,000 requests per second
     * Can be increased by request
-  * #### Track and control any usage
+  * ### Track and control any usage
     * Throttle requests to help prevent attacks
-  * #### Highly scalable
-  * #### Cost-effective
-  * #### Manage multiple versions
-  * #### Exposes by HTTPS
-  * #### Configuration
-    * ##### Resources
+  * ### Highly scalable
+  * ### Cost-effective
+  * ### Manage multiple versions
+  * ### Exposes by HTTPS
+  * ### Configuration
+    * #### Resources
       * Url path
       * ex) www.url.com/projects (/projects)
       * Can have child resources (/api/users)
-    * ##### Methods
+    * #### Methods
       * ANY/DELETE/GET/POST/PATCH/PUT...
       * One(Resources) to Many(Methods)
-    * ##### Integration
+    * #### Integration
       * Lambda/AWS services/VPC Link/...
       * Connect endpoint
-    * ##### Stages
+    * #### Stages
       * Versions of API
       * Must deploy API to make changes
       * Each stages have a Invoke URL
-    * ##### API Caching
+    * #### API Caching
       * Caches responses of endpoint
       * Time To Live (TTL)
       * Improve latency
       * Reduce number of calls
-  * #### Cross Origin Resource Sharing (CORS)
+  * ### Cross Origin Resource Sharing (CORS)
     * Allow traffic from another domain/origin
     * CORS is always enforced by the client(Frontend/Browser) level
     * Prevent Cross-Site Scripting (XSS) attacks
     * Ignore tools such as Postman or Curl
     * Can be enabled to all or individual endpoints
-  
-* ### AWS Kinesis
-  * #### Managed solution for collecting, processing, analyzing streaming data
-  * #### Real-time !!!
+
+* ## AWS Kinesis
+  * ### Managed solution for collecting, processing, analyzing streaming data
+  * ### Real-time !!!
     * Stock Prices
     * Game Data
     * Social Network Data
     * Geospatial Data
     * Click Stream Data
-  * #### Types
-    * ##### Kinesis Data Streams
+  * ### Types
+    * #### Kinesis Data Streams
       * Producers -> Kinesis Data Streams(Shards) -> Consumers
       * Pay per running shard
       * Data stays 24 hours (Default) ~ 168 hours
-      * Data is ordered  
+      * Data is ordered
       * Consumers need to be manually added
-    * ##### Kinesis Firehose Delivery Stream
+    * #### Kinesis Firehose Delivery Stream
       * Only one consumer from list (S3/Redshift/ElasticSearch/Splunk)
       * Data immediately disappears when consumed
       * Can convert incoming data (Format/compress/secure)
       * Pay per data consumed
-    * ##### Kinesis Video Streams
+    * #### Kinesis Video Streams
       * Producers (Security Cam / Web Cam / Mobile)
       * Consumers (SageMaker / Reckognition / Tenserflow / Video Processing)
       * Use Kinesis Producer Library(KPL)(Java) or AWS SDK
-    * ##### Kinesis Data Analytics
+    * #### Kinesis Data Analytics
       * Uses two Streams (Bit expensive)
       * Specify Firehose or Data Stream as input or output
-      * Real time analytics  
+      * Real time analytics
       * Input Stream -> Data Analytics -> Output Stream
       * ![](images/kinesis_data_analytics.PNG)
-  
-* ### Storage Gateway
-  * #### Connects on-premise application(machine) with cloud based storage
-  * #### Connect to AWS for scalable and cost-effective storage
-  * #### Available as virtual machine (VM) image
+
+* ## Storage Gateway
+  * ### Connects on-premise application(machine) with cloud based storage
+  * ### Connect to AWS for scalable and cost-effective storage
+  * ### Available as virtual machine (VM) image
     * VMware ESXi
     * Microsoft Hyper-V
-  * #### After installed use AWS console to create gateway
-  * #### Types
-    * ##### File Gateway (Network file system NFS)
+  * ### After installed use AWS console to create gateway
+  * ### Types
+    * #### File Gateway (Network file system NFS)
       * Store files in S3
       * [NFS or SMB](https://www.youtube.com/watch?v=glonDJIemHM)
       * S3 Metadata contains Ownership, Permissions, Timestamp
       * Can be managed as native S3 Object
       * Bucket Policies, Versioning, Lifecycle Management, Cross-Region Replication is applied
-    * ##### Volume Gateway (iSCSI)
+    * #### Volume Gateway (iSCSI)
       * Internet Small Computer Systems Interface (iSCSI) protocol
       * Store hard disk in S3 as EBS Snapshots
-      * Can be backed up with point in time snapshots  
-      * Snapshot only capture changed blocks in volume  
-      * Snapshots are used to minimize cost  
-      * ##### Stored Volumes
+      * Can be backed up with point in time snapshots
+      * Snapshot only capture changed blocks in volume
+      * Snapshots are used to minimize cost
+      * #### Stored Volumes
         * Primary data is stored locally while async backup in AWS
         * 1 GB ~ 16 TB
-      * ##### Cached Volumes
+      * #### Cached Volumes
         * Primary data is stored on AWS
         * Frequently accessed files on cache on-premise
         * Up to 32 TB
         * Cached volumes 1 GB ~ 32 GB
-    * ##### Tape Gateway (Virtual tape library VTL)
+    * #### Tape Gateway (Virtual tape library VTL)
       * Durable
       * Cost-effective
       * Uses S3 Glacier
