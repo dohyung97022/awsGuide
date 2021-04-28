@@ -1342,3 +1342,148 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * #### Used to check Memory and Disk space
       
       
+* ### CloudTrail
+  * #### Monitor API calls
+  * #### Track user activity  
+  * #### Who to blame  
+  * #### For
+    * Governance
+    * Compliance
+    * Operational Auditing
+    * Risk Auditing
+  * #### Events  
+    * ##### Managed Events
+      * Tracks management
+      * Turned on by default
+      * Can't be turned off
+      * Types
+        * Configure security
+        * Registering devices
+        * Configuring rules for routing data
+        * Setting up logging
+    * ##### Data Events
+      * Tracks specific AWS services
+      * Turned off by default
+      * High volume will result in payment
+      * S3 / DynamoDB / Lambda
+  * #### Log Data
+    * Who : User, UserAgent, ...
+    * Where : Source IP Address
+    * When : EventTime
+    * What : Region, Resource, Action
+    * ![](images/cloudtrail_log_data.PNG)
+  * #### CloudTrail Logs by Default
+  * #### Logs last 90 days
+    * If you need more than 90 days, create custom trail
+    * Custom trails are output to S3, and do not have GUI, so use Amazon Athena
+  * #### Options
+    * ##### Trail can be set to log all regions
+    * ##### Can be set to across all accounts in organization
+    * ##### Can Encrypt Logs (SSE-KMS)
+    * ##### Can check if Trails are tampered
+      * Check Log File Validation
+  * #### CloudTrail can deliver to CloudWatch logs
+  
+
+* ### AWS Lambda
+  * #### Run code without provisioning or managing server
+  * #### No charge when code is not running
+  * #### Cheap / Serverless / Scales automatically
+  * #### Invoked by
+    * AWS SDK
+    * Other AWS Services
+      * API Gateway
+      * CloudFront
+      * Application Load Balancer
+      * CloudWatch Events
+      * CloudWatch Logs
+      * DynamoDB
+      * S3
+      * SNS
+      * And more!
+    * Third Party triggers
+      * DataDog
+  * #### Pricing
+    * First 1 million request per month is free
+    * $0.20 per additional 1 million
+    * 400,000 GB per month is free
+    * $ 0.0000166667 per GB second
+    * Differ with memory allocation
+  * #### Default
+    * You can have up to 1000 Lambdas running concurrently
+      * Ask AWS Support for more
+    * /tmp directory can contain up to 500 MB
+    * No VPC by default
+      * If VPC set, Internet access is lost
+    * Max timeout is 15 minutes
+    * Memory can be set from 128 ~ 10240 MB
+  * #### Cold Starts
+    * AWS needs to turn on servers and copy code over to run lambda
+    * Cheap but may cause delays in user experience
+    * Pre Warm to keep servers continuously running
+    * ![](images/lambda_cold_starts.PNG)
+  
+* ### Simple Queue Service (SQS)
+  * #### Fully managed queuing messaging service
+    * Messaging System
+      * Asynchronous communication and decouple processes via messages / events
+      * Sender(Producer) / Receiver(Consumer)
+  * #### Decouple and scale microservices, distributed systems, serverless applications
+  * #### Queueing VS Streaming
+    * ##### Queueing
+      * Delete message after consumed
+      * Simple Communication
+      * Not Real-time
+      * Not Reactive (Has to pull requests)
+      * AWS SQS
+    * ##### Streaming
+      * Event stays in the stream for long time
+      * Complex communication  
+      * Multiple consumers can react to events
+      * Real time
+      * Reactive
+      * AWS Kinesis
+  * #### SQS is for Application Integration
+    * Generates queue messages by application
+    * Connect isolated application by passing messages
+  * #### Use the AWS SDK to publish SQS messages and pull
+  * #### SQS is PULL based, not PUSH based (Not reactive)
+  * #### Sender can pull to check if the message is consumed
+  * #### Message size
+    * 1 byte ~ 256 KB
+    * SQS Extended Client Library for Java
+      * Send messages over 256 KB ~ 2 GB
+      * Messages stored in S3
+  * #### Message Retention
+    * How long the message will be hold
+    * Default is 4 days
+    * 60 Seconds ~ 14 Days
+  * #### Queue types
+    * ##### Standard Queues
+      * Send nearly unlimited transactions per second
+      * Guarantees message delivery at least once
+      * More than one copy can be out of order
+      * Provides best-effort to keep order
+    * ##### FIFO Queues
+      * First in First out
+      * Limited to 300 transactions per second
+      * Ensures order
+  * #### Visibility Timeout
+    * Avoid doing the same task
+    * After a reader picks up a message,   
+      the message becomes invisible for a period of time
+    * Message can be deleted before visibility timeout expires
+    * If the job is not finished, the message will be visible again
+    * Can result in double delivery
+    * 30 Seconds (Default)
+    * 0 seconds ~ 12 hours
+  * #### Short Polling VS Long Polling
+    * ##### Short Polling
+      * Default
+      * Returns message immediately
+      * Returns even if empty
+    * ##### Long Polling
+      * Waits until message arrives in queue
+      * Waits until long poll timeout expires
+      * Inexpensive cost because reduce empty polls
+      * Most use cases
