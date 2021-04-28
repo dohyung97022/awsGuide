@@ -1487,3 +1487,180 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * Waits until long poll timeout expires
       * Inexpensive cost because reduce empty polls
       * Most use cases
+  
+* ### Simple Notification Service (SNS)
+  * #### Send notifications via text message, email, webhooks, lambda, SQS
+  * #### Pub/Sub
+    * Publishers send messages to event bus
+    * Event bus categorizes messages into groups
+    * Subscribers subscribe to these groups
+    * ![](images/SNS_pub_sub.PNG)
+    * Publishers have no knowledge of subscribers
+    * Subscribers do not pull messages
+    * Messages are automatically pushed to subscribers
+  * #### Application Integration
+    * Decouple microservices, distributed systems, serverless applications
+    * Can create application within AWS
+    * Publishers push to SNS Topic
+    * Subscribers subscribe to SNS Topic  
+    * ![](images/SNS_application_integration.PNG)
+  * #### SNS Topics
+    * Allow to group multiple subscriptions
+    * Topic deliver to multiple protocols at once
+    * Automaticlly format message to subscribers protocol
+    * Can encrypt Topics via KMS
+  * #### SNS Subscriptions
+    * Subscriptions are created on Topic
+    * Subscribe to one protocol and one topic
+    * Protocols
+      * HTTP(S)
+      * Email
+        * Plain text
+        * If rich text needed use SES  
+      * Email-JSON
+      * SQS
+      * Lambda
+      * SMS(Text message)
+      * Platform application endpoint(Mobile Push)
+        * ADM (Amazon device messaging)
+        * APN (Apple push notification)
+        * Baidu (Baidu cloud push)
+        * FCM (Firebase Cloud messaging)
+        * MPNS (Microsoft push notification)
+        * WNS (Windows push notification)
+        * Mobile app messages come as popups, alerts, badges, updates, sound alerts
+  * #### All messages are stored across multiple AZ
+  
+* ### ElastiCache
+  * #### Managed caching service that runs [Redis](https://www.youtube.com/watch?v=V7FPk4J10KI) or [Memcached](https://www.youtube.com/watch?v=UH7wkvcf0ys&t=241s)
+  * #### In memory storage
+  * #### Highly volatility (Data can be lost)
+  * #### Extremely fast access to data
+  * #### Use in same VPC for low latency
+  * #### Frequently identical queries are stored in cache
+  * #### Memcached VS Redis
+    * Memcached is simple Key/Value cache store for HTML fragments
+    * Redis has richer data types and operations
+    * Memcached is arguably faster than Redis 
+    * ![](images/elasticache_memcached_redis.PNG)
+  
+    
+* ### [Elastic Beanstalk](https://www.youtube.com/watch?v=g7W5LK1DM8o)
+  * #### Heroku of AWS
+  * #### Upload code and run with little worry
+  * #### Recommended for test/development apps  
+  * #### Not recommended for Production applications
+  * #### Sets templates such as
+    * Elastic Load balancer
+    * Autoscaling Groups
+    * RDS Database
+    * EC2 Instance
+    * Health Monitoring (CloudWatch, SNS)
+    * Security
+    * Dockerized environments
+  * #### Costs nothing to use Elastic Beanstalk
+  
+
+* ### API Gateway
+  * #### Creating secure API for backend
+  * #### Connect to AWS Infrastructure
+  * #### Accepts up to 10,000 requests per second
+    * Can be increased by request
+  * #### Track and control any usage
+    * Throttle requests to help prevent attacks
+  * #### Highly scalable
+  * #### Cost-effective
+  * #### Manage multiple versions
+  * #### Exposes by HTTPS
+  * #### Configuration
+    * ##### Resources
+      * Url path
+      * ex) www.url.com/projects (/projects)
+      * Can have child resources (/api/users)
+    * ##### Methods
+      * ANY/DELETE/GET/POST/PATCH/PUT...
+      * One(Resources) to Many(Methods)
+    * ##### Integration
+      * Lambda/AWS services/VPC Link/...
+      * Connect endpoint
+    * ##### Stages
+      * Versions of API
+      * Must deploy API to make changes
+      * Each stages have a Invoke URL
+    * ##### API Caching
+      * Caches responses of endpoint
+      * Time To Live (TTL)
+      * Improve latency
+      * Reduce number of calls
+  * #### Cross Origin Resource Sharing (CORS)
+    * Allow traffic from another domain/origin
+    * CORS is always enforced by the client(Frontend/Browser) level
+    * Prevent Cross-Site Scripting (XSS) attacks
+    * Ignore tools such as Postman or Curl
+    * Can be enabled to all or individual endpoints
+  
+* ### AWS Kinesis
+  * #### Managed solution for collecting, processing, analyzing streaming data
+  * #### Real-time !!!
+    * Stock Prices
+    * Game Data
+    * Social Network Data
+    * Geospatial Data
+    * Click Stream Data
+  * #### Types
+    * ##### Kinesis Data Streams
+      * Producers -> Kinesis Data Streams(Shards) -> Consumers
+      * Pay per running shard
+      * Data stays 24 hours (Default) ~ 168 hours
+      * Data is ordered  
+      * Consumers need to be manually added
+    * ##### Kinesis Firehose Delivery Stream
+      * Only one consumer from list (S3/Redshift/ElasticSearch/Splunk)
+      * Data immediately disappears when consumed
+      * Can convert incoming data (Format/compress/secure)
+      * Pay per data consumed
+    * ##### Kinesis Video Streams
+      * Producers (Security Cam / Web Cam / Mobile)
+      * Consumers (SageMaker / Reckognition / Tenserflow / Video Processing)
+      * Use Kinesis Producer Library(KPL)(Java) or AWS SDK
+    * ##### Kinesis Data Analytics
+      * Uses two Streams (Bit expensive)
+      * Specify Firehose or Data Stream as input or output
+      * Real time analytics  
+      * Input Stream -> Data Analytics -> Output Stream
+      * ![](images/kinesis_data_analytics.PNG)
+  
+* ### Storage Gateway
+  * #### Connects on-premise application(machine) with cloud based storage
+  * #### Connect to AWS for scalable and cost-effective storage
+  * #### Available as virtual machine (VM) image
+    * VMware ESXi
+    * Microsoft Hyper-V
+  * #### After installed use AWS console to create gateway
+  * #### Types
+    * ##### File Gateway (Network file system NFS)
+      * Store files in S3
+      * [NFS or SMB](https://www.youtube.com/watch?v=glonDJIemHM)
+      * S3 Metadata contains Ownership, Permissions, Timestamp
+      * Can be managed as native S3 Object
+      * Bucket Policies, Versioning, Lifecycle Management, Cross-Region Replication is applied
+    * ##### Volume Gateway (iSCSI)
+      * Internet Small Computer Systems Interface (iSCSI) protocol
+      * Store hard disk in S3 as EBS Snapshots
+      * Can be backed up with point in time snapshots  
+      * Snapshot only capture changed blocks in volume  
+      * Snapshots are used to minimize cost  
+      * ##### Stored Volumes
+        * Primary data is stored locally while async backup in AWS
+        * 1 GB ~ 16 TB
+      * ##### Cached Volumes
+        * Primary data is stored on AWS
+        * Frequently accessed files on cache on-premise
+        * Up to 32 TB
+        * Cached volumes 1 GB ~ 32 GB
+    * ##### Tape Gateway (Virtual tape library VTL)
+      * Durable
+      * Cost-effective
+      * Uses S3 Glacier
+  
+    
