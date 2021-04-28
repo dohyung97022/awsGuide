@@ -11,6 +11,8 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
 
 [Linux Academy AWS Essentials](https://www.youtube.com/watch?v=BDBvHOaaKHo&list=PLv2a_5pNAko0Mijc6mnv04xeOut443Wnk)
 
+[Pythoholic AWS Certified Solutions Architect Associate 2021](https://www.youtube.com/watch?v=rXyyDMIC4PQ&list=PLiH9_MU-6RjI9gdFqmvUfKRfw_zRxIb6o)
+
 * ## [시험](https://aws.amazon.com/ko/certification/certified-solutions-architect-associate/)
   * ### [내용 (2021년 기준. Outdated 할 수 있으니 위 주소에서 확인 바랍니다.)](https://d1.awsstatic.com/ko_KR/training-and-certification/docs-sa-assoc/AWS-Certified-Solutions-Architect-Associate_Exam-Guide.pdf)
     * 탄력적 아키텍처 설계 30%
@@ -271,7 +273,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * Via SSH or RCP
       * NAT Gateways should not be used as Bastions
       * NAT Gateways intentions is for security updates
-      * Systems Manager's Session Manager can replace Bastion
+      * [Systems Manager's Session Manager](https://www.youtube.com/watch?v=TiaxgThfTRc) can replace Bastion
       
     * #### Security Groups (SG) Stateful
       * Firewall for EC2 instance
@@ -330,7 +332,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
             * Dynamo DB
           * Free
       
-    * #### VPC Peering
+    * #### [VPC Peering](https://www.youtube.com/watch?v=w-5lSvqSkjs)
       * Connecting VPC with VPC
       * Direct network route
       * Connection by private IP address
