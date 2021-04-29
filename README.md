@@ -25,6 +25,12 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
   * ### 합격
     * 720/1000 (2021년 기준. 이수자의 %에 따라 다를 수 있습니다.)
 
+### 연습문제 :
+
+Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](https://www.udemy.com/course/aws-certified-solutions-architect-associate-amazon-practice-exams-saa-c02/))
+
+[Whizlabs (영어)](https://www.whizlabs.com/aws-solutions-architect-associate/practice-tests/)
+
 * ## S3 (Simple Storage Service)
   * ### Object based storage service
     * data as objects 
