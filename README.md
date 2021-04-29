@@ -144,6 +144,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Access to Private Objects
     * Created by AWS CLI/SDK
     * Expire date
+  * ### Retrieve object in parts
+    * You can get a range of bytes
+    * Specify "range" in HTTP header GET request
   * ### MFA Delete
     * Must provide MFA token/code to delete
     * Enable Conditions
@@ -160,7 +163,6 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * aws s3 cp ~/Desktop/a.jpg s3://bucketName/folderName/objectName.jpg : upload a.jpg to object
     * presign
       * aws s3 presign s3://bucketName/folderName/objectName.jpg --expires-in 300 : creates a presigned url
-
 * ## Snowball
   * ### Petabyte date transfer service (Use multiple snowballs)
   * ### AWS data to physical computer
@@ -648,6 +650,10 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Choose OS, Storage, Memory, Network Throughput
   * ### Resizable computing capacity
   * ### Everyting on AWS uses EC2 instance underneath
+  * ### [May enhance network by](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking-ena.html)
+      * Elastic Network Adapter (ENA)
+      * Code in Ubuntu   
+    ```modify-instance-attribute --instance-id instance_id --ena-support```
   * ### Instance Types
     * #### General Purpose
       * Balance of memory, compute and network
@@ -797,12 +803,12 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Scaling In : Removing Instances
       * Scaling Up : Increase the EC2 Specs  
       * Types
-        * Target Scaling Policy
+        * Target Tracking Scaling Policy
           * ex) CPU exceeds 75%
         * Simple Scaling Policy
           * Scales when alarm is breached
           * Legacy, not recommended
-        * Scaling Policy with steps
+        * Step Scaling Policy
           * Scales when alarm is breached
           * Escalates based on alarm
           * ex) All 2 instances if alarm value is 2
@@ -1030,9 +1036,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### Original Identity Access (OAI)  
       * Virtual user Identity to giver permission to fetch private objects  
       * In order to use Signed URL/Cookies you need OAI
-    * #### Types  
-      * Signed URLs
-      * Signed Cookies
+      * #### Types  
+        * Signed URLs
+        * Signed Cookies
   
 * ## Relational Database Service (RDS)
   
@@ -1087,6 +1093,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Only a standby  
     * If one AZ goes down, the standby slave will be promoted to the master
     * No url endpoint edit needed (Automatic sync)
+    * Multi AZ cannot become a Read Replica
   
   * ### Read Replicas
     * Run multiple copies of database
@@ -1666,3 +1673,67 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Uses S3 Glacier
   
     
+* ## [AWS Global Accelerator](https://www.youtube.com/watch?v=tar-fkbnxcw)
+  * ### Global Accelerator lets you pass through other servers  
+  * ![](images/global_accelerator.PNG)
+  * ### Provides static IP address to your app endpoints in single or multiple regions
+    * #### Application load balancer
+    * #### Network Load Balancers
+    * #### EC2
+  * ### Features
+    * #### 60% Faster
+    * #### Use a speed comparison tool to check
+    * #### Easily manage endpoints
+    * #### Routes traffic to the closest edge location via Anycast
+    * #### Use with AWS Shield for DDos protection
+    * #### Good for not HTTP use cases
+    * #### Automatically finds healthy endpoint
+  
+* ## [Amazon FSx](https://www.youtube.com/watch?v=IMDWTIShlyI)
+  * ### For Microsoft Windows File Server / Lustre
+  * ### Can connect to VPC with FSx
+  
+* ## Elastic Container Service (ECS)
+  * ### Kubernetes for AWS
+  * ### Create docker images to Elastic Container Registry
+  * ### Use EKS or ECS to create Kubernetes
+  * ### IAM Permissions are supplied to the containers by ECS container instance
+    * ![](images/ECS_container_instance_iam.PNG)
+
+* ## [AWS Organization](https://aws.amazon.com/ko/premiumsupport/knowledge-center/organizations-move-accounts/)
+  * ### Manage multiple accounts with IAM rules
+  * ### One master account
+  * ### Invitation can be sent to add accounts
+  * ### Create organization units  
+  * ### [Sharing](https://docs.aws.amazon.com/ram/latest/userguide/getting-started-sharing.html)
+    * #### Enable/Disable organization sharing
+    * #### Or create a resource share
+      * Can specify who
+      * Can be a single member
+  * ### To move the master to another organization
+    * Remove all members from old organization
+    * Delete the old organization
+    * Invite the master account to new organization
+  * ### To move member to another organization
+    * Delete specific member from old organization
+    * Invite the account to new organization
+  * ### Can also use API / CLI to migrate
+  
+* ## AWS Resource Access Manager (RAM)
+  * ### Share resources with other accounts
+  * ### No additional fee
+  * ### Reduce operational overhead
+  * ### Shared by me / Shared with me
+  * ### Shares with organization, can also add external accounts
+  
+* ## AWS Data Migration Service (DMS)
+  * ### Migrate data to S3 or other AWS RDS
+  * ### Migrate Local database to AWS
+  * ### Migration type  
+    * #### Homogenous (same database) migration
+      * Use Engine conversion tool
+    * #### Heterogeneous (different database) migration
+      * Use Schema conversion tool
+  * ### Transformation Rules
+    * Change Schema
+    * ex) lowerCase, UpperCase, addPrefix...
