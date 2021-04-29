@@ -890,6 +890,13 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Distributes traffic evenly in all Zones
       * ![](images/cross_zone_load_balancing.PNG)
     
+    * #### Pricing
+      * Time X Partial Time X Capacity Unit
+      * Capacity Unit
+        * Application Load Balancer(LCU)(EC2)
+        * Network Load Balancer(NLCU)
+        * Gateway Load Balancer(GLCU)
+        * Classic Load Balancer(GB)
   
 * ## Elastic File System (EFS)
   * File storage service for EC2
@@ -947,6 +954,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * 4 Launch new EC2 instance in another Region
     
   * ### Encrypting Root Volume
+    * Encrypt with AWS Key Management System (KMS)
     * You can Encrypt the volume on creation
     * If you want to Encrypt an existing volume
       * 1 Take a Snapshot of the unencrypted volume
@@ -1016,11 +1024,17 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Set Time To Live (TTL)
     * #### Invalidation
       * Can manually invalidate cache ignoring TTL
-      * Invalidation forces cashe to expire immediately
+      * Invalidation forces cache to expire immediately
     * #### Error Pages
       * Create custom error pages like 404
     * #### Restrictions
       * Blacklist specific countries
+  
+  * ### Time to Live (TTL)
+    * #### Add Cache-Control header in application
+      * Control TTL of specific objects
+    * #### Change TTL setting
+      * Control TTL of all objects
     
   * ### [Lambda@Edge](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-examples.html#lambda-examples-overriding-response-header)
     * #### Use Lambda to override the behaviour of request and response
@@ -1039,6 +1053,12 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * #### Types  
         * Signed URLs
         * Signed Cookies
+          * Signed Cookies are not available with RTMP
+    
+  * ### Payment
+    * #### Data transfer Out to Internet / Origin is paid
+    * #### Data transfer from Internet / Origin is not paid
+    * #### Dedicated IP SSL is 600$ per month
   
 * ## Relational Database Service (RDS)
   
@@ -1290,6 +1310,22 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Errors return ROLLBACK_IN_PROGRESS
   * ### NestedStacks
     * Breaks CloudFormation into smaller reusable templates
+  * ### API  
+    * #### Instance Distribution
+      * ```
+        OnDemandAllocationStrategy: String
+        OnDemandBaseCapacity: Integer
+        OnDemandPercentageAboveBaseCapacity: Integer
+        SpotAllocationStrategy: String
+        SpotInstancePools: Integer
+        SpotMaxPrice: String
+        ```
+      * OnDemandAllocationStrategy : How to allocate instance types
+      * OnDemandBaseCapacity : How much on-demand instance will be in ASG
+      * OnDemandPercentageAboveBaseCapacity : How much percentage of on-demand instances in ASG
+      * SpotAllocationStrategy : lowest-price / capacity-optimized
+      * SpotInstancePools : The number of spot instance pools used, only valid when lowest-price
+      * SpotMaxPrice : Max price willing to pay per spot instance
 
 * ## AWS Cloudwatch
   * ### Collection of monitoring services
@@ -1418,6 +1454,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * 400,000 GB per month is free
     * $ 0.0000166667 per GB second
     * Differ with memory allocation
+    * Memory X number of requests X runtime
   * ### Default
     * You can have up to 1000 Lambdas running concurrently
       * Ask AWS Support for more
