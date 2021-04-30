@@ -227,6 +227,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * 200 subnets per VPC
     * Uses IPv4 ClDR Block
     * Can add IPv6 ClDR Block
+    * Can add additional CIDR Blocks to expand VPC
     * DNS hostnames (VPC option)
       * Domain Name System (DNS)
       * Uniquely names a computer
@@ -238,6 +239,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Default VPC
     * Default VPC in every region
     * Can immediately deploy ec2
+    * The first four IP address and the last IP in each subnet CIDR is reserved by AWS  
     * Features
       * Size /16 IPv4 [CIDR](https://www.youtube.com/watch?v=z07HTSzzp3o) (ex: 172.31.0.0/16)
       * Creates Size /20 default subnet in every AZ
@@ -265,19 +267,47 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Add route table
         * Route that table to Internet Gateway
         * Set destination to 0.0.0.0/0
+    
+    * #### Egress-only Internet Gateway
+      * Connects to the Internet via IPv6
+      * Prevents the Internet connection to server
+      * One way connection
+      * Statefull (All inbound is also outbound)
       
-    * #### Virtual Private Gateway (VPN Gateway)
+    * #### [Virtual Private Gateway (VPN Gateway)](https://www.youtube.com/watch?v=3j1MLlgc5Eg)
+      * Connects a on premise private IP to connect to AWS VPC
+      * Customer Gateway
+        * Connects on premise
+      * Virtual Private Gateway
+        * Connects AWS VPC
+      * VPN CloudHub
+        * Create virtual private gateway
+        * Create multiple customer gateways
+          * Each with unique BGP,ASN
+          * Border Gateway Protocol (BGP)
+          * Autonomous System Number (ASN)
+      * Policy-based VPN
+        * If using one or more pairs of security, when new connections with new security associations arrive   
+        VPN might drop existing connections resulting in packet loss
       
     * #### [Route Table](https://www.youtube.com/watch?v=GrfOsWUVCfg)
       * Determines where network traffic is directed
       * Each Subnet must have a route table
+      * Any new subnets created will get associated with Main route table automatically  
       * One(Route Table) to Many(Subnet)
       * Can have multiple route tables in a VPC
+      * Connect traffic with
+        * Internet Gateways
+        * Instance
+        * Nat Gateway
+        * Virtual Private Gateway
+        * From Subnet Associations
       
     * #### Bastion / Jumpbox
       * ![](images/bastion.PNG)
       * EC2 instances for security
       * Help gain access to EC2 in private Subnet
+      * Not for a internet proxy    
       * Via SSH or RCP
       * NAT Gateways should not be used as Bastions
       * NAT Gateways intentions is for security updates
@@ -290,6 +320,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Allows IP range / Specific IP / Security group
       * Inbound and Outbound rules
         * Statefull (Inbound allowed is also Outbound allowed)
+        * Traffic allowed in is also allowed out  
         * All inbound traffic blocked by default
         * All outbound traffic allowed by default  
       * No Defy rules, only access rules
@@ -303,18 +334,28 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### Public Subnets
       
     * #### Private Subnets
+      * Fixed MAC address
       
     * #### Network Address Translation (NAT) Gateway
       * Remapping one IP address to another
       * Help gain outbound internet access for private subnet
       * Remap private IP
+      * NAT must to be allocated a Private and a Elastic IP  
+      * NAT does not support IPv6  
       * Solve same IP addresses (Conflicting network address)
       * Redundant inside an AZ (AWS manages it/ no EC2 fails)
-      * 1 NAT Gateway per AZ (Cannot span AZ)
+      * 1 NAT Gateway per 1 Subnet
       * Starts at 5 Gbps and scales up to 45 Gbps
-      * Perferred than NAT Instance
-      * Automatically assigned a public IP
+      * Preferred than NAT Instance
       * Route Tables for the NAT Gateway must be updated
+      * Peered VPC cannot share NAT Gateway
+      * In order to connect to the internet with NAT while using a private subnet for EC2
+        * Put the NAT gateway in a public subnet
+        * Place a routing table in the public subnet
+        * Route that traffic to internet gateway
+        * Put your instances in a private subnet
+        * Put a routing table at the private subnet
+        * Route traffic to NAT gateway
       
     * #### Customer Gateway
       
@@ -333,6 +374,8 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
           * Powered by AWS PrivateLink
           * Supports many AWS services  
           * Costs Money
+          * Add policies
+            * May restrict certain S3
         * Gateway Endpoints
           * Connect From Route table
           * Supports only two services
@@ -356,6 +399,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * 1 Central VPC
         * 4 Other VPC
       * No Overlapping CIDR Blocks
+      * Peered VPC cannot share NAT gateways
+      * To send traffic from instance to instance in peer
+        * Add route table associated with peer subnet
     
     * #### VPC Flow Logs
       * Log in CloudWatch Logs or S3   
@@ -394,17 +440,23 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     
     * #### [Network Access Control List (NACL)](https://www.youtube.com/watch?v=vJzHn24TNQE)
       * Firewall subnet traffic
-      * An optional layer of security
+      * First Layer of security  
       * VPC is automatically given default NACL
         * Default NACL will deny all traffic
       * Subnets must have a NACL  
       * One(NACL) to Many(Subnets)
       * Allow or defy traffic (Security groups only allow)
       * Inbound or outbound rules (Like security groups)
+        * NACL is stateless
+        * Need to make both inbound and outbound to create traffic  
+      * NACL needs to make Ephemeral ports open
+        * Ports for AWS resources  
+        *![](images/NACL_ephemoral_ports.PNG)
       * Can block a single IP (Security groups can't) 
       * Order of evaluation Rule number #
         * Lower is higher priority
         * 10 to 100 increments recommended
+        * The * Rule is the highest rule
       * Example
         * Malicious hacker IP block
         * SSH block
@@ -650,10 +702,13 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Choose OS, Storage, Memory, Network Throughput
   * ### Resizable computing capacity
   * ### Everyting on AWS uses EC2 instance underneath
-  * ### [May enhance network by](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking-ena.html)
-      * Elastic Network Adapter (ENA)
-      * Code in Ubuntu   
-    ```modify-instance-attribute --instance-id instance_id --ena-support```
+  * ### Networking
+    * #### Enable Auto-assign public IP
+    * #### Enable elastic-IP for a fixed IP  
+    * #### [May enhance network by](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking-ena.html)
+        * Elastic Network Adapter (ENA)
+        * Code in Ubuntu   
+        ```modify-instance-attribute --instance-id instance_id --ena-support```
   * ### Instance Types
     * #### General Purpose
       * Balance of memory, compute and network
