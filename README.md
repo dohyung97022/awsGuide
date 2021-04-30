@@ -54,6 +54,14 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### S3 Bucket
     * Hold Objects and Folders
     * Universal namespace (Names need to be unique)
+    * Features
+      * Bucket Versioning
+      * Encryption
+      * Server access logging
+      * Cloud Trail data events
+      * Transfer acceleration
+      * Object Lock
+        * Write once, read many
   * ### Storage Class
     * Standard (default)
       * Fast
@@ -107,14 +115,10 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * You Encrypt files before upload
     * Existing files before Encryption on is not Encrypted
   * ### Data Consistency
-    * New Object (PUT)
-      * Read After Write Consistency
+    * All GET, PUT, DELETE, LIST operations
+      * Strong Read After Write Consistency
       * Able to read immediately after writing
-    * Overwrite (PUT) or Delete (DELETE)
-      * Eventual Consistency
-      * Overwrite or delete takes time to replicate versions to AZs
-      * Reading immediately may return old copy
-      * Wait before reading
+      * Takes effect immediately
   * ### Cross Region Replication (CRR)
     * Automatic replication to other regions
     * Higher durability
@@ -124,7 +128,8 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Versioning
     * Once enabled, cannot be disabled. Can be suspended
     * Full Integration with S3 Lifecycle rules
-    * Delete request will delete only the latest version
+    * Delete request will put a delete marker on the latest version
+      * Remove the delete marker to restore deleted data  
     * Previous version becomes latest if latest version is deleted
     * Version ID can be NULL if created before Versioning on
     * Properties like public is not inherited between versions
@@ -147,6 +152,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Retrieve object in parts
     * You can get a range of bytes
     * Specify "range" in HTTP header GET request
+  * ### Upload object in parts
+    * Up to 5 GB can be uploaded with PUT
+    * Use multipart upload for AWS  
   * ### MFA Delete
     * Must provide MFA token/code to delete
     * Enable Conditions
@@ -817,6 +825,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### AMI ID  
     * #### Use Systems Manager Automation to patch AMIs with security updates
     * #### Use LaunchConfigurations to update multiple instances with AMI
+    * #### Snapshot does not save RAM data  
     * #### Selection
       * Region
       * Operating System
@@ -832,6 +841,12 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Cost per hour
         * Security harden AMI such as CIS is popular
       * My AMI
+    
+  * ### EC2 Hibernation
+    * Save RAM data to EBS
+    * Reload Ram content
+    * Cannot enable hibernation after launched
+      * Check before
     
   * ### Auto Scaling Groups (ASG)
     * #### Group of EC2 for auto-scaling and management
