@@ -977,8 +977,25 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * EC2 needs NFSv4 to use EFS
   * Provides Read After Write Consistency  
   * EFS creates multiple mount targets/points in all VPC subnets
+  * ### Settings
+    * General Purpose
+      * Latency sensitive
+      * Web serving environments
+      * Content management systems
+      * Home directories, file serving
+    * Max I/O 
+      * Higher aggregate throughput per second
+      * 
+  * ### EFS supports two forms of encryption
+    * #### Encryption of data at rest
+    * #### Encryption of data in transit
+      * Mount helper
+      * Not an option during or after creation
   * EFS Encryption at rest can only be enabled at creation
   * EFS file sharing can be across multiple AZ EC2s 
+  * ### On premise connection
+    * AWS Direct connect
+    * AWS VPN
   * 0.30 $ per GB / month
 
 * ## Elastic Block Store (EBS)
