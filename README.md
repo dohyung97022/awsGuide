@@ -977,7 +977,8 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * EC2 needs NFSv4 to use EFS
   * Provides Read After Write Consistency  
   * EFS creates multiple mount targets/points in all VPC subnets
-  * Data is stored across multiple AZs within a region  
+  * EFS Encryption at rest can only be enabled at creation
+  * EFS file sharing can be across multiple AZ EC2s 
   * 0.30 $ per GB / month
 
 * ## Elastic Block Store (EBS)
