@@ -1696,27 +1696,38 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
 
 
 * ## API Gateway
-  * ### Creating secure API for backend
-  * ### Connect to AWS Infrastructure
-  * ### Accepts up to 10,000 requests per second
+  * ### Features
+    * Accepts up to 10,000 requests per second
     * Can be increased by request
-  * ### Track and control any usage
     * Throttle requests to help prevent attacks
-  * ### Highly scalable
-  * ### Cost-effective
-  * ### Manage multiple versions
-  * ### Exposes by HTTPS
+    * Manage multiple versions
+    * Exposes by HTTPS
+  * ### Types
+    * HTTP API (Lambda/HTTP)
+    * Websocket API (Lambda/HTTP/AWS services)
+    * Public REST API (Lambda/HTTP/AWS services)
+    * Private REST API (Lambda/HTTP/AWS services)
   * ### Configuration
-    * #### Resources
-      * Url path
-      * ex) www.url.com/projects (/projects)
-      * Can have child resources (/api/users)
-    * #### Methods
-      * ANY/DELETE/GET/POST/PATCH/PUT...
-      * One(Resources) to Many(Methods)
-    * #### Integration
-      * Lambda/AWS services/VPC Link/...
-      * Connect endpoint
+    * #### Routes
+      * #### Resources
+        * Url path
+        * ex) www.url.com/projects (/projects)
+        * Can have child resources (/api/users)
+      * #### Methods
+        * ANY/DELETE/GET/POST/PATCH/PUT...
+        * One(Resources) to Many(Methods)
+      * #### Integration
+        * Lambda
+          * Lambda by another account by arn
+        * HTTP
+          * Connect with HTTP from outside AWS
+        * Private resources
+          * ALB, NLB, Cloud Map
+          * #### VPC Link
+            * Link to private AWS VPC
+        * SQS
+        * Event Bridge
+        * AppConfig
     * #### Stages
       * Versions of API
       * Must deploy API to make changes
@@ -1726,12 +1737,49 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Time To Live (TTL)
       * Improve latency
       * Reduce number of calls
+    * #### API Throttling
+      * Token bucket algorithm
+      * 429 Too Many Requests
+      * Types
+        * Accout Throttling
+          * Applied to the account by region
+        * Default Route Throttling
+          * Applied to route
+      * Protect cost from traffic burst
+        * Burst Limit
+        * Rate Limit
+      * Burst Limit = Token size = Max concurrent request per ms
+    * #### OpenAPI 3 definition
+      * Can set up API by OpenAPI 3
+      * Export/Import
+    * #### [Resource Policy](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-resource-policies-examples.html#apigateway-resource-policies-source-ip-address-example)
+      * Can be only used in REST API Gateway (Not HTTP)
+      * Uses Resource policy (JSON)  
+      * [Allow other AWS users](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-resource-policies-examples.html)
+      * Deny API traffic by IP
+      * Allow API by source VPC, VPC Endpoint
+      * Cannot use time range for Policy
   * ### Cross Origin Resource Sharing (CORS)
     * Allow traffic from another domain/origin
     * CORS is always enforced by the client(Frontend/Browser) level
     * Prevent Cross-Site Scripting (XSS) attacks
     * Ignore tools such as Postman or Curl
     * Can be enabled to all or individual endpoints
+  * ### Access control
+    * #### API Keys
+      * Alphanumeric string
+      * Grant access to API  
+    * #### Usage Plans
+      * How much/fast can one access one or more API
+      * Set Throttling Limits
+      * Set Quota Limits
+      * Uses API Keys
+    * #### [Lambda Authorizers](https://www.youtube.com/watch?v=cgewxLdyW4A)
+      * Works with Rest/Websockets API
+      * Types  
+        * Token(JWT/OAuth)
+        * Request parameter(header/query)
+    * #### Amazon Cognito user pools
 
 * ## AWS Kinesis
   * ### Managed solution for collecting, processing, analyzing streaming data
