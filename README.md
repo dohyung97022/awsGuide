@@ -1886,6 +1886,77 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Kubernetes for AWS
   * ### Create docker images to Elastic Container Registry
   * ### Use EKS or ECS to create Kubernetes
+  * ### AWS Fargate
+    * Serverless container service  
+    * Like lambda for docker images
+  * ### Networking
+    * #### NAT Gateway for access of containers
+    * #### ECS supports VPC Endpoints
+  * ### AWS ECS
+    * ### Clusters
+      * Kubernetes cluster
+      * May contain more than one ec2 instance
+    * ### Task Definitions
+      * EC2 instance type and VPC cannot be defined
+      * Specify the container information for task
+      * Run individual tasks
+      * Task Role (IAM)
+      * Network Mode
+      * JSON template  
+      * #### Task size (Fixed size for execution task)
+        * Task memory
+        * Task CPU unit
+      * #### Container Definitions
+        * Container name
+        * Image
+        * Memory
+        * Port mapping
+        * HealthCheck
+        * Environment
+          * CPU units
+          * GPU
+          * Working directory
+          * Environment Files/Variables
+        * Timeout
+        * Network Settings
+        * Logging
+        * Storage/Logging(CloudWatch)
+        * Security
+        * Resource Limits
+          * Soft/Hard limit
+        * Docker Labels
+        * Container commands
+      * #### Volumes
+        Volumes use by the containers within a task
+      * #### Elastic Inference
+        * Cost efficient hardware acceleration for deep learning
+    * ### Account settings  
+      * #### Set access to specific Role/User
+      * #### CloudWatch container Insights
+        * CPU/Memory/Disk/Network logs
+  * ### AWS EKS
+    * #### Set kubernetes version
+    * #### Cluster Service Role (IAM for aws resources)
+    * #### Secrets Encryption
+      * AWS KMS
+    * #### VPC/Subnets/Security Group
+    * #### Cluster endpoint access
+      * Public
+        * Cluster endpoint outside VPC
+        * Worker node traffic outside VPC
+      * Private
+        * Cluster/Worker inside VPC
+      * Public and Private
+        * Cluster endpoint outside VPC
+        * Worker node traffic inside VPC
+    * #### VPC CNI
+      * Enables pods to have same IP address
+    * #### Control Plane Logging
+      * API server/Audit/Authenticator/Controller manager/Scheduler
+      * CloudWatch logs
+      * Logs control information
+  * ### You can install additional software by image or by instance
+    * #### Such as logging
   * ### IAM Permissions are supplied to the containers by ECS container instance
     * ![](images/ECS_container_instance_iam.PNG)
 
