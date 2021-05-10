@@ -1702,6 +1702,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Throttle requests to help prevent attacks
     * Manage multiple versions
     * Exposes by HTTPS
+    * Automatically protects from DDOS attacks
   * ### Types
     * HTTP API (Lambda/HTTP)
     * Websocket API (Lambda/HTTP/AWS services)
@@ -1737,11 +1738,17 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Time To Live (TTL)
       * Improve latency
       * Reduce number of calls
+      * Costs more by GB
+      * Options
+        * Cache capacity
+        * Encrypt cache data
+        * TTL
+        * Flush entire cache
     * #### API Throttling
       * Token bucket algorithm
       * 429 Too Many Requests
       * Types
-        * Accout Throttling
+        * Account Throttling
           * Applied to the account by region
         * Default Route Throttling
           * Applied to route
@@ -1780,6 +1787,15 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Token(JWT/OAuth)
         * Request parameter(header/query)
     * #### Amazon Cognito user pools
+    * #### Client side SSL certificate
+      * Used to verify that HTTP requests to backend is from API Gateway
+    * #### [Logging](https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-logging.html)
+      * CloudWatch Logs
+        * Access Logging
+          * Who accessed API
+          * How the API was called  
+        * Execution Logging
+          * ?
 
 * ## AWS Kinesis
   * ### Managed solution for collecting, processing, analyzing streaming data
