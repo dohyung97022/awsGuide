@@ -1129,9 +1129,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### For : A/B Testing, Overriding response header, Bot blocking
     * #### 4 Available functions
       * Viewer request
+      * Viewer response
       * Origin request
       * Origin response
-      * Viewer response
   
   * ### [CloudFront Protection](https://www.youtube.com/watch?v=7soFsSeRN2o)
     * #### Protection for video endpoints or restricted files
@@ -1327,6 +1327,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
 
 * ## DynamoDB
   * ### NoSQL Key-value and Document database
+  * ### Poll based database  
   * ### NoQSL
     * Not relational
     * Do not use SQL query
@@ -1354,7 +1355,6 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * In-memory caching
     * Eventual Consistent reads (Default)
     * Strongly Consistent reads
-
   * ### Read Consistency
     * Data may be inconsistent
     * Data must be copied to other regions
@@ -1522,6 +1522,26 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Run code without provisioning or managing server
   * ### No charge when code is not running
   * ### Cheap / Serverless / Scales automatically
+  * ### Environment variables
+    * Pass sensitive information
+    * Can encrypt by KMS (Not automatically set up)
+  * ### Sync/Async
+    * Sync (Call and wait until finish)
+    * Async (Call and respond immediately)
+      * Can send invocation records
+      * To SQS/SNS/Lambda/EventBridge
+      * Attempt to retry on errors (Two more times)
+      * [Dead Letter Que (DLQ)](https://www.youtube.com/watch?v=nqQh2KmHiLY)
+        * SNS DLQ
+        * SQS DLQ
+    * Sync Invocation
+      * ELB/Cognito/Alexa/API Gateway/CloudFront/KinesisFirehose/SSS
+    * Async Invocation
+      * Simple Storage Service/SNS/SES/CloudFormation/CloudWatch/CodeCommit/CodePipeline
+    * Poll based Invocation
+      * Kinesis
+      * DynamoDB
+      * SQS
   * ### Invoked by
     * AWS SDK
     * Other AWS Services
@@ -1543,6 +1563,8 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * $ 0.0000166667 per GB second
     * Differ with memory allocation
     * Memory X number of requests X runtime
+  * ### Networking
+    * Can run in a private VPC without NAT or VPC Endpoint
   * ### Default
     * You can have up to 1000 Lambdas running concurrently
       * Ask AWS Support for more
@@ -1551,11 +1573,18 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * If VPC set, Internet access is lost
     * Max timeout is 15 minutes
     * Memory can be set from 128 ~ 10240 MB
+      * If max memory is used, the error shown is   
+        * Process exited before completing request
+        * No internal error is shown in handler
+    * 512 MB of disk space is allowed in /tmp
   * ### Cold Starts
     * AWS needs to turn on servers and copy code over to run lambda
     * Cheap but may cause delays in user experience
     * Pre Warm to keep servers continuously running
     * ![](images/lambda_cold_starts.PNG)
+  * ### CloudWatch Events with Lambda
+    * Invoke Lambda with Event Patterns/Schedules(CRON)
+    * Receive Matched event/Part of event/Constant JSON/Input Transformer (Create custom key:value pair JSON)
 
 * ## Simple Queue Service (SQS)
   * ### Fully managed queuing messaging service
@@ -1585,6 +1614,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Sender can pull to check if the message is consumed
   * ### Message size
     * 1 byte ~ 256 KB
+    * Poll up to 10 Queue message from Batch Size
     * SQS Extended Client Library for Java
       * Send messages over 256 KB ~ 2 GB
       * Messages stored in S3
@@ -1621,6 +1651,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Waits until long poll timeout expires
       * Inexpensive cost because reduce empty polls
       * Most use cases
+  * ### Dead Lock Que (DLQ)
+      * #### If message is not delivered to Subs DLQ is activated
+      * #### Used for future analysis or reprocessing
 
 * ## Simple Notification Service (SNS)
   * ### Send notifications via text message, email, webhooks, lambda, SQS
@@ -1641,8 +1674,11 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### SNS Topics
     * Allow to group multiple subscriptions
     * Topic deliver to multiple protocols at once
-    * Automaticlly format message to subscribers protocol
+    * Automatically format message to subscribers protocol
     * Can encrypt Topics via KMS
+  * ### Dead Lock Que (DLQ)  
+    * If message is not delivered to Subs DLQ is activated
+    * Used for future analysis or reprocessing
   * ### SNS Subscriptions
     * Subscriptions are created on Topic
     * Subscribe to one protocol and one topic
@@ -1799,6 +1835,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
 
 * ## AWS Kinesis
   * ### Managed solution for collecting, processing, analyzing streaming data
+  * ### Poll based service  
   * ### Real-time !!!
     * Stock Prices
     * Game Data
