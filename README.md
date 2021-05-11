@@ -904,6 +904,11 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Clone the existing configuration or create a new configuration
       * Launch Templates
         * Launch Configuration with versioning
+        * AMI
+        * Instance Type
+        * Storage
+        * Security groups
+        * Key pair
     * #### Capacity settings
         * Min
         * Max
@@ -944,11 +949,11 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Evaluate Traffic that matches the listeners port
         * Can attach SSL Certificate
       * ##### Rules
-        * Rules will decide what ports goes to what target Groups
+        * Rules will decide what ports go to what target Groups
         * Only for Application Load Balancer
       * ##### Target Groups
         * EC2 instances are registered as target groups
-        * Not for Classic Load Balancer
+        * Only for Application Load Balancer
     * #### Types
       * ##### Classic Load Balancer
         * Listeners and EC2 is directly registered
