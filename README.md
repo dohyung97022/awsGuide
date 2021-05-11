@@ -534,6 +534,54 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * #### U2F security key
       * #### Other hardware MFA device
   
+* ## AWS Security Token Service (STS)
+  * ### Use SDK/CLI to get
+    * AWS access key
+    * Secret access key
+    * Security token
+  * ### Use SDK/CLI to let
+    * Users to assume role
+    * Generate Federated credentials for IAM Users
+    * Request temporary access
+    * Not for Roles, but for Users
+  * ### Temporary access
+    * Short term use
+    * Active for few minutes to hours
+  * ### When to use?
+    answer
+    * Identity federation
+    * Roles for Cross Account Access
+    * Roles for EC2
+      * Access resource without embedding credentials
+  * ### Logging
+    * #### CloudTrail not CloudWatch!
+  * ### [STS API](https://docs.aws.amazon.com/STS/latest/APIReference/API_Operations.html)
+    * Send api to
+      * https://sts.amazonaws.com/
+    * #### AssumeRole
+      * Returns temporary credentials
+    * #### AssumeRoleWithSAML
+      * Returns temporary credentials 
+      * Authenticated by SAML
+    * #### AssumeRoleWithWebIdentity
+      * Returns temporary credentials
+      * Authenticated by web identity provider
+    * #### DecodeAuthorizationMessage
+      * Decode additional information about authorization status
+    * #### GetAccessKeyInfo
+      * Get AWS account ID number from Access key
+    * #### GetCallerIdentity
+      * Returns Account,Arn,UserId of the caller
+    * #### GetFederationToken
+      * Return set of credentials
+      * Authenticated by federated user  
+      * Access key, secret access key, security token
+    * #### GetSessionToken
+      * Return set of credentials
+      * From AWS account or IAM User
+      * Access key, secret access key, security token
+
+  
 * ## Amazon Cognito
   * ### Web Identity Federation
     * To exchange identity and security information between IdP and application
@@ -1632,10 +1680,15 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Messaging System
       * Asynchronous communication and decouple processes via messages / events
       * Sender(Producer) / Receiver(Consumer)
-  * ### Decouple and scale microservices, distributed systems, serverless applications
+    
+  * ### Features
+    * Decouple and microservices, distributed systems, serverless applications
+    * Does not automatically delete message
+      * [Consumer must delete the message](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html)
+    * Server side Encryption
+      * Customer master key (CMK)
   * ### Queueing VS Streaming
     * #### Queueing
-      * Delete message after consumed
       * Simple Communication
       * Not Real-time
       * Not Reactive (Has to pull requests)
@@ -1687,11 +1740,15 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Default
       * Returns message immediately
       * Returns even if empty
+      * Recieve message wait time 0 sec
     * #### Long Polling
       * Waits until message arrives in queue
       * Waits until long poll timeout expires
       * Inexpensive cost because reduce empty polls
       * Most use cases
+      * Lesser calls 
+      * Reduce cost
+      * Recieve message wait time max 20 sec
   * ### Dead Lock Que (DLQ)
       * #### If message is not delivered to Subs DLQ is activated
       * #### Used for future analysis or reprocessing
@@ -1706,6 +1763,11 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Publishers have no knowledge of subscribers
     * Subscribers do not pull messages
     * Messages are automatically pushed to subscribers
+  * ### Message attributes
+    * #### Name
+    * #### Type
+    * #### Value
+    * Should not be null
   * ### Application Integration
     * Decouple microservices, distributed systems, serverless applications
     * Can create application within AWS
@@ -1720,6 +1782,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Dead Lock Que (DLQ)  
     * If message is not delivered to Subs DLQ is activated
     * Used for future analysis or reprocessing
+  * ### SNS Message Filtering
+    * #### [Filter Policy](https://docs.aws.amazon.com/sns/latest/dg/sns-message-filtering.html)
+      * Receive only a subset of the messages
   * ### SNS Subscriptions
     * Subscriptions are created on Topic
     * Subscribe to one protocol and one topic
