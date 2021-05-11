@@ -1010,11 +1010,14 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### General Purpose (SSD)
       * Balanced price and performance
       * Max IOPS of 16000
+      * For : General use cases (Backend)  
+      * gp3 has better throughput than gp2
     * #### Provisioned IOPS (SSD)
       * Fast Input and Output
       * Low latency and also high throughput
-      * For : Large databases  
+      * For : Large databases (MySQL,Cassandra,DB)
       * Max IOPS of 64000
+      * io2 has better durability then io1
     * #### Throughput Optimized HDD
       * Low cost
       * Designed for frequently accessed
@@ -1030,6 +1033,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * For Archival Storage
       * Previous generation HDD  
       * Max IOPS of 40-200
+  
   * ### Moving Volumes
     * One AZ to another
       * 1 Take a Snapshot of the volume
@@ -1040,7 +1044,10 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * 2 Create an AMI from snapshot
       * 3 Copy the AMI to another region
       * 4 Launch new EC2 instance in another Region
-    
+  
+  * ### [Adding storage to existing EC2 EBS](https://www.youtube.com/watch?v=1Brbqkzqvjw)
+    * [AWS reference](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html?icmpid=docs_ec2_console)
+  
   * ### Encrypting Root Volume
     * Encrypt with AWS Key Management System (KMS)
     * You can Encrypt the volume on creation
@@ -1056,26 +1063,60 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Block level storage device
       * Created from EBS Snapshots
       * Data will persist when reboot
-      * Can have termination protection   
-        (Don't delete volume on termination)
+      * Data can persist when stop/terminate/failures  
+      * Can have termination protection
       * For : Most use cases
       
-    * #### Instance Store Volumes
-      * Temporary
+    * #### [Instance Store Volumes (Ephemeral drives)](https://www.youtube.com/watch?v=tee5yJr3rTM)
+      * Temporary block level storage
       * Disks physically attached to host machine
       * Created from template stored in S3
-      * Data will be lost in host fails, or instance termination
-      * Cannot stop instances, can only terminate
+      * Data will be lost when fails/stop/hibernates/terminates
+      * Data is saved only in reboot  
       * For : temporary, cache, logs ...
+      * Only some instance/AMI types support
   
   * ### Snapshots
     * Snapshots are a point in time copy of the disk stored in S3
     * Initial snapshot of an EC2 will take longer than subsequent snapshots  
     * EC2 should be stopped before snapshot
     * But can take Snapshot while EC2 running
-    * Can create AMI from Volumes or Snapshots
+    * Can create AMI/Volumes from Snapshots
+    * Cannot unencrypt copy a snapshot
+    * Can encrypt copy a snapshot  
     * Cannot share a snapshot if encrypted
-    * Unencrypted snapshots can be shared with other AWS accounts
+  
+  * ### EBS Lifecycle Policy
+    * Create snapshots/AMI according to tag, schedule
+    * Can copy across multiple AWS accounts
+    * Great way to create backup of EBS
+  
+  * ### EBS Optimized instance
+    * Optimized instance types of ec2 instances
+    * For I/O optimization  
+    * ![](images/EBS_optimized_instances.PNG)
+  
+  * ### EBS Performance tips for Linux
+    * Use EBS-optimized instances
+    * Penalty from first access of volumes from snapshots
+    * Use modern Linux kernel
+    * Use RAID 0
+  
+  * ### CloudWatch EBS Metrics (Probably not in test...)
+    * #### VolumeRead/WriteBytes
+      * Bytes from I/O
+    * #### VolumeRead/WriteOps
+      * Total number of I/O operations
+    * #### VolumeTotalRead/WriteTime
+      * Total number of seconds spent by all operations
+    * #### VolumeIdleTime
+      * Total seconds when no read or write
+    * #### VolumeQueueLength
+      * Total number of I/O operations waiting to be completed
+    * #### VolumeThroughputPercentage
+      * Percentage of I/O operations per second from total I/O capability
+    * #### VolumeConsumedRead/WriteOps
+      * Total number of consumed I/O operations
   
 * ## CloudFront
   * ### Content Delivery Network (CDN)
