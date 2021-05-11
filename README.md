@@ -921,26 +921,37 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * ELB Health Check
         * Pings an HTTP(S) endpoint and expects a response
         * If response not expected, restarts EC2
+    * #### Health Check Grace Period
+      * When new EC2 is created, wait this period before health check
+      * ![](images/autoscaling_health_check_grace_period.PNG)
     * #### Scaling policies
       * Scaling Out : Adding more Instances
       * Scaling In : Removing Instances
       * Scaling Up : Increase the EC2 Specs  
       * Types
         * Target Tracking Scaling Policy
-          * ex) CPU exceeds 75%
-        * Simple Scaling Policy
+          * Scale by
+            * Average CPU Utilization
+            * Average Network In
+            * Average Network Out
+            * Application Load balancer request count per target
+        * Simple Scaling Policy (Deprecated 2021)
           * Scales when alarm is breached
           * Legacy, not recommended
-        * Step Scaling Policy
+        * Step Scaling Policy (Deprecated 2021)
           * Scales when alarm is breached
           * Escalates based on alarm
           * ex) All 2 instances if alarm value is 2
+      * Can add SNS 
+    * #### Termination policies
+      * ![](images/autoscaling_termination_policy.PNG)  
     * #### Elastic Load Balancers(ELB) with ASG
       * ASG can be associated with ELB
       * If associated richer health checks are available
       * Associated indirectly via Target Groups
     
   * ### Elastic Load Balancer (ELB)
+    * #### Locates in a VPC
     * #### Must have at least two AZs
     * #### Cannot go cross-region
     * #### SSL Certificate can be attached to any Types  
@@ -952,8 +963,10 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Rules will decide what ports go to what target Groups
         * Only for Application Load Balancer
       * ##### Target Groups
-        * EC2 instances are registered as target groups
-        * Only for Application Load Balancer
+        * Not for Classic Load Balancer or Gateway Balancer
+        * Instance
+        * IP
+        * Lambda
     * #### Types
       * ##### Classic Load Balancer
         * Listeners and EC2 is directly registered
@@ -963,6 +976,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * CLB does not allow you to apply rules to listeners
         * CLB -> Listeners -> Registered Targets
         * Responds 504(Timeout) error if not responding
+        
       * ##### Application Load Balancer
         * Listeners, Rules and Target Groups
         * Designed to balance HTTP and HTTPS traffic
@@ -979,6 +993,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
             * Query String
         * Web Application Firewall can be attached
         * Great for Web Applications!
+        
       * ##### Network Load Balancer
         * Listeners and Target Groups
         * Designed to balance TCP/UDP
@@ -1011,7 +1026,11 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### Cross-Zone Load Balancing
       * Distributes traffic evenly within Zones
       * Distributes traffic evenly in all Zones
+      * Can not be used in Application load balancer  
       * ![](images/cross_zone_load_balancing.PNG)
+      
+    * #### [Connecting to internet](https://aws.amazon.com/premiumsupport/knowledge-center/public-load-balancer-private-ec2/?nc1=h_ls)
+      * Change private subnets to public
     
     * #### Pricing
       * Time X Partial Time X Capacity Unit
@@ -1020,6 +1039,14 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Network Load Balancer(NLCU)
         * Gateway Load Balancer(GLCU)
         * Classic Load Balancer(GB)
+  
+    * #### [Monitor](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-monitoring.html)
+      * CloudWatch metrics
+      * Access logs
+        * S3  
+      * Request tracing
+        * Track HTTP requests
+      * CloudTrail logs
   
 * ## Elastic File System (EFS)
   * File storage service for EC2
