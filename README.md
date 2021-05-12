@@ -1337,7 +1337,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * 1 AWS takes the most recent daily backup
       * 2 Apply transaction log data
       * This allows point-in-time recovery down to a second
-    * Backup in never stored overtop an instance
+    * Backup is never stored overtop an instance
     * Backup creates a new instance
   
   * ### Multi AZ Deployment
@@ -1345,6 +1345,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Only a standby  
     * If one AZ goes down, the standby slave will be promoted to the master
     * No url endpoint edit needed (Automatic sync)
+    * DNS(Canonical Name) will change IP Address 
     * Multi AZ cannot become a Read Replica
   
   * ### Read Replicas
@@ -1370,7 +1371,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
 
 
 * ## AWS Aurora
-  * ### Fully managed Postgres/MySQL compatible databace
+  * ### Fully managed Postgres/MySQL compatible database
   * ### Very Fast
     * Aurora MySQL 5X faster
     * Aurora Postgres 3X faster
@@ -1465,7 +1466,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Use Case
     * Copy data from EMR/S3/DynamoDB into redshift
     * Use redshift with java JDBC to query
-    * Most common use case is Business inteligence
+    * Most common use case is Business intelligence
     * ![](images/redshift_use_case.PNG)
 
 
@@ -1511,6 +1512,22 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Not return result until all copies are consistent
         * Slower reads
         * Becomes slow as a second
+  * ### Connections to other AWS
+    * SQS
+    * Kinesis
+  * ### Index
+    * #### [Local Secondary Index](https://www.youtube.com/watch?v=Y8gMoZOMYyg)
+      * Can only define at creation
+      * Limited to 5 LSI
+      * No extra cost
+    * #### [Global Secondary Index](https://www.youtube.com/watch?v=ihMOlb8EZKE)
+      * Copies a whole table and keeps sync
+      * Flipped table  
+      * Consumes write capacity
+      * Limited to 20 GSI
+      * Extra cost
+      * ![](images/dynamoDB_GSI.PNG)
+    
 
 * ## AWS CloudFormation
   * ### Infrastructure as code (IaC)
