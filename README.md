@@ -413,7 +413,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     
     * #### VPC Flow Logs
       * Log in CloudWatch Logs or S3   
-      * Caputre IP traffic information
+      * Capture IP traffic information
       * Within Network Interface in VPC
       * Cannot be tagged like other AWS resources
       * Cannot Change configuration after creation 
@@ -706,13 +706,21 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Alias
       * Always should use Alias because resources changes IP
       * Route traffic to specific AWS Resources
-        * CloudFront
-        * Elastic Beanstalk
-        * ELB load balancer
-        * S3 website endpoint
-        * Resource record set
-        * VPC endpoint
-        * API Gateway
+    * #### A to Alias
+      * API Gateway
+      * CloudFront
+      * Elastic Beanstalk
+      * All Load Balancers
+      * Global Accelerator
+      * S3 Static website
+      * VPC Endpoint
+    * #### A (Not by Alias)  
+      * EC2 instance
+    * #### AAAA to Alias
+      * All Load Balancers
+      * CloudFront
+    * #### Cname (Not by Alias)
+      * RDS
   * ### Routing Policy
     * #### Simple Routing
       * Default Policy
@@ -723,8 +731,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Split traffic based on weights
       * Good for A/B testing
       * ex) 85(EC2 Stable) : 15(EC2 Test)
+      * One(Routing Policy) to Many(Record Sets)
     * #### Geolocation Routing
-      * Redirect Via Geolocation of request origion
+      * Redirect Via Geolocation of request origin
       * ex) North America -> ALB US-NORTH-1
     * #### Geoproximity Routing
       * Redirect Via Geolocation but with Bias Value
@@ -743,12 +752,26 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Just like Simple Routing
       * Only difference is heath check
       * Returns IPs only if healthy
+    
   * ### Health Checks
-    * #### Checks health every 30s by default
+    * #### Checks every 30s by default
     * #### Can be reduced to 10s
     * #### Can Initial a failover if unhealthy
     * #### CloudWatch Alarm can be created
-    * #### Can monitor other health checks for chain reactions
+    * #### Type
+      * Endpoint
+      * Status of other health checks
+      * State of CloudWatch Alarm
+      * ![](images/route53_health_check_types.PNG)
+
+  * ### Logging
+    * #### CloudWatch
+      * HealthCheck to CloudWatch alarms
+    * #### [CloudTrail](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/logging-using-cloudtrail.html)
+      * Request IP, who, when, additional details to S3
+    * #### Route53 Dashboard
+      * Monitor domain registration
+    
   * ### Route 53 Resolver
     * #### Regional service that route DNS between VPC and your network
     * #### Inbound(To VPC), Outbound(From VPC), Inbound and Outbound
