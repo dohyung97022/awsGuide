@@ -1405,6 +1405,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Shut down
       * Scale
     * Pay for Storage / Capacity Unit / I/O
+  * ### [Fast Data Definition Language (DDL)](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Managing.FastDDL.html)
+    * Mysql needs to copy a whole table to add a column
+    * Fast DDL lets you do this instantly
 
 * ## Amazon Redshift
   * ### Fully managed Petabyte-size data warehouse
@@ -1554,6 +1557,10 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### Resources
       * A AWS resource you want to create (IAM,EC2,Lambda,RDS)
       * At least 1 Resource is mandatory
+      * #### Resources attributes
+        * CreationPolicy (Prevent status from reaching complete)
+        * DeletionPolicy (Preserve/Backup resources(ex) RDS/S3) when deleted)
+        * ![](images/cloudformation_deletion_policy.PNG)
     * #### Outputs
       * Values returned
   * ### Errors return ROLLBACK_IN_PROGRESS
