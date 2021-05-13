@@ -149,6 +149,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Access to Private Objects
     * Created by AWS CLI/SDK
     * Expire date
+    * Both Download/[Upload](https://docs.aws.amazon.com/autoscaling/ec2/userguide/schedule_time.html) is possible
   * ### Retrieve object in parts
     * You can get a range of bytes
     * Specify "range" in HTTP header GET request
@@ -951,6 +952,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Scaling Out : Adding more Instances
       * Scaling In : Removing Instances
       * Scaling Up : Increase the EC2 Specs  
+      * Scheduled scaling is also possible for traffic in specific time  
       * Types
         * Target Tracking Scaling Policy
           * Scale by
@@ -1455,6 +1457,8 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Replica on compute nodes
       * S3
     * Can asynchronously replicate to different region
+    * Cross Region Snapshots
+    * ![](images/redshift_cross_region_snapshot.PNG)
   * ### Billing
     * 1 unit per node / per hour
     * Not charged for leader node hours, only compute nodes
@@ -1465,7 +1469,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Data-at-rest : AES-256
     * Can be applied using
       * Key Management Service (KMS)
-      * Cloud HSM
+      * Hardware Security Module (HSM)
   * ### Use Case
     * Copy data from EMR/S3/DynamoDB into redshift
     * Use redshift with java JDBC to query
