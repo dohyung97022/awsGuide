@@ -1239,8 +1239,8 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Collection of Edge Locations
       * Defines how cached content should behave
       * WEB or RTMP
-        
     * ![](images/cloudfront_components.PNG)
+  * ### Cannot be used with RDS
     
   * ### Distribution Settings
     * #### Price Class
@@ -1518,6 +1518,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Connections to other AWS
     * SQS
     * Kinesis
+  * ### [Global Table](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html)
+    * Multi-region, multi-active database
+    * No replica needed
   * ### Index
     * #### [Local Secondary Index](https://www.youtube.com/watch?v=Y8gMoZOMYyg)
       * Can only define at creation
