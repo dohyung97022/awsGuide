@@ -91,6 +91,23 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Glacier Deep Archive
       * Lowest Cost
       * 12 Hours for Retrieval
+  * ### S3 Glacier
+    * #### Vault
+      * Container for storing archives
+      * Contains Metadata
+      * Async download
+        * Can create SNS when finished
+    * #### Archive  
+      * Object that you store in a vault
+      * Archive ID (Used to retrieve data)
+      * #### Archive Retrieval Options
+        * Expedited
+          * 1~5 minutes
+        * Standard
+          * 3~5 hours
+        * Bulk
+          * 5~12 hours
+        * ![](images/s3_glacier_retrieval_option_pricing.PNG)
   * ### Security
     * All new buckets are PRIVATE by default
     * Logging per request can be turned on a bucket
@@ -139,6 +156,18 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Can be applied to current or previous versions
     * Per-request fee
     * Minimum wait duration is 30 days
+  * ### [Event Notifications](https://docs.aws.amazon.com/AmazonS3/latest/userguide/NotificationHowTo.html)
+    * Notification when a specific action happens in bucket
+    * Can add prefix, Suffix to specify object  
+    * #### Invocation
+      * Create
+      * Delete
+      * Restore
+      * Replicate
+    * #### Destination
+      * SNS
+      * SQS
+      * Lambda
   * ### Transfer Acceleration
     * Uses CloudFront Edge Locations
     * User uploads to distinct URL from edge Location
@@ -172,6 +201,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * aws s3 cp ~/Desktop/a.jpg s3://bucketName/folderName/objectName.jpg : upload a.jpg to object
     * presign
       * aws s3 presign s3://bucketName/folderName/objectName.jpg --expires-in 300 : creates a presigned url
+  
 * ## Snowball
   * ### Petabyte date transfer service (Use multiple snowballs)
   * ### AWS data to physical computer
@@ -451,7 +481,8 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Firewall subnet traffic
       * First Layer of security  
       * VPC is automatically given default NACL
-        * Default NACL will deny all traffic
+        * Default NACL will accept all traffic from VPC
+        * Custom created NACL will deny all traffic
       * Subnets must have a NACL  
       * One(NACL) to Many(Subnets)
       * Allow or defy traffic (Security groups only allow)
@@ -781,7 +812,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
 * ## Elastic Compute Cloud (EC2)
   * ### Choose OS, Storage, Memory, Network Throughput
   * ### Resizable computing capacity
-  * ### Everyting on AWS uses EC2 instance underneath
+  * ### Everything on AWS uses EC2 instance underneath
   * ### Networking
     * #### Enable Auto-assign public IP
     * #### Enable elastic-IP for a fixed IP  
@@ -970,6 +1001,10 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Can add SNS 
     * #### Termination policies
       * ![](images/autoscaling_termination_policy.PNG)  
+    * #### [LifeCycle Hooks](https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html)
+      * Custom action to EC2 for termination/initialization
+      * Changes the instance into a wait state
+      * Wait period is 1 hour
     * #### Elastic Load Balancers(ELB) with ASG
       * ASG can be associated with ELB
       * If associated richer health checks are available
@@ -1103,6 +1138,20 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * AWS VPN
   * 0.30 $ per GB / month
 
+* ## [Savings Plan](https://www.youtube.com/watch?v=kOJCQfNStu8)
+  * ### Types
+    * #### Compute Savings Plan
+      * Automatically apply to EC2/Fargate/Lambda
+      * No matter of Size/AZ/Region/OS
+      * Reduce up to 66%
+    * #### EC2 Instances Savings Plan
+      * Lower cost in exchange for commitment of usage
+      * Specific families, region (ex) M5 usage in ap-southeast-2 )  
+      * Can change within EC2 families, region  
+      * Reduce up to 72%
+    * #### Amazon SageMaker Savings Plan
+    * ![](images/savings_plan.PNG)
+  
 * ## Elastic Block Store (EBS)
   * ### Attach persistent block storage to EC2
   * ### Volumes are automatically replicated within their AZ  
@@ -1263,6 +1312,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Create custom error pages like 404
     * #### Restrictions
       * Blacklist specific countries
+    * #### [Query String Forwarding](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/QueryStringParameters.html)
+      * Forward cached data to specific query string
+      * ex) ?languages=de/en/fr/jp/kr to different cache
   
   * ### Time to Live (TTL)
     * #### Add Cache-Control header in application
@@ -1380,8 +1432,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Cost Effective
     * 1/10th the cost of other solutions
   * ### Scaling
-    * Starts with 10 GB, scales in 10 GB increment
-    * Up to 64 TB
+    * Up to 128 TB
     * Computing scales up to 32vCPU, 244 GB memory
   * ### Availability
     * Minimum of 3 availability zones
@@ -1921,6 +1972,12 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Security
     * Dockerized environments
   * ### Costs nothing to use Elastic Beanstalk
+  * ### Environments
+    * #### WebServer Environments
+      * ![](images/elasticbeanstalk_webserver_environments.PNG)
+    * #### Worker Environments
+      * Supports SQS
+      * ![](images/elasticbeanstalk_worker_environments.PNG)
 
 
 * ## API Gateway
@@ -2089,7 +2146,17 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Durable
       * Cost-effective
       * Uses S3 Glacier
+    * ### All Gateways are backed by S3
+    * ### Not for DB Migration but for Connection
   
+* ## AWS DataSync
+  * ### Migrate data from NFS/SMB into AWS
+  * ### Transfer into
+    * S3
+    * Amazon EFS
+    * SnowCone
+    * Amazon FSx
+    * Windows File Server
     
 * ## [AWS Global Accelerator](https://www.youtube.com/watch?v=tar-fkbnxcw)
   * ### Global Accelerator lets you pass through other servers  
