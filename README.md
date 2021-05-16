@@ -1508,7 +1508,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Replica on compute nodes
       * S3
     * Can asynchronously replicate to different region
-    * Cross Region Snapshots
+    * Enable Cross Region Snapshots
     * ![](images/redshift_cross_region_snapshot.PNG)
   * ### Billing
     * 1 unit per node / per hour
@@ -2175,8 +2175,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### Automatically finds healthy endpoint
   
 * ## [Amazon FSx](https://www.youtube.com/watch?v=IMDWTIShlyI)
+  * ### Create File Systems in cloud
   * ### For Microsoft Windows File Server / Lustre
-  * ### Can connect to VPC with FSx
+  * ### Connect to S3, SageMaker, EKS, VPC
   
 * ## Elastic Container Service (ECS)
   * ### Kubernetes for AWS
@@ -2266,6 +2267,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### Or create a resource share
       * Can specify who
       * Can be a single member
+    * #### Can use Resource Access Manager to share
   * ### To move the master to another organization
     * Remove all members from old organization
     * Delete the old organization
