@@ -476,6 +476,10 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Higher Bandwidth 1 GB ~ 10 GB
       * Help reduce network cost for high traffic
       * More consistent network than internet
+    * #### Software site-to-site connect
+      * Connect on-premise VPC with AWS VPC
+      * Supports [IPSEC](https://www.youtube.com/watch?v=-JrXllTuI2s) 
+        * Encrypt data between internet trasportation
     
     * #### [Network Access Control List (NACL)](https://www.youtube.com/watch?v=vJzHn24TNQE)
       * Firewall subnet traffic
@@ -501,6 +505,22 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Malicious hacker IP block
         * SSH block
   
+* ## AWS Key Management Service (KMS)
+  * ### Key Types
+    * #### Symmetric key
+      * Uses same key for encrypt/decrypt
+    * #### Asymmetric key  
+      * Uses different key for encrypt/decrypt
+  * ### KMS is region specific  
+  * ### All data is encrypted at rest
+  * ### Define IAM Users/Roles that manage/use keys
+    * ![](images/kms_users_roles.PNG)
+  * ### Can disable and re-enable keys
+  * ### Can use custom keys  
+  * ### Rotate keys  
+    * AWS automatically encrypt/decrypt using the rotated key
+  * ### Logs uses CloudTrail
+  * ### Need to wait time periods to remove
       
 
 * ## Identity Access Management (IAM)
@@ -1366,10 +1386,11 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   
   * ### Backups
     * Automated Backups
+      * Once a day (Default)
+      * Creates a storage volume snapshot
       * Retention Period between 1 ~ 35 days
-      * Store Transaction logs throughout the day
+      * Store Transaction logs to S3 every 5 minutes throughout the day
       * Enabled by default
-      * All data in S3
       * No additional charge
       * Define backup window (When backup occur)
       * Storage I/O may be suspended during backup
@@ -1521,6 +1542,16 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Can be applied using
       * Key Management Service (KMS)
       * Hardware Security Module (HSM)
+  * ### [Enhanced VPC Routing](https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html)
+    * All COPY, UNLOAD traffic goes through VPC
+    * If not enabled, traffic goes through the Internet
+    * #### Connection with
+      * VPC Endpoints
+        * ex) Connect with S3
+      * NAT Gateway
+        * ex) S3 bucket in another region
+      * Internet Gateway
+        * ex) Connect to AWS outside VPC
   * ### Use Case
     * Copy data from EMR/S3/DynamoDB into redshift
     * Use redshift with java JDBC to query
@@ -1588,6 +1619,11 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Limited to 20 GSI
       * Extra cost
       * ![](images/dynamoDB_GSI.PNG)
+  * ### [DynamoDB Streams](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html)
+    * Log changes made into tables
+    * Saved up to 24 hours
+    * Encryption at rest
+    * Can be turned on within a table
     
 
 * ## AWS CloudFormation
@@ -1743,11 +1779,14 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Check Log File Validation
   * ### CloudTrail can deliver to CloudWatch logs
 
+* ## AWS Athena
+  * ### Use SQL to query S3
 
 * ## AWS Lambda
   * ### Run code without provisioning or managing server
   * ### No charge when code is not running
   * ### Cheap / Serverless / Scales automatically
+  * ### [Stateless](https://www.youtube.com/watch?v=nFPzI_Qg3FU) architecture
   * ### Environment variables
     * Pass sensitive information
     * Can encrypt by KMS (Not automatically set up)
@@ -1956,7 +1995,17 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Redis has richer data types and operations
     * Memcached is arguably faster than Redis
     * ![](images/elasticache_memcached_redis.PNG)
-
+  
+* ## ElasticSearch
+  * ### Analytics in data by clusters
+  * ### [Can log data from S3](https://aws.amazon.com/blogs/database/use-amazon-s3-to-store-a-single-amazon-elasticsearch-service-index/)
+  * ### Visualize database by
+    * LOGSTASH
+    * KIBANA
+    * BEATS
+  * ### Search
+    * #### URI
+    * #### Request body search
 
 * ## [Elastic Beanstalk](https://www.youtube.com/watch?v=g7W5LK1DM8o)
   * ### Heroku of AWS
@@ -2099,7 +2148,8 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Data is ordered
       * Consumers need to be manually added
     * #### Kinesis Firehose Delivery Stream
-      * Only one consumer from list (S3/Redshift/ElasticSearch/Splunk)
+      * Transform data served into data stores, analytics
+      * Only one consumer from list (S3/Redshift/ElasticSearch/Datadog/MongoDB/Splunk/HTTP endpoint)
       * Data immediately disappears when consumed
       * Can convert incoming data (Format/compress/secure)
       * Pay per data consumed
@@ -2134,10 +2184,10 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Can be backed up with point in time snapshots
       * Snapshot only capture changed blocks in volume
       * Snapshots are used to minimize cost
-      * #### Stored Volumes
+      * #### Gateway Stored Volumes
         * Primary data is stored locally while async backup in AWS
         * 1 GB ~ 16 TB
-      * #### Cached Volumes
+      * #### Gateway Cached Volumes
         * Primary data is stored on AWS
         * Frequently accessed files on cache on-premise
         * Up to 32 TB
@@ -2157,6 +2207,13 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * SnowCone
     * Amazon FSx
     * Windows File Server
+  * ### Does not support Postgres/MYSQL/Oracle like databases
+    * Use Database Migration Service
+  * ### Verification
+    * Checking if transfered data is same as on-premise
+    * #### If data changes constantly
+      * Disable initial transfer check
+      * Enable final cut over check
     
 * ## [AWS Global Accelerator](https://www.youtube.com/watch?v=tar-fkbnxcw)
   * ### Global Accelerator lets you pass through other servers  
@@ -2268,6 +2325,11 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Can specify who
       * Can be a single member
     * #### Can use Resource Access Manager to share
+  * ### Service control policies (SCP)
+    * Manage permissions in organization
+    * Gardrails, set of limits for permissions
+    * No permissions are granted by an SCP
+    * Apply to all users within organization including root
   * ### To move the master to another organization
     * Remove all members from old organization
     * Delete the old organization
@@ -2278,7 +2340,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Can also use API / CLI to migrate
   
 * ## AWS Resource Access Manager (RAM)
-  * ### Share resources with other accounts
+  * ### Share resources with other accounts/organizations
   * ### No additional fee
   * ### Reduce operational overhead
   * ### Shared by me / Shared with me
