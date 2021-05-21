@@ -965,9 +965,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Security harden AMI such as CIS is popular
       * My AMI
     
-  * ### EC2 Hibernation
+  * ### EC2 [Hibernation](https://www.youtube.com/watch?v=pA6On8Jczfo)
     * Save RAM data to EBS
-    * Reload Ram content
+    * Reload saved Ram content
     * Cannot enable hibernation after launched
       * Check before
     
@@ -2210,7 +2210,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Does not support Postgres/MYSQL/Oracle like databases
     * Use Database Migration Service
   * ### Verification
-    * Checking if transfered data is same as on-premise
+    * Checking if transferred data is same as on-premise
     * #### If data changes constantly
       * Disable initial transfer check
       * Enable final cut over check
