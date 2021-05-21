@@ -91,6 +91,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Glacier Deep Archive
       * Lowest Cost
       * 12 Hours for Retrieval
+      * Must be restored before changing to another tier
   * ### S3 Glacier
     * #### Vault
       * Container for storing archives
@@ -154,6 +155,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Automate moving storage class(Tier), or delete
     * Can be used with Versioning
     * Can be applied to current or previous versions
+    * [Can be used to abort multipart uploads](https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-configuration-examples.html#lc-expire-mpu)  
     * Per-request fee
     * Minimum wait duration is 30 days
   * ### [Event Notifications](https://docs.aws.amazon.com/AmazonS3/latest/userguide/NotificationHowTo.html)
@@ -201,7 +203,10 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * aws s3 cp ~/Desktop/a.jpg s3://bucketName/folderName/objectName.jpg : upload a.jpg to object
     * presign
       * aws s3 presign s3://bucketName/folderName/objectName.jpg --expires-in 300 : creates a presigned url
-  
+  * ### [S3/S3 Glacier Select](https://aws.amazon.com/blogs/aws/s3-glacier-select/)
+    * Use queries on S3
+    * Cheaper, Faster
+    * Does not need to retrieve data before query
 * ## Snowball
   * ### Petabyte date transfer service (Use multiple snowballs)
   * ### AWS data to physical computer
@@ -225,6 +230,14 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * 50 TB (42 TB usable)
       * 80 TB (72 TB usable)
       
+
+* ## [AWS Directory Service](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html)
+  * ### Used for Microsoft Active Directory (AD)
+    * Directory service run on Microsoft Windows Server/Windows File Server(FSx)
+    * Manage permissions and control access to network resources
+  * ### Connect over VPN/Direct Connect
+  
+
 * ## Snowball Edge
   * ### Similar to snowball
   * ### More storage
@@ -965,11 +978,14 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Security harden AMI such as CIS is popular
       * My AMI
     
-  * ### EC2 [Hibernation](https://www.youtube.com/watch?v=pA6On8Jczfo)
+  * ### EC2 [Hibernate](https://www.youtube.com/watch?v=pA6On8Jczfo)
     * Save RAM data to EBS
     * Reload saved Ram content
+    * No OS boot time  
+    * Great for pre-warming instances  
     * Cannot enable hibernation after launched
       * Check before
+    * Cannot enable hibernation on instance store volume
     
   * ### Auto Scaling Groups (ASG)
     * #### Group of EC2 for auto-scaling and management
@@ -1856,7 +1872,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Messaging System
       * Asynchronous communication and decouple processes via messages / events
       * Sender(Producer) / Receiver(Consumer)
-    
+    * Horizontal Scaling
   * ### Features
     * Decouple and microservices, distributed systems, serverless applications
     * Does not automatically delete message
@@ -1916,7 +1932,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Default
       * Returns message immediately
       * Returns even if empty
-      * Recieve message wait time 0 sec
+      * Receive message wait time 0 sec
     * #### Long Polling
       * Waits until message arrives in queue
       * Waits until long poll timeout expires
@@ -1924,7 +1940,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Most use cases
       * Lesser calls 
       * Reduce cost
-      * Recieve message wait time max 20 sec
+      * Receive message wait time max 20 sec
   * ### Dead Lock Que (DLQ)
       * #### If message is not delivered to Subs DLQ is activated
       * #### Used for future analysis or reprocessing
@@ -2131,6 +2147,10 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Execution Logging
           * ?
 
+* ## AWS Migration Hub
+  * ### Plan and Monitor Server,Database,instance migration
+  * ### Get graphical interface of migrations
+
 * ## AWS Kinesis
   * ### Managed solution for collecting, processing, analyzing streaming data
   * ### Poll based service  
@@ -2234,6 +2254,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
 * ## [Amazon FSx](https://www.youtube.com/watch?v=IMDWTIShlyI)
   * ### Create File Systems in cloud
   * ### For Microsoft Windows File Server / Lustre
+    * Windows File Server FSx can connect to Microsoft Active Directory
   * ### Connect to S3, SageMaker, EKS, VPC
   
 * ## Elastic Container Service (ECS)
