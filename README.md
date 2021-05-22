@@ -236,6 +236,15 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Directory service run on Microsoft Windows Server/Windows File Server(FSx)
     * Manage permissions and control access to network resources
   * ### Connect over VPN/Direct Connect
+  * ### Options  
+    * #### Directory Service for Micorsoft AD
+      * When you need an actual AD in AWS Cloud
+    * #### AD connector
+      * When you need on premise AD to authenticate AWS
+    * #### Simple AD
+      * Low cost, low scale basic AD
+    * #### Cognito
+      * For SaaS
   
 
 * ## Snowball Edge
@@ -878,6 +887,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Attach a IAM Role to an instance via Instance Profile
     * Always avoid unnecessary AWS credentials if possible
   * ### [Placement Groups](https://www.youtube.com/watch?v=-i1PfF4Jyuo)
+    * #### Cannot be multi region
     * #### Cluster
       * Great performance, but has failure risk
       * Same rack, same AZ
@@ -978,6 +988,10 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Security harden AMI such as CIS is popular
       * My AMI
     
+  * ### VM import
+    * #### On premise VM to EC2
+    * #### EC2 to on premise VM
+    
   * ### EC2 [Hibernate](https://www.youtube.com/watch?v=pA6On8Jczfo)
     * Save RAM data to EBS
     * Reload saved Ram content
@@ -1049,7 +1063,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Elastic Load Balancer (ELB)
     * #### Locates in a VPC
     * #### Must have at least two AZs
-    * #### Cannot go cross-region
+    * #### Cannot go cross-region like placement groups
     * #### SSL Certificate can be attached to any Types  
     * #### Rules of Traffic
       * ##### Listeners
@@ -1381,6 +1395,11 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### Data transfer Out to Internet / Origin is paid
     * #### Data transfer from Internet / Origin is not paid
     * #### Dedicated IP SSL is 600$ per month
+  
+* ## [OpsWork](https://docs.aws.amazon.com/opsworks/latest/userguide/welcome.html)
+  * ### Use Puppet or Chef to manage AWS
+  * ### Create layer based application 
+  * ### Load balancing, EC2, RDS, Resource connection
   
 * ## Relational Database Service (RDS)
   
@@ -2023,6 +2042,12 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### URI
     * #### Request body search
 
+* ## Serverless Application Repository/Model (SAM)
+  * ### Build Serverless applications in AWS
+  * ### Use SAM templates/SAM CLI
+  * ### SAM is an extension of cloudformation
+  
+
 * ## [Elastic Beanstalk](https://www.youtube.com/watch?v=g7W5LK1DM8o)
   * ### Heroku of AWS
   * ### Upload code and run with little worry
@@ -2351,6 +2376,10 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Gardrails, set of limits for permissions
     * No permissions are granted by an SCP
     * Apply to all users within organization including root
+    * If a parent OU is deny, child is also denied
+  * ### Consolidate billing
+    * All billing in organization is shared
+    * Can be used to share volume pricing discounts
   * ### To move the master to another organization
     * Remove all members from old organization
     * Delete the old organization
