@@ -527,6 +527,14 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Malicious hacker IP block
         * SSH block
   
+* ## AWS Systems Manager
+  * ### Sessions manager
+    * Access EC2 without bastion or SSL
+  * ### [Parameter Store](https://www.youtube.com/watch?v=zxi3M_rIE2k)
+    * Store parameters and access by code
+    * Use KMS with Parameter Store
+    * Can organize and bulk with paths
+  
 * ## AWS Key Management Service (KMS)
   * ### Key Types
     * #### Symmetric key
@@ -1396,6 +1404,31 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### Data transfer from Internet / Origin is not paid
     * #### Dedicated IP SSL is 600$ per month
   
+* ## AWS Web Application Firewall (WAF)
+  * ### Protect CloudFront, API Gateway, Application Load Balancer
+  * ### Web ACL
+    * #### Add Managed Rules
+      * Marketplace rules such as bot block/ip health...
+    * #### Add my own Rules
+      * Country origination
+      * Requests with specific header/body/params...
+      * #### Rate Limit
+        * Max amount of request an ip can have in five minutes
+    * #### Set Rule Priority
+  * ### Related services
+    * #### Shield Advanced
+      * block DDoS
+    * #### Firewall Manager
+      * Configure and manage firewall
+    * #### Kinesis
+      * Store web ACLs requests
+    * #### CloudWatch
+      * Monitoring data
+  * ### Pricing
+    * 5$ per Web ACL per month
+    * 1$ per rule per month
+    * 0.6$ per million requests
+  
 * ## [OpsWork](https://docs.aws.amazon.com/opsworks/latest/userguide/welcome.html)
   * ### Use Puppet or Chef to manage AWS
   * ### Create layer based application 
@@ -1460,10 +1493,10 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   
   * ### Read Replicas
     * Run multiple copies of database
-    * Synced to main database
+    * Asynchronous to main database
     * Read only
     * Intended to spread workloads of primary database
-    * Must have automatic backups enabled to use
+    * Must have automatic backups enabled to user
     * Up to 5 read replicas
     * Can be multi AZ / Cross region
     * Can have replica of replica
@@ -1478,6 +1511,11 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Always span two AZ within a Region / Can be multi AZ, Region
     * Database engine upgrades happen on primary / upgrades is independent from source
     * Automatic failover / Manually promotion
+  
+  * ### Enhanced monitoring
+    * Log monitoring information to Cloudwatch
+    * CPU Utilization/DB Connections/Free Storage Space/Freeable Memory/Write,Read IOPS
+    * ![](images/RDS_enhanced_monitoring.PNG)
 
 
 * ## AWS Aurora
@@ -1612,6 +1650,12 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Item
       * Attribute
     * ![](images/dynamoDB_structure.PNG)
+  * ### Design  
+    * #### [Partition key](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-uniform-load.html)
+      * You should use unique and distinct values
+      * High cardinality attributes
+      * Try composite attributes (combined attributes)
+      * [Add random numbers for heavy usage](https://aws.amazon.com/ko/blogs/database/choosing-the-right-dynamodb-partition-key/)
   * ### Features
     * Specify read and write capacity per second
     * All data is stored on SSD
@@ -1654,6 +1698,13 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Limited to 20 GSI
       * Extra cost
       * ![](images/dynamoDB_GSI.PNG)
+  * ### [DynamoDB Accelerator (DAX)](https://www.youtube.com/watch?v=9deAV0yAkH8)
+    * Cache dynamoDB reads!
+    * Burst traffic on same key  
+    * Eventual consistency  
+    * Microsecond performance
+    * Uses cluster nodes  
+    * ![](images/dynamoDB_DAX.PNG)
   * ### [DynamoDB Streams](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html)
     * Log changes made into tables
     * Saved up to 24 hours
@@ -1735,7 +1786,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
           * Costs more if higher resolution
     * ### CloudWatch Events / Event Bridge
       * Event based on Event Pattern / Schedule
-        * Schedule is like serverless [Cron](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/services-cloudwatchevents-expressions.html)
+        * Event pattern is whenever something happens in AWS
+        * Schedule is like serverless [Cron jobs](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/services-cloudwatchevents-expressions.html)
+          ![](images/cloudwatch_event_pattern.PNG)
       * Event Source -> Target
       * ![](images/cloudwatch_events.PNG)
     * ### CloudWatch Alarms
@@ -2211,7 +2264,6 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
 
 * ## Storage Gateway
   * ### Connects on-premise application(machine) with cloud based storage
-  * ### Connect to AWS for scalable and cost-effective storage
   * ### Available as virtual machine (VM) image
     * VMware ESXi
     * Microsoft Hyper-V
