@@ -13,6 +13,15 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
 
 [Pythoholic AWS Certified Solutions Architect Associate 2021](https://www.youtube.com/watch?v=rXyyDMIC4PQ&list=PLiH9_MU-6RjI9gdFqmvUfKRfw_zRxIb6o)
 
+### 복습, 암기 CheckList :
+배운 내용이 너무 많아 잠시 점검 복습이 필요하다 느꼈습니다.   
+내용의 추가, 수정이 조금 줄겠지만 복습한 내용조차 기록하도록 하겠습니다. ㅋㅋ   
+이것은 조금 개인적인 공부니까 가이드에는 부적절해서 나중에 아마 삭제할 것 같아요...   
+  * 21/5/29 
+    * 암기가 부족한 내용
+      * Archive Retrieval Options
+      * Bucket policy, acl, crr, event notification, 
+
 * ## [시험](https://aws.amazon.com/ko/certification/certified-solutions-architect-associate/)
   * ### [내용 (2021년 기준. Outdated 할 수 있으니 위 주소에서 확인 바랍니다.)](https://d1.awsstatic.com/ko_KR/training-and-certification/docs-sa-assoc/AWS-Certified-Solutions-Architect-Associate_Exam-Guide.pdf)
     * 탄력적 아키텍처 설계 30%
@@ -42,7 +51,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### No worries for infrastructure
   * ### Upload Success returns HTTP 200
   * ### S3 Object
-    * Like files
+    * Like files / objects
     * 0 Bytes ~ 5 Terabytes
     * Contains data
       * Owner
@@ -52,7 +61,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Version ID : Version of the object when enabled
       * Metadata : Additional information
   * ### S3 Bucket
-    * Hold Objects and Folders
+    * Hold S3 Objects
     * Universal namespace (Names need to be unique)
     * Features
       * Bucket Versioning
@@ -62,6 +71,12 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Transfer acceleration
       * Object Lock
         * Write once, read many
+  * ### [Logging](https://docs.aws.amazon.com/AmazonS3/latest/userguide/logging-with-S3.html)
+    * Server access logging (requests)
+    * Cloud Trail data events (user/role/API)
+    * Logging per request can be turned on a bucket
+    * Logs are generated and saved in a different bucket
+    * Different account logging is possible
   * ### Storage Class
     * Standard (default)
       * Fast
@@ -95,7 +110,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### S3 Glacier
     * #### Vault
       * Container for storing archives
-      * Contains Metadata
+      * Contains [Metadata](https://docs.aws.amazon.com/amazonglacier/latest/dev/retrieving-vault-info.html)
       * Async download
         * Can create SNS when finished
     * #### Archive  
@@ -111,9 +126,6 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * ![](images/s3_glacier_retrieval_option_pricing.PNG)
   * ### Security
     * All new buckets are PRIVATE by default
-    * Logging per request can be turned on a bucket
-      * Logs are generated and saved in a different bucket
-      * Different account logging is possible
     * Access Control
       * Access Control Lists (ACL)
         * Legacy feature (Not Deprecated)
@@ -123,20 +135,21 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * AWS Policy Generator
   * ### Encryption
     * Transit
-      * Local Host <-> S3 achieved via SSL/TLS
+      * Local Host <-> S3 achieved via SSL/TLS   
+        (Secure Socket Layer, Transport Layer Security)
     * Server Side Encryption (SSE) (Encryption At Rest)
       * S3 Managed Keys (Amazon Manages all Keys)
         * SSE-AES (AES-256 algorithm)
-        * SSE-KMS (AWS Key Management System and YOU manage keys)
+        * SSE-KMS (AWS Key Management AWS and YOU manage keys)
         * SSE-C (Customer Provided key, AWS and YOU manage keys)
     * Client Side Encryption (CSE)
       * You Encrypt files before upload
     * Existing files before Encryption on is not Encrypted
-  * ### Data Consistency
+  * ### [Data Consistency](https://aws.amazon.com/ko/s3/consistency/)
     * All GET, PUT, DELETE, LIST operations
       * Strong Read After Write Consistency
       * Able to read immediately after writing
-      * Takes effect immediately
+      * 21년도 이후 S3는 strong read and write consistency
   * ### Cross Region Replication (CRR)
     * Automatic replication to other regions
     * Higher durability
@@ -146,10 +159,11 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Versioning
     * Once enabled, cannot be disabled. Can be suspended
     * Full Integration with S3 Lifecycle rules
-    * Delete request will put a delete marker on the latest version
+    * Delete request will put a [delete marker](https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeleteMarker.html)
+      on the latest version
       * Remove the delete marker to restore deleted data  
     * Previous version becomes latest if latest version is deleted
-    * Version ID can be NULL if created before Versioning on
+    * Version ID can be NULL if object created before Versioning on
     * Properties like public is not inherited between versions
   * ### Lifecycle Management
     * Automate moving storage class(Tier), or delete
@@ -186,7 +200,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Specify "range" in HTTP header GET request
   * ### Upload object in parts
     * Up to 5 GB can be uploaded with PUT
-    * Use multipart upload for AWS  
+    * Use multipart upload more than 5 GB
   * ### MFA Delete
     * Must provide MFA token/code to delete
     * Enable Conditions
@@ -195,18 +209,22 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Only Root User can delete
   * ### AWS CLI
     * ls
-      * aws s3 ls : return all buckets
-      * aws s3 ls s3://bucketName : return bucket objects
-      * aws s3 ls s3://bucketName/folderName : return directory objects
+      * return all buckets `aws s3 ls`
+      * return bucket objects `aws s3 ls s3://bucketName` 
+      * return directory objects `aws s3 ls s3://bucketName/folderName` 
     * cp
-      * aws s3 cp s3://bucketName/folderName/objectName.jpg ~/Desktop/a.jpg : download object to a.jpg
-      * aws s3 cp ~/Desktop/a.jpg s3://bucketName/folderName/objectName.jpg : upload a.jpg to object
+      * download object to a.jpg    
+        `aws s3 cp s3://bucketName/folderName/objectName.jpg ~/Desktop/a.jpg`
+      * upload a.jpg to object   
+        `aws s3 cp ~/Desktop/a.jpg s3://bucketName/folderName/objectName.jpg`
     * presign
-      * aws s3 presign s3://bucketName/folderName/objectName.jpg --expires-in 300 : creates a presigned url
+      * creates a presigned url   
+        `aws s3 presign s3://bucketName/folderName/objectName.jpg --expires-in 300`
   * ### [S3/S3 Glacier Select](https://aws.amazon.com/blogs/aws/s3-glacier-select/)
     * Use queries on S3
     * Cheaper, Faster
     * Does not need to retrieve data before query
+  
 * ## Snowball
   * ### Petabyte date transfer service (Use multiple snowballs)
   * ### AWS data to physical computer
