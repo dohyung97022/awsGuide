@@ -20,7 +20,15 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
   * 21/5/29 
     * 암기가 부족한 내용
       * Archive Retrieval Options
-      * Bucket policy, acl, crr, event notification, 
+      * Bucket policy, acl, crr, event notification 
+    * S3 까지     
+      line 232/2493
+  * 21/5/30
+    * 암기가 부족한 내용
+      * AWS AD, VPC, Customer gateway, VPC gateway, VPC cloudHub, Nacl 숫자가 작은 것이 더 우선순위, 
+        Interface endpoints, gateway endpoints, transitive peering, flow logs, KMS symetric, asymetric, access keys,
+    * AWS STS 까지    
+      line 700/2493
 
 * ## [시험](https://aws.amazon.com/ko/certification/certified-solutions-architect-associate/)
   * ### [내용 (2021년 기준. Outdated 할 수 있으니 위 주소에서 확인 바랍니다.)](https://d1.awsstatic.com/ko_KR/training-and-certification/docs-sa-assoc/AWS-Certified-Solutions-Architect-Associate_Exam-Guide.pdf)
@@ -247,23 +255,6 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Size
       * 50 TB (42 TB usable)
       * 80 TB (72 TB usable)
-      
-
-* ## [AWS Directory Service](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html)
-  * ### Used for Microsoft Active Directory (AD)
-    * Directory service run on Microsoft Windows Server/Windows File Server(FSx)
-    * Manage permissions and control access to network resources
-  * ### Connect over VPN/Direct Connect
-  * ### Options  
-    * #### Directory Service for Micorsoft AD
-      * When you need an actual AD in AWS Cloud
-    * #### AD connector
-      * When you need on premise AD to authenticate AWS
-    * #### Simple AD
-      * Low cost, low scale basic AD
-    * #### Cognito
-      * For SaaS
-  
 
 * ## Snowball Edge
   * ### Similar to snowball
@@ -283,7 +274,6 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * 100 TB (83 of usable)
     * 100 TB Clustered (45 TB per node)
   
-  
 * ## Snowmobile
   * ### 45 foot long shipping container
   * ### Pulled by semi-trailer truck
@@ -295,7 +285,22 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Alarm monitoring
     * 24/7 video surveillance
     * Escort security vehicle while transit (Optional)
-    
+
+* ## [AWS Directory Service](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html)
+  * ### Used for Microsoft Active Directory (AD)
+    * Directory service run on Microsoft Windows Server/Windows File Server(FSx)
+    * Manage permissions and control access to network resources
+    * Manage users/groups/devices/administrators
+  * ### Connect over VPN/Direct Connect
+  * ### Options
+    * #### Directory Service for Micorsoft AD
+      * When you need an actual AD in AWS Cloud
+    * #### AD connector
+      * When you need on premise AD to authenticate AWS
+    * #### Simple AD
+      * Low cost, low scale basic AD
+    * #### Cognito
+      * For SaaS
   
 * ## Virtual Private Cloud (VPC)
   * ![](images/vpc.PNG?raw=true "")
@@ -319,6 +324,12 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Default VPC in every region
     * Can immediately deploy ec2
     * The first four IP address and the last IP in each subnet CIDR is reserved by AWS  
+      * Network address
+      * Reserved for VPC router
+      * Reserved for DNS server
+      * Reserved for future use
+      * Network broadcast but not supported
+      * ![](images/VPC_first_four_ip.PNG)
     * Features
       * Size /16 IPv4 [CIDR](https://www.youtube.com/watch?v=z07HTSzzp3o) (ex: 172.31.0.0/16)
       * Creates Size /20 default subnet in every AZ
@@ -331,9 +342,9 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### 0.0.0.0/0
     * All possible IP addresses
     * [Internet Gateway](https://www.youtube.com/watch?v=pAOrBxZ7584) (IGW)
-      * Allow All Internet Access
-    * Security Groups Inbound Rules
-      * Allow All traffic from Internet
+    * Allow All Internet Access
+      * Security Groups Inbound Rules
+      * NACL Inbound, Outbound Rules
     
   * ### Components
     
@@ -347,11 +358,12 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Route that table to Internet Gateway
         * Set destination to 0.0.0.0/0
     
-    * #### Egress-only Internet Gateway
+    * #### [Egress-only Internet Gateway](https://docs.aws.amazon.com/vpc/latest/userguide/egress-only-internet-gateway.html)
       * Connects to the Internet via IPv6
       * Prevents the Internet connection to server
       * One way connection
-      * Statefull (All inbound is also outbound)
+      * Stateful
+        * All requests from EC2 will go back to EC2
       
     * #### [Virtual Private Gateway (VPN Gateway)](https://www.youtube.com/watch?v=3j1MLlgc5Eg)
       * Connects a on premise private IP to connect to AWS VPC
@@ -372,7 +384,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### [Route Table](https://www.youtube.com/watch?v=GrfOsWUVCfg)
       * Determines where network traffic is directed
       * Each Subnet must have a route table
-      * Any new subnets created will get associated with Main route table automatically  
+      * Any subnets without route table will get associated with Main route table automatically  
       * One(Route Table) to Many(Subnet)
       * Can have multiple route tables in a VPC
       * Connect traffic with
@@ -470,9 +482,10 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Can peer different AWS account VPC
       * Can peer different region VPC
       * No Transitive Peering
-        * One(VPC) to One(VPC) 
-        * Peering must be direct
-        * Signal Traffic must be direct
+        * One(VPC) to One(VPC)
+        * Signal Traffic/Peering must be direct
+        * Use transit gateway instead  
+        * ![](images/VPC_transitive_peering.PNG)
       * Peering uses Star Configuration
         * ![](images/vpc_star_configuration.PNG)
         * 1 Central VPC
@@ -516,10 +529,11 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Higher Bandwidth 1 GB ~ 10 GB
       * Help reduce network cost for high traffic
       * More consistent network than internet
-    * #### Software site-to-site connect
+      
+    * #### [Software site-to-site connect](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/software-site-to-site-vpn.html)
       * Connect on-premise VPC with AWS VPC
       * Supports [IPSEC](https://www.youtube.com/watch?v=-JrXllTuI2s) 
-        * Encrypt data between internet trasportation
+        * Encrypt data between internet transportation
     
     * #### [Network Access Control List (NACL)](https://www.youtube.com/watch?v=vJzHn24TNQE)
       * Firewall subnet traffic
@@ -531,11 +545,11 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * One(NACL) to Many(Subnets)
       * Allow or defy traffic (Security groups only allow)
       * Inbound or outbound rules (Like security groups)
-        * NACL is stateless
-        * Need to make both inbound and outbound to create traffic  
+        * All inbound rules are not allowed to outbound by default   
+          unlike Security groups (Stateless)
       * NACL needs to make Ephemeral ports open
-        * Ports for AWS resources  
-        *![](images/NACL_ephemoral_ports.PNG)
+        * Ports for AWS resources   
+          ![](images/NACL_ephemoral_ports.PNG)
       * Can block a single IP (Security groups can't) 
       * Order of evaluation Rule number #
         * Lower is higher priority
@@ -559,12 +573,15 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Uses same key for encrypt/decrypt
     * #### Asymmetric key  
       * Uses different key for encrypt/decrypt
+    * ![](images/KMS_key_types2.PNG)  
+    * #### AWS Managed Keys
+    * #### Customer Managed Keys
+    * ![](images/KMS_key_types.PNG)
+    
   * ### KMS is region specific  
   * ### All data is encrypted at rest
   * ### Define IAM Users/Roles that manage/use keys
-    * ![](images/kms_users_roles.PNG)
   * ### Can disable and re-enable keys
-  * ### Can use custom keys  
   * ### Rotate keys  
     * AWS automatically encrypt/decrypt using the rotated key
   * ### Logs uses CloudTrail
@@ -612,7 +629,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * No symbol
       * #### Inline Policies
         * Directly attached to user / resource
-      * #### Password Policy
+      * #### [Account Password Policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_account-policy.html)
         * Rotate passwords to update after X days
         * Set minimum requirements
     
@@ -648,8 +665,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Short term use
     * Active for few minutes to hours
   * ### When to use?
-    answer
-    * Identity federation
+    * Temporary worker
     * Roles for Cross Account Access
     * Roles for EC2
       * Access resource without embedding credentials
