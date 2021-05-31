@@ -34,7 +34,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * Cognito sync, user pools, identity pools, DNS top/second level domain, SOA, failover routing, multivalue awnser routing,
       route53 logging, ec2 accelerated optimized, ec2 partition, dedicated instance, systems manager -> patch manager, asg health check
       ASG Lifecycle hooks, load balancers in general, sticky sessions are from cookies, cross zone load balancing, 
-    * AWS EC2 까지
+    * AWS EC2 까지   
       line 1210/2493
       
 * ## [시험](https://aws.amazon.com/ko/certification/certified-solutions-architect-associate/)
