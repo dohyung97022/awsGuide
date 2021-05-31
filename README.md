@@ -26,10 +26,15 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
   * 21/5/30
     * 암기가 부족한 내용
       * AWS AD, VPC, Customer gateway, VPC gateway, VPC cloudHub, Nacl 숫자가 작은 것이 더 우선순위, 
-        Interface endpoints, gateway endpoints, transitive peering, flow logs, KMS symetric, asymetric, access keys,
+        Interface endpoints, gateway endpoints, transitive peering, flow logs, KMS symetric, asymetric, access keys, route53 logging, 
     * AWS STS 까지    
       line 700/2493
-
+  * 21/5/31
+    * 암기가 부족한 내용
+      * Cognito sync, user pools, identity pools, DNS top/second level domain, SOA, failover routing, multivalue awnser routing,
+      route53 logging, ec2 accelerated optimized, ec2 partition, dedicated instance, systems manager -> patch manager, asg health check
+      ASG Lifecycle hooks, load balancers in general, sticky sessions are from cookies, cross zone load balancing, 
+  
 * ## [시험](https://aws.amazon.com/ko/certification/certified-solutions-architect-associate/)
   * ### [내용 (2021년 기준. Outdated 할 수 있으니 위 주소에서 확인 바랍니다.)](https://d1.awsstatic.com/ko_KR/training-and-certification/docs-sa-assoc/AWS-Certified-Solutions-Architect-Associate_Exam-Guide.pdf)
     * 탄력적 아키텍처 설계 30%
@@ -705,13 +710,13 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Identity Provider (IdP)  
     * Trusted provider for authentication (Facebook, Google ...)
     
-  * ### Types of IdP
+  * ### IdP methods
     * Security Assertion Markup Language (SAML) (Single Sign On SSO)
     * OpenID Connect (OIDC) (OAuth)
     
   * ### Types
     * #### Cognito User Pools
-      * User directory with authentication to IpD to grant app access
+      * User directory with authentication to IdP to grant app access
       * User Pools
         * Directories to manage the actions such as
           * Sign in
@@ -727,7 +732,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Apply MFA
         * Trigger custom logs, Lambdas
     
-    * #### Cognito Identity Pools
+    * #### Cognito Identity Pools (Federated identity)
       * Temporary credentials for users to access AWS Services
       
     * #### Cognito Sync
@@ -816,6 +821,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Visual editor for routing config
     * Supports versioning
     * 50$ per policy record / month
+    * Can use geoproximity routing
     
   * ### Record Set
     * #### www. , api. , blog. to A, AAAA, CNAME...
@@ -880,15 +886,16 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * State of CloudWatch Alarm
       * ![](images/route53_health_check_types.PNG)
 
-  * ### Logging
+  * ### [Logging](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/monitoring-overview.html)
     * #### CloudWatch
       * HealthCheck to CloudWatch alarms
+      * Resolver endpoints statistics to cloudWatch
+      * Public hosted zones
     * #### [CloudTrail](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/logging-using-cloudtrail.html)
       * Request IP, who, when, additional details to S3
-    * #### Route53 Dashboard
-      * Monitor domain registration
     
   * ### Route 53 Resolver
+    * #### On premise connect with route 53
     * #### Regional service that route DNS between VPC and your network
     * #### Inbound(To VPC), Outbound(From VPC), Inbound and Outbound
     * #### DNS Resolution for Hybrid Environments (On Premise with Cloud)
@@ -902,7 +909,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### Enable elastic-IP for a fixed IP  
     * #### [May enhance network by](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking-ena.html)
         * Elastic Network Adapter (ENA)
-        * Code in Ubuntu   
+        * Code for Ubuntu   
         ```modify-instance-attribute --instance-id instance_id --ena-support```
   * ### Instance Types
     * #### General Purpose
@@ -1011,7 +1018,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### AMI is region specific
       * You can copy to another region via Copy AMI
     * #### AMI ID  
-    * #### Use Systems Manager Automation to patch AMIs with security updates
+    * #### Use Systems Manager Patch Manager Automation to patch AMIs with security updates
     * #### Use LaunchConfigurations to update multiple instances with AMI
     * #### Snapshot does not save RAM data  
     * #### Selection
@@ -1046,7 +1053,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Auto Scaling Groups (ASG)
     * #### Group of EC2 for auto-scaling and management
     * #### Launch Configuration
-      * Launch settings for new EC2 from AGS
+      * Launch settings for new EC2 from ASG
       * Cannot be edited
         * Clone the existing configuration or create a new configuration
       * Launch Templates
@@ -1061,13 +1068,16 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Max
         * Desired Capacity
           * How much EC2 you want ideally
-    * #### Health check replacements
+    * #### [ASG Health check](https://docs.aws.amazon.com/autoscaling/ec2/userguide/healthcheck.html)
       * EC2 Health Check
         * Based on EC2 Status Checks
+          * stopping/stopped/shutting-down/terminated
         * If considered unhealthy, restarts EC2
       * ELB Health Check
-        * Pings an HTTP(S) endpoint and expects a response
+        * If the load balancer reports unhealthy, restarts
         * If response not expected, restarts EC2
+      * Custom Health Check
+        * If not working as intended, change ec2 state as unhealthy
     * #### Health Check Grace Period
       * When new EC2 is created, wait this period before health check
       * ![](images/autoscaling_health_check_grace_period.PNG)
@@ -1094,7 +1104,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### Termination policies
       * ![](images/autoscaling_termination_policy.PNG)  
     * #### [LifeCycle Hooks](https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html)
-      * Custom action to EC2 for termination/initialization
+      * Custom action to EC2 before/after termination/initialization
       * Changes the instance into a wait state
       * Wait period is 1 hour
     * #### Elastic Load Balancers(ELB) with ASG
@@ -1105,7 +1115,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Elastic Load Balancer (ELB)
     * #### Locates in a VPC
     * #### Must have at least two AZs
-    * #### Cannot go cross-region like placement groups
+    * #### Cannot go cross-region
     * #### SSL Certificate can be attached to any Types  
     * #### Rules of Traffic
       * ##### Listeners
@@ -1172,7 +1182,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### Health Checks
       * Checks EC2 with HTTP(S)
       * Reports back as InService or OutOfService
-      * ELB does not terminate(Kill) unhealthy instances
+      * ELB does not terminate(Kill) unhealthy instances (ASG does)
       * ELB just redirect traffic to healthy Instances unlike ASG
   
     * #### Cross-Zone Load Balancing
@@ -1194,10 +1204,8 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   
     * #### [Monitor](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-monitoring.html)
       * CloudWatch metrics
-      * Access logs
-        * S3  
-      * Request tracing
-        * Track HTTP requests
+      * Access logs (S3)
+      * Request tracing (Track HTTP requests)
       * CloudTrail logs
   
 * ## Elastic File System (EFS)
