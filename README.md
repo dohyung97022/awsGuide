@@ -14,6 +14,11 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
 [Pythoholic AWS Certified Solutions Architect Associate 2021](https://www.youtube.com/watch?v=rXyyDMIC4PQ&list=PLiH9_MU-6RjI9gdFqmvUfKRfw_zRxIb6o)
 
 ### 복습, 암기 CheckList :
+<details>
+<summary>
+</summary>
+<br/>
+
 배운 내용이 너무 많아 잠시 점검 복습이 필요하다 느꼈습니다.   
 내용의 추가, 수정이 조금 줄겠지만 복습한 내용조차 기록하도록 하겠습니다. ㅋㅋ   
 이것은 조금 개인적인 공부니까 가이드에는 부적절해서 나중에 아마 삭제할 것 같아요...   
@@ -36,6 +41,15 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       ASG Lifecycle hooks, load balancers in general, sticky sessions are from cookies, cross zone load balancing, 
     * AWS EC2 까지   
       line 1210/2493
+  * 21/6/1
+    * 암기가 부족한 내용
+      * instance store, ebs optimizes, ebs lifecycle, cloudfront seer, cloudfront invalidation, lambda@edge view/origin, WAF in general, rds backups, read replicas can be multi regional, aurora rds distribution, aurora fast ddl, redshift is single az, mpp, leader/compute nodes, redshift enhanced vpc routing, what is the meaning of multi master in dynamoDB?, LSI, GSI, DAX
+    * DynamoDB 까지   
+      line 1761/2493
+  
+</details>
+<br>
+  
       
 * ## [시험](https://aws.amazon.com/ko/certification/certified-solutions-architect-associate/)
   * ### [내용 (2021년 기준. Outdated 할 수 있으니 위 주소에서 확인 바랍니다.)](https://d1.awsstatic.com/ko_KR/training-and-certification/docs-sa-assoc/AWS-Certified-Solutions-Architect-Associate_Exam-Guide.pdf)
@@ -1227,13 +1241,12 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Home directories, file serving
     * Max I/O 
       * Higher aggregate throughput per second
-      * 
   * ### EFS supports two forms of encryption
     * #### Encryption of data at rest
+      * EFS Encryption at rest can only be enabled at creation
     * #### Encryption of data in transit
       * Mount helper
       * Not an option during or after creation
-  * EFS Encryption at rest can only be enabled at creation
   * EFS file sharing can be across multiple AZ EC2s 
   * ### On premise connection
     * AWS Direct connect
@@ -1323,7 +1336,8 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Can have termination protection
       * For : Most use cases
       
-    * #### [Instance Store Volumes (Ephemeral drives)](https://www.youtube.com/watch?v=tee5yJr3rTM)
+    * #### [Instance Store Volumes (Ephemeral drives)](https://aws.amazon.com/ko/premiumsupport/knowledge-center/instance-store-vs-ebs/)
+      * [How to use](https://www.youtube.com/watch?v=tee5yJr3rTM)
       * Temporary block level storage
       * Disks physically attached to host machine
       * Created from template stored in S3
@@ -1336,7 +1350,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Snapshots are a point in time copy of the disk stored in S3
     * Initial snapshot of an EC2 will take longer than subsequent snapshots  
     * EC2 should be stopped before snapshot
-    * But can take Snapshot while EC2 running
+    * But still can take Snapshot while EC2 running
     * Can create AMI/Volumes from Snapshots
     * Cannot unencrypt copy a snapshot
     * Can encrypt copy a snapshot  
@@ -1356,7 +1370,8 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Use EBS-optimized instances
     * Penalty from first access of volumes from snapshots
     * Use modern Linux kernel
-    * Use RAID 0
+    * Use [RAID 0](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/raid-config.html)   
+      * When I/O performance is more important than fault tolerance
   
   * ### CloudWatch EBS Metrics (Probably not in test...)
     * #### VolumeRead/WriteBytes
@@ -1435,7 +1450,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   
   * ### [CloudFront Protection](https://www.youtube.com/watch?v=7soFsSeRN2o)
     * #### Protection for video endpoints or restricted files
-    * #### Original Identity Access (OAI)  
+    * #### Original Access Identity (OAI)  
       * Virtual user Identity to giver permission to fetch private objects  
       * In order to use Signed URL/Cookies you need OAI
       * #### Types  
@@ -1474,7 +1489,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * 0.6$ per million requests
   
 * ## [OpsWork](https://docs.aws.amazon.com/opsworks/latest/userguide/welcome.html)
-  * ### Use Puppet or Chef to manage AWS
+  * ### AWS infrastructure automation, management by [Puppet](https://puppet.com/products/puppet-enterprise/) or Chef
   * ### Create layer based application 
   * ### Load balancing, EC2, RDS, Resource connection
   
@@ -1507,7 +1522,6 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Define backup window (When backup occur)
       * Storage I/O may be suspended during backup
     * Manual Snapshots
-      * Backup persist even if you delete RDS
       * Actions  
         * Restore Snapshot
           * Creates a new RDS based on snapshot
@@ -1540,7 +1554,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Asynchronous to main database
     * Read only
     * Intended to spread workloads of primary database
-    * Must have automatic backups enabled to user
+    * Must have automatic backups enabled to use
     * Up to 5 read replicas
     * Can be multi AZ / Cross region
     * Can have replica of replica
@@ -1639,8 +1653,8 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * Dense Storage (ds)
         * high storage
   * ### Backups
-    * Enabled by default 1 day
-    * Retention period up to 35 days
+    * Enabled by default 1 day (like RDS)
+    * Retention period up to 35 days (like RDS)
     * Attempts to maintain 3 copies
       * Original
       * Replica on compute nodes
@@ -1705,7 +1719,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * All data is stored on SSD
     * Multi-region
       * Data is spread across 3 regions
-    * Multi-master
+    * Multi-master?
     * Durable database
     * Built-in security
     * Backup and restore
