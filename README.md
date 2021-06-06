@@ -50,7 +50,7 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
     * 암기가 부족한 내용
       * cloudformation templates, nestedstacks, cloudwatch api, cloudwatch agent, managed/data events, cloudtrail, lambda async, lambda /tmp, sqs consumer must delete message, sqs standard/fifo,      
       api gateway throttling, api gateway resource policy, api gateway access control, 
-    * Storage gateway 까지
+    * Storage gateway 까지   
       line 2359/2493
 </details>
 <br>
