@@ -46,7 +46,12 @@ AWS Certified Solutions Architect 시험을 위해 만들었습니다.
       * instance store, ebs optimizes, ebs lifecycle, cloudfront seer, cloudfront invalidation, lambda@edge view/origin, WAF in general, rds backups, read replicas can be multi regional, aurora rds distribution, aurora fast ddl, redshift is single az, mpp, leader/compute nodes, redshift enhanced vpc routing, what is the meaning of multi master in dynamoDB?, LSI, GSI, DAX
     * DynamoDB 까지   
       line 1761/2493
-  
+  * 21/6/6
+    * 암기가 부족한 내용
+      * cloudformation templates, nestedstacks, cloudwatch api, cloudwatch agent, managed/data events, cloudtrail, lambda async, lambda /tmp, sqs consumer must delete message, sqs standard/fifo,      
+      api gateway throttling, api gateway resource policy, api gateway access control, 
+    * Storage gateway 까지
+      line 2359/2493
 </details>
 <br>
   
@@ -1830,7 +1835,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Log files must belong in a group
         * Log in a group is called Log Stream
       * Log Stream
-        * Logs never expire
+        * Log streams never expire
       * Most AWS services integrate CloudWatch Logs
       * Some needs IAM permissions
     * ### CloudWatch Metrics
@@ -1842,7 +1847,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
         * Can create High Resolution Metrics
           * Track under 1 minute to 1 second
           * Costs more if higher resolution
-    * ### CloudWatch Events / Event Bridge
+    * ### CloudWatch Events
       * Event based on Event Pattern / Schedule
         * Event pattern is whenever something happens in AWS
         * Schedule is like serverless [Cron jobs](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/services-cloudwatchevents-expressions.html)
@@ -1909,14 +1914,14 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * S3 / DynamoDB / Lambda
   * ### Log Data
     * Who : User, UserAgent, ...
-    * Where : Source IP Address
+    * Where : SourceIPAddress
     * When : EventTime
     * What : Region, Resource, Action
     * ![](images/cloudtrail_log_data.PNG)
   * ### CloudTrail Logs by Default
-  * ### Logs last 90 days
-    * If you need more than 90 days, create custom trail
-    * Custom trails are output to S3, and do not have GUI, so use Amazon Athena
+    * #### Logs last 90 days
+      * If you need more than 90 days, create custom trail
+      * Custom trails are output to S3, and do not have GUI, so use Amazon Athena
   * ### Options
     * #### Trail can be set to log all regions
     * #### Can be set to across all accounts in organization
@@ -1939,8 +1944,8 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Sync/Async
     * Sync (Call and wait until finish)
     * Async (Call and respond immediately)
-      * Can send invocation records
-      * To SQS/SNS/Lambda/EventBridge
+      * Can send invocation records   
+        to SQS/SNS/Lambda/EventBridge
       * Attempt to retry on errors (Two more times)
       * [Dead Letter Que (DLQ)](https://www.youtube.com/watch?v=nqQh2KmHiLY)
         * SNS DLQ
@@ -1948,7 +1953,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Sync Invocation
       * ELB/Cognito/Alexa/API Gateway/CloudFront/KinesisFirehose/SSS
     * Async Invocation
-      * Simple Storage Service/SNS/SES/CloudFormation/CloudWatch/CodeCommit/CodePipeline
+      * S3/SNS/SES/CloudFormation/CloudWatch/CodeCommit/CodePipeline
     * Poll based Invocation
       * Kinesis
       * DynamoDB
@@ -1979,7 +1984,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Default
     * You can have up to 1000 Lambdas running concurrently
       * Ask AWS Support for more
-    * /tmp directory can contain up to 500 MB
+    * /tmp directory can contain up to 512 MB
     * No VPC by default
       * If VPC set, Internet access is lost
     * Max timeout is 15 minutes
@@ -1987,7 +1992,6 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * If max memory is used, the error shown is   
         * Process exited before completing request
         * No internal error is shown in handler
-    * 512 MB of disk space is allowed in /tmp
   * ### Cold Starts
     * AWS needs to turn on servers and copy code over to run lambda
     * Cheap but may cause delays in user experience
@@ -2054,7 +2058,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       the message becomes invisible for a period of time
     * Message can be deleted before visibility timeout expires
     * If the job is not finished, the message will be visible again
-    * Can result in double delivery
+    * Prevents double delivery
     * 30 Seconds (Default)
     * 0 seconds ~ 12 hours
   * ### Short Polling VS Long Polling
@@ -2079,7 +2083,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
   * ### Send notifications via text message, email, webhooks, lambda, SQS
   * ### Pub/Sub
     * Publishers send messages to event bus
-    * Event bus categorizes messages into groups
+    * Event bus categorizes messages into groups(SNS Topics)
     * Subscribers subscribe to these groups
     * ![](images/SNS_pub_sub.PNG)
     * Publishers have no knowledge of subscribers
@@ -2089,7 +2093,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * #### Name
     * #### Type
     * #### Value
-    * Should not be null
+    * [These attributes should not be null](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html)
   * ### Application Integration
     * Decouple microservices, distributed systems, serverless applications
     * Can create application within AWS
@@ -2119,7 +2123,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
       * SQS
       * Lambda
       * SMS(Text message)
-      * Platform application endpoint(Mobile Push)
+      * Platform application endpoint(Mobile Push) (not that important)
         * ADM (Amazon device messaging)
         * APN (Apple push notification)
         * Baidu (Baidu cloud push)
@@ -2142,7 +2146,7 @@ Udemy SSA-C02 ([한국어](https://www.udemy.com/course/aws-saa-c02/) /[영어](
     * Memcached is arguably faster than Redis
     * ![](images/elasticache_memcached_redis.PNG)
   
-* ## ElasticSearch
+* ## [ElasticSearch](https://www.youtube.com/watch?v=4Zw1IOxW-oA&t=56s)
   * ### Analytics in data by clusters
   * ### [Can log data from S3](https://aws.amazon.com/blogs/database/use-amazon-s3-to-store-a-single-amazon-elasticsearch-service-index/)
   * ### Visualize database by
